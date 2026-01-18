@@ -1,0 +1,14 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "theme": "kanzo",
+  "mcp": {
+    "context7": {
+      "type": "remote",
+      "url": "https://mcp.context7.com/mcp",
+      "headers": {
+        "CONTEXT7_API_KEY": "ctx7sk-159a493b-537a-4fac-860f-88e7191ee3e6"
+      },
+      "enabled": true
+    }
+  }
+}

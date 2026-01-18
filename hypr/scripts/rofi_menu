@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# Script para lanzar rofi con el tema style_1.rasi
+rofi -show drun -theme ~/.config/hypr/rofi/style_1.rasi

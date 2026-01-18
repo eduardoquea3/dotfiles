@@ -1,0 +1,61 @@
+/* Caja principal del calendario */
+.calendar {
+    background-color: #14171d;   /* background */
+    border: 1px solid #3E424A;   /* selection-background */
+    border-radius: 12px;         /* bordes redondeados */
+    padding: 15px;               /* espacio interno */
+    width: 220px;                /* ancho fijo */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3); /* sombra */
+}
+
+/* Encabezado con mes y año */
+.calendar-header {
+    font-size: 18px;
+    font-weight: bold;
+    color: #c5c9c7;              /* foreground */
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+/* Calendario interno */
+.calendar-widget {
+    font-size: 14px;
+    color: #c5c9c7;              /* foreground */
+    background-color: #1e2127;   /* background-alt */
+    border-radius: 8px;
+    padding: 5px;
+}
+
+/* Estilos para el widget calendar de EWW */
+.calendar-widget calendar {
+    background: transparent;
+    color: #c5c9c7;
+    border: none;
+}
+
+.calendar-widget calendar:selected {
+    background: #e46876;          /* palette 9 */
+    color: #14171d;
+    border-radius: 4px;
+}
+
+.calendar-widget calendar:indeterminate {
+    color: #5C6066;              /* palette 8 */
+}
+
+.calendar-widget calendar header {
+    color: #e6c384;              /* palette 11 */
+    font-weight: bold;
+}
+
+.calendar-widget calendar label {
+    color: #c5c9c7;              /* foreground */
+    padding: 4px;
+}
+
+.calendar-widget calendar label.highlight {
+    background: #e46876;          /* palette 9 */
+    color: #14171d;
+    border-radius: 4px;
+    font-weight: bold;
+}

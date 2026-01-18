@@ -1,0 +1,10 @@
+(defwindow calendar
+  :monitor 0
+  :geometry (geometry :x "0px"
+                     :y "0px"
+                     :width "300px"
+                     :height "300px"
+                     :anchor "bottom right")
+  :stacking "fg"
+  :focusable false
+  (calendar))
