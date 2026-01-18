@@ -1,123 +1,152 @@
 /**
- * ROFI Layout 
+ * ROFI Clipboard Theme
  *
- * Base style for clipboard style Layout.
- * 
- * User: The HyDE Project [ mini dropdown menu ]
- * Copyright: The HyDE Project
+ * Theme mejorado para el historial del portapapeles
+ * Diseño moderno con soporte para transparencias
  */
+* {
+    font: "JetBrainsMono Nerd Font 10";
+}
 
-// Config //
 configuration {
-    modi:                        "drun";
-    show-icons:                  false;
+    modi: "drun";
+    show-icons: false;
+    display-drun: "Apps";
+    display-window: "Windows";
+    drun-display-format: "{name}";
+    hide-scrollbar: true;
+    sidebar-mode: false;
+    sort: true;
+    sorting-method: "normal";
 }
 
-@theme "~/.cache/hyde/wallbash/wallbash.rasi"
-@theme "~/.config/rofi/theme.rasi"
+* {
+    bg0: #1a1a1a;
+    bg1: #252525;
+    bg2: #303030;
+    fg0: #ffffff;
+    fg1: #e0e0e0;
+    ac0: #66b3ff;
+    ac1: #4d94ff;
+    se: #ff6b6b;
+    tr: #00000000;
+}
 
-
-// Main //
 window {
-    width:                       23em;
-    height:                      30em;
-    transparency:                "real";
-    fullscreen:                  false;
-    enabled:                     true;
-    cursor:                      "default";
-    spacing:                     0em;
-    padding:                     0em;
-    border-color:                @main-br;
-    background-color:            @main-bg;
+    transparency: "real";
+    fullscreen: false;
+    enabled: true;
+    cursor: "default";
+    spacing: 0px;
+    padding: 20px;
+    border-radius: 15px;
+    border: 2px solid;
+    border-color: @ac0;
+    background-color: @bg0;
+    width: 35em;
+    height: 40em;
 }
+
 mainbox {
-    enabled:                     true;
-    spacing:                     0em;
-    padding:                     0.5em;
-    orientation:                 vertical;
-    children:                    [ "wallbox" , "listbox" ];
-    background-color:            transparent;
-}
-wallbox {
-    spacing:                     0em;
-    padding:                     0em;
-    expand:                      false;
-    orientation:                 horizontal;
-    background-color:            transparent;
-    background-image:            url("~/.cache/hyde/wall.blur", width);
-    children:                    [ "wallframe" , "inputbar" ];
-}
-wallframe {
-    width:                       5em;
-    spacing:                     0em;
-    padding:                     0em;
-    expand:                      false;
-    background-color:            @main-bg;
-    background-image:            url("~/.cache/hyde/wall.quad", width);
+    enabled: true;
+    spacing: 15px;
+    padding: 0px;
+    orientation: vertical;
+    children: [ "inputbar", "listbox" ];
+    background-color: @tr;
 }
 
-
-// Inputs //
 inputbar {
-    enabled:                     true;
-    padding:                     0em;
-    children:                    [ "entry" ];
-    background-color:            @main-bg;
-    expand:                      true;
+    enabled: true;
+    padding: 12px;
+    border-radius: 10px;
+    background-color: @bg1;
+    text-color: @fg0;
+    children: [ "prompt", "entry" ];
+    spacing: 10px;
 }
+
+prompt {
+    enabled: true;
+    font: "FantasqueSansMono Nerd Font 14";
+    text-color: @ac0;
+    padding: 5px;
+}
+
 entry {
-    enabled:                     true;
-    padding:                     1.8em;
-    text-color:                  @main-fg;
-    background-color:            transparent;
+    enabled: true;
+    font: "FantasqueSansMono Nerd Font 14";
+    text-color: @fg0;
+    padding: 5px;
+    background-color: @tr;
+    cursor: text;
 }
 
-
-// Lists //
 listbox {
-    spacing:                     0em;
-    padding:                     0em;
-    orientation:                 vertical;
-    children:                    [ "dummy" , "listview" , "dummy" ];
-    background-color:            transparent;
+    enabled: true;
+    spacing: 8px;
+    padding: 0px;
+    orientation: vertical;
+    children: [ "listview" ];
+    background-color: @tr;
 }
+
 listview {
-    enabled:                     true;
-    padding:                     0.5em;
-    columns:                     1;
-    lines:                       11; 
-    cycle:                       true;
-    fixed-height:                true;
-    fixed-columns:               false;
-    expand:                      false;
-    cursor:                      "default";
-    background-color:            transparent;
-    text-color:                  @main-fg;
-}
-dummy {
-    spacing:                     0em;
-    padding:                     0em;
-    background-color:            transparent;
+    enabled: true;
+    columns: 1;
+    lines: 12;
+    cycle: true;
+    fixed-height: true;
+    fixed-columns: false;
+    expand: false;
+    dynamic: true;
+    scrollbar: false;
+    layout: vertical;
+    reverse: false;
+    spacing: 5px;
+    background-color: @tr;
+    cursor: "pointer";
+    border-radius: 8px;
+    padding: 10px;
 }
 
-
-// Elements //
 element {
-    enabled:                     true;
-    padding:                     0.5em;
-    cursor:                      pointer;
-    background-color:            transparent;
-    text-color:                  @main-fg;
-}
-element selected.normal {
-    background-color:            @select-bg;
-    text-color:                  @select-fg;
-}
-element-text {
-    vertical-align:              0.0;
-    horizontal-align:            0.0;
-    cursor:                      inherit;
-    background-color:            transparent;
-    text-color:                  inherit;
+    enabled: true;
+    padding: 12px 15px;
+    border-radius: 8px;
+    cursor: "pointer";
+    background-color: @bg1;
+    text-color: @fg1;
 }
 
+element selected.normal, element selected.active {
+    background-color: @ac1;
+    text-color: @fg0;
+    border-color: @ac0;
+    font: "FantasqueSansMono Nerd Font Bold 12";
+}
+
+element-text {
+    enabled: true;
+    background-color: @tr;
+    text-color: inherit;
+    cursor: inherit;
+    vertical-align: 0.5;
+    horizontal-align: 0.0;
+}
+
+error-message {
+    padding: 20px;
+    border-radius: 10px;
+    background-color: @se;
+    text-color: @fg0;
+    font: "FantasqueSansMono Nerd Font Bold 12";
+}
+
+textbox {
+    text-color: @fg0;
+    background-color: @tr;
+    font: "FantasqueSansMono Nerd Font 14";
+    vertical-align: 0.5;
+    horizontal-align: 0.0;
+}
