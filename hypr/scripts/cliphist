@@ -1,0 +1,79 @@
+#!/usr/bin/env bash
+
+# Script independiente equivalente a "hyde-shell cliphist -c"
+# Requiere: cliphist, rofi, wl-clipboard (wl-copy)
+# Opcional: libnotify (notify-send) para notificaciones
+
+# Configuración
+ROFI_THEME="${ROFI_CLIPHIST_STYLE:-/home/eduardo/.config/hypr/rofi/clipboard.rasi}"
+CACHE_DIR="${HOME}/.cache/hyde"
+
+# Asegurar que exista el directorio de caché
+mkdir -p "${CACHE_DIR}"
+
+# Función para mostrar historial y copiar selección
+show_history_and_copy() {
+    # Obtener lista del clipboard
+    local clipboard_list
+    clipboard_list=$(cliphist list)
+    
+    if [[ -z "$clipboard_list" ]]; then
+        if command -v notify-send &> /dev/null; then
+            notify-send "Clipboard" "No items in clipboard history" -t 2000
+        fi
+        exit 0
+    fi
+    
+    # Mostrar menú rofi para selección
+    local selected_item
+    selected_item=$(echo "$clipboard_list" | rofi -dmenu \
+        -theme "$ROFI_THEME" \
+        -i \
+        -display-columns 2 \
+        -p "📜 Select to copy...")
+    
+    # Salir si no se seleccionó nada
+    [[ -z "$selected_item" ]] && exit 0
+    
+    # Decodificar y copiar al portapapeles
+    local decoded_content
+    decoded_content=$(echo -e "$selected_item\t" | cliphist decode)
+    
+    # Verificar si es datos binarios (imagen)
+    if [[ "$selected_item" == *"[[ binary data"* ]]; then
+        # Para imágenes: decodificar directamente al portapapeles
+        echo "$selected_item" | cliphist decode | wl-copy
+        if command -v notify-send &> /dev/null; then
+            notify-send "Clipboard" "Image copied to clipboard" -t 2000
+        fi
+    else
+        # Para texto: copiar el contenido decodificado
+        echo -n "$decoded_content" | wl-copy
+        if command -v notify-send &> /dev/null; then
+            notify-send "Clipboard" "Text copied to clipboard" -t 2000
+        fi
+    fi
+    
+    # Eliminar el item del historial (comportamiento original de hyde-shell)
+    echo -e "$selected_item\t" | cliphist delete
+}
+
+# Función principal
+main() {
+    # Verificar dependencias obligatorias
+    for cmd in cliphist rofi wl-copy; do
+        if ! command -v "$cmd" &> /dev/null; then
+            echo "Error: Required command '$cmd' not found" >&2
+            echo "Please install the missing dependencies and try again." >&2
+            exit 1
+        fi
+    done
+    
+    # Ejecutar la función principal
+    show_history_and_copy
+}
+
+# Ejecutar si el script es llamado directamente
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+    main "$@"
+fi

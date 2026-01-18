@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# Script para hacer toggle de la barra de waybar
+# Detecta si waybar está corriendo y lo detiene/inicia según corresponda
+
+CONFIG_DIR="$HOME/.config/hypr/apps/waybar"
+
+if pgrep -x "waybar" > /dev/null; then
+    # Waybar está corriendo, lo matamos
+    pkill waybar
+    echo "Waybar oculto"
+else
+    # Waybar no está corriendo, lo iniciamos con config personalizada
+    waybar -c "$CONFIG_DIR/config.jsonc" -s "$CONFIG_DIR/style.css" &
+    echo "Waybar mostrado"
+fi

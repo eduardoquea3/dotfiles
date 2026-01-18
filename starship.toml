@@ -1,0 +1,158 @@
+command_timeout = 1000
+add_newline = true
+
+format = """
+  $directory\
+  $git_branch\
+  $git_status\
+  $fill\
+  $python\
+  $nodejs\
+  $bun\
+  $lua\
+  $rust\
+  $php\
+  $java\
+  $kotlin\
+  $dotnet\
+  $package
+  $character"""
+
+palette = "catppuccin_mocha"
+[palettes.catppuccin_mocha]
+rosewater = "#f5e0dc"
+flamingo = "#f2cdcd"
+pink = "#f5c2e7"
+mauve = "#cba6f7"
+red = "#f38ba8"
+maroon = "#eba0ac"
+peach = "#fab387"
+yellow = "#f9e2af"
+green = "#a6e3a1"
+teal = "#94e2d5"
+sky = "#89dceb"
+sapphire = "#74c7ec"
+blue = "#89b4fa"
+lavender = "#b4befe"
+text = "#cdd6f4"
+subtext1 = "#bac2de"
+subtext0 = "#a6adc8"
+overlay2 = "#9399b2"
+overlay1 = "#7f849c"
+overlay0 = "#6c7086"
+surface2 = "#585b70"
+surface1 = "#45475a"
+surface0 = "#313244"
+base = "#1e1e2e"
+mantle = "#181825"
+crust = "#11111b"
+
+
+[fill]
+symbol = ' '
+
+[character]
+success_symbol = '[](bold green) '
+error_symbol = '[](bold red) '
+
+[directory]
+home_symbol = "⌂"
+truncation_length = 2
+truncation_symbol = "□ "
+read_only = " ◈"
+use_os_path_sep = true
+style = "italic blue"
+format = '[$path]($style)[$read_only]($read_only_style)'
+repo_root_style = 'bold blue'
+repo_root_format = '[$before_root_path]($before_repo_root_style)[$repo_root]($repo_root_style)[$path]($style)[$read_only]($read_only_style) [△](bold bright-blue)'
+
+[git_branch]
+format = " [$branch(:$remote_branch)]($style)"
+symbol = "[△](bold italic bright-blue)"
+style = "italic bright-blue"
+truncation_symbol = "⋯"
+# truncation_length = 11
+# ignore_branches = ["main", "master"]
+only_attached = true
+
+[git_metrics]
+format = '([▴$added]($added_style))([▿$deleted]($deleted_style))'
+added_style = 'italic dimmed green'
+deleted_style = 'italic dimmed red'
+ignore_submodules = true
+disabled = false
+
+[git_status]
+style = "bold italic bright-blue"
+format = "([⎪$ahead_behind$staged$modified$untracked$renamed$deleted$conflicted$stashed⎥]($style))"
+conflicted = "[◪◦](italic bright-magenta)"
+ahead = "[▴│[${count}](bold white)│](italic green)"
+behind = "[▿│[${count}](bold white)│](italic red)"
+diverged = "[◇ ▴┤[${ahead_count}](regular white)│▿┤[${behind_count}](regular white)│](italic bright-magenta)"
+untracked = "[◌◦](italic bright-yellow)"
+stashed = "[◃◈](italic white)"
+modified = "[●◦](italic yellow)"
+staged = "[▪┤[$count](bold white)│](italic bright-cyan)"
+renamed = "[◎◦](italic bright-blue)"
+deleted = "[✕](italic red)"
+
+[package]
+display_private = true
+version_format = "v${raw}"
+format = " [ ](yellow)[$version](text)"
+
+#=== languages ===
+
+[nodejs]
+format = " [node](italic) [◫ ($version)](bold bright-green)"
+version_format = "${raw}"
+detect_files = ["package-lock.json", "yarn.lock"]
+detect_folders = ["node_modules"]
+detect_extensions = []
+
+[python]
+format = ' [py](italic) [${symbol}${version}]($style) [\($virtualenv\)](peach)'
+symbol = "[⌉](bold bright-blue)⌊ "
+version_format = "${raw}"
+style = "bold bright-yellow"
+python_binary = ["python", "python2", "python3"]
+
+[lua]
+format = " [lua](italic) [${symbol}${version}]($style)"
+version_format = "${raw}"
+symbol = "⨀ "
+style = "bold bright-yellow"
+
+[rust]
+format = ' [](bold red)[ ($version )](bg:red fg:surface0)[](bold red)'
+
+[java]
+symbol = "∪ "
+format = " java [${symbol}(${version} )]($style)"
+
+[kotlin]
+detect_files = [
+  'pom.xml',
+  'build.gradle.kts',
+  'build.sbt',
+  '.java-version',
+  'deps.edn',
+  'project.clj',
+  'build.boot',
+  '.sdkmanrc',
+]
+format = ' [](bold mauve)[ ($version )](bg:mauve fg:surface0)[](bold mauve)'
+
+[dotnet]
+detect_extensions = ['csproj', 'fsproj', 'xproj', 'cs']
+format = ' [](bold mauve)[󰪮 ($version )](bg:mauve fg:surface0)[](bold mauve)'
+
+[php]
+format = ' [](bold mauve)[ ($version )](bg:mauve fg:surface0)[](bold mauve)'
+
+[bun]
+format = " [bun](italic) [◫ ($version)](bold bright-green)"
+version_format = "${raw}"
+detect_files = ["bun.lock"]
+detect_folders = ["node_modules"]
+detect_extensions = []

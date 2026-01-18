@@ -1,0 +1,130 @@
+{
+	"session": {
+		"trust_all_worktrees": true
+	},
+	"theme": {
+		"mode": "light",
+		"light": "Ayu Dark",
+		"dark": "Ayu Dark"
+	},
+
+	"soft_wrap": "editor_width",
+	"icon_theme": "Symbols Icon Theme",
+	"vim_mode": true,
+	"terminal": {
+		"font_family": "JetBrainsMono Nerd Font"
+	},
+	"base_keymap": "Cursor",
+	"multi_cursor_modifier": "cmd_or_ctrl",
+	"gutter": {
+		"line_numbers": false
+	},
+	"cursor_blink": false,
+	"buffer_font_family": "JetBrainsMono Nerd Font",
+	"ui_font_family": "JetBrainsMono Nerd Font",
+	"ui_font_size": 14,
+	"buffer_font_size": 12,
+	"indent_guides": {
+		"enabled": false
+	},
+	"project_panel": {
+		"indent_guides": {
+			"show": "never"
+		},
+		"default_width": 260
+	},
+	"toolbar": {
+		"breadcrumbs": false,
+		"agent_review": false,
+		"code_actions": false,
+		"quick_actions": false,
+		"selections_menu": false
+	},
+	"git": {
+		"inline_blame": {
+			"show_commit_summary": true
+		}
+	},
+	"tabs": {
+		"git_status": true,
+		"show_diagnostics": "all"
+	},
+	"inlay_hints": {
+		"enabled": true,
+		"show_type_hints": false,
+		"show_other_hints": false
+	},
+	"features": {
+		"edit_prediction_provider": "supermaven"
+	},
+	"lsp": {
+		"biome": {
+			"settings": {
+				"organize_imports_on_save": true,
+				"fix_on_save": true,
+				"format_on_save": true
+			}
+		},
+		"tailwindcss-language-server": {
+			"settings": {
+				"classAttributes": [
+					"groupClass",
+					"slotClass",
+					"class",
+					"className",
+					"classList",
+					"labelClass",
+					"containerClass",
+					"wrapperClass",
+					"inputClass",
+					"buttonClass",
+					"iconClass",
+					"headerClass",
+					"footerClass",
+					"bodyClass",
+					"cardClass",
+					"modalClass",
+					"overlayClass"
+				],
+				"experimental": {
+					"classRegex": [
+						["class:\\s*\"([^\"]*)\""],
+						["className:\\s*\"([^\"]*)\""],
+						["labelClass:\\s*\"([^\"]*)\""],
+						["tw`([^`]*)", "([\"'`][^\"'`]*.*?[\"'`])"],
+						["cn\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
+					]
+				}
+			}
+		}
+	},
+	"languages": {
+		"JavaScript": {
+			"language_servers": ["!eslint", "!typescript-language-server", "..."],
+			"formatter": { "language_server": { "name": "biome" } },
+			"code_actions_on_format": {
+				"source.fixAll.biome": true,
+				"source.organizeImports.biome": true
+			}
+		},
+		"TypeScript": {
+			"language_servers": ["!eslint", "!typescript-language-server", "..."],
+			"formatter": { "language_server": { "name": "biome" } },
+			"code_actions_on_format": {
+				"source.fixAll.biome": true,
+				"source.organizeImports.biome": true
+			}
+		},
+		"TSX": {
+			"language_servers": ["!eslint", "!typescript-language-server", "..."],
+			"formatter": { "language_server": { "name": "biome" } },
+			"code_actions_on_format": {
+				"source.fixAll.biome": true,
+				"source.organizeImports.biome": true
+			}
+		},
+		"JSON": { "formatter": { "language_server": { "name": "biome" } } },
+		"JSONC": { "formatter": { "language_server": { "name": "biome" } } },
+		"Python": { "language_servers": ["ty", "ruff"] }
+	}
+}

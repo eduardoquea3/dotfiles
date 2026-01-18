@@ -1,0 +1,293 @@
+#!/usr/bin/env bash
+
+# Self-contained HyDE-style screenshot script
+# Fully independent - no external dependencies except system tools
+
+if [[ $HYDE_SHELL_INIT -ne 1 ]]; then
+    # Initialize environment if hyde-shell available
+    if command -v hyde-shell >/dev/null 2>&1; then
+        eval "$(hyde-shell init)" 2>/dev/null || true
+    fi
+else
+    export_hyde_config 2>/dev/null || true
+fi
+
+# Environment setup
+export XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
+export XDG_PICTURES_DIR="${XDG_PICTURES_DIR:-$HOME/Pictures}"
+export XDG_STATE_HOME="${XDG_STATE_HOME:-$HOME/.local/state}"
+
+USAGE() {
+    cat <<"USAGE"
+
+	Usage: $(basename "$0") [option]
+	Options:
+		p     Print all outputs (full screen)
+		s     Select area or window to screenshot
+		sf    Select area or window with frozen screen
+		m     Screenshot focused monitor
+		sc    Use tesseract to scan image, then add to clipboard
+		sq    Scan QR codes from screenshot
+
+USAGE
+}
+
+# Utility functions
+SCREENSHOT_POST_COMMAND+=()
+SCREENSHOT_PRE_COMMAND+=()
+
+pre_cmd() {
+    for cmd in "${SCREENSHOT_PRE_COMMAND[@]}"; do
+        eval "$cmd"
+    done
+    trap 'post_cmd' EXIT
+}
+
+post_cmd() {
+    for cmd in "${SCREENSHOT_POST_COMMAND[@]}"; do
+        eval "$cmd"
+    done
+}
+
+# Package checker
+pkg_installed() {
+    command -v "$1" >/dev/null 2>&1
+}
+
+# Notification function (fallback if send_notifs not available)
+if ! command -v send_notifs >/dev/null 2>&1; then
+    send_notifs() {
+        if command -v notify-send >/dev/null 2>&1; then
+            local urgency=""
+            local replace_id=""
+            local app_name=""
+            local icon=""
+            local title=""
+            local message=""
+            local expire=""
+            
+            while [[ $# -gt 0 ]]; do
+                case $1 in
+                    -u) urgency="$2"; shift 2 ;;
+                    -r) replace_id="$2"; shift 2 ;;
+                    -a) app_name="$2"; shift 2 ;;
+                    -i) icon="$2"; shift 2 ;;
+                    -e) expire="--expire-time 5000"; shift ;;
+                    *) 
+                        if [[ -z "$title" ]]; then
+                            title="$1"
+                        elif [[ -z "$message" ]]; then
+                            message="$1"
+                        fi
+                        shift 
+                        ;;
+                esac
+            done
+            
+            local args=()
+            [[ -n "$urgency" ]] && args+=("-u" "$urgency")
+            [[ -n "$replace_id" ]] && args+=("-r" "$replace_id")
+            [[ -n "$app_name" ]] && args+=("-a" "$app_name")
+            [[ -n "$icon" ]] && args+=("-i" "$icon")
+            [[ -n "$expire" ]] && args+=($expire)
+            [[ -n "$title" ]] && args+=("$title")
+            [[ -n "$message" ]] && args+=("$message")
+            
+            notify-send "${args[@]}"
+        else
+            echo "Notification: $*" >&2
+        fi
+    }
+fi
+
+# Logger function fallback
+if ! command -v print_log >/dev/null 2>&1; then
+    print_log() {
+        echo "$@"
+    }
+fi
+
+# Configuration
+temp_screenshot=${XDG_RUNTIME_DIR:-/tmp}/hyde_screenshot.png
+if [ -z "$XDG_PICTURES_DIR" ]; then
+    XDG_PICTURES_DIR="$HOME/Pictures"
+fi
+confDir="${confDir:-$XDG_CONFIG_HOME}"
+save_dir="${2:-$XDG_PICTURES_DIR/Screenshots}"
+save_file=$(date +'%y%m%d_%Hh%Mm%Ss_screenshot.png')
+annotation_tool="${SCREENSHOT_ANNOTATION_TOOL}"
+annotation_args=("-o" "$save_dir/$save_file" "-f" "$temp_screenshot")
+GRIMBLAST_EDITOR=${GRIMBLAST_EDITOR:-$annotation_tool}
+tesseract_default_language=("eng")
+tesseract_languages=("${SCREENSHOT_OCR_TESSERACT_LANGUAGES[@]:-${tesseract_default_language[@]}}")
+tesseract_languages+=("osd")
+
+# Force satty as annotation tool
+if [[ -z $annotation_tool ]]; then
+    pkg_installed "satty" && annotation_tool="satty"
+fi
+
+mkdir -p "$save_dir"
+
+# Setup annotation tools
+if [[ $annotation_tool == "swappy" ]]; then
+    swpy_dir="$confDir/swappy"
+    mkdir -p "$swpy_dir"
+    echo -e "[Default]\nsave_dir=$save_dir\nsave_filename_format=$save_file" >"$swpy_dir"/config
+fi
+if [[ $annotation_tool == "satty" ]]; then
+    annotation_args+=("--copy-command" "wl-copy")
+fi
+
+[[ -n ${SCREENSHOT_ANNOTATION_ARGS[*]} ]] && annotation_args+=("${SCREENSHOT_ANNOTATION_ARGS[@]}")
+
+# Grim-based screenshot function (replacing grimblast)
+grimblast_screenshot() {
+    local mode=$1
+    shift
+    local extra_args=("$@")
+    
+    case "$mode" in
+        "screen")
+            grim "$temp_screenshot"
+            ;;
+        "area")
+            if [[ " ${extra_args[*]} " =~ " --freeze " ]]; then
+                # Simple freeze simulation
+                local geometry=$(slurp)
+                if [[ -n "$geometry" ]]; then
+                    grim -g "$geometry" "$temp_screenshot"
+                else
+                    return 1
+                fi
+            else
+                local geometry=$(slurp)
+                if [[ -n "$geometry" ]]; then
+                    grim -g "$geometry" "$temp_screenshot"
+                else
+                    return 1
+                fi
+            fi
+            ;;
+        "output")
+            local output=$(slurp -output 2>/dev/null)
+            if [[ -n "$output" ]]; then
+                grim -o "$output" "$temp_screenshot"
+            else
+                # Fallback: use current output
+                grim -o "$(slurp -or)" "$temp_screenshot" 2>/dev/null || grim "$temp_screenshot"
+            fi
+            ;;
+    esac
+}
+
+# Main screenshot function
+take_screenshot() {
+    local mode=$1
+    shift
+    local extra_args=("$@")
+    
+    if grimblast_screenshot "$mode" "${extra_args[@]}"; then
+        # Check if screenshot was actually created
+        if [[ -f "$temp_screenshot" ]]; then
+            [[ ${SCREENSHOT_ANNOTATION_ENABLED} == false ]] && return 0
+            if [[ -n "$annotation_tool" ]] && command -v "$annotation_tool" >/dev/null 2>&1; then
+                if ! "$annotation_tool" "${annotation_args[@]}"; then
+                    send_notifs -r 9 -a "HyDE Alert" "Screenshot Error" "Failed to open annotation tool"
+                    return 1
+                fi
+            else
+                # Fallback: save and copy
+                mv "$temp_screenshot" "$save_dir/$save_file"
+                if command -v wl-copy >/dev/null 2>&1; then
+                    wl-copy -t image/png < "$save_dir/$save_file"
+                    send_notifs -r 9 -a "HyDE Alert" -i "$save_dir/$save_file" "Screenshot copied to clipboard and saved in $save_dir"
+                else
+                    send_notifs -r 9 -a "HyDE Alert" -i "$save_dir/$save_file" "saved in $save_dir"
+                fi
+            fi
+        else
+            send_notifs -a "HyDE Alert" "Screenshot Error" "Screenshot file not created"
+            return 1
+        fi
+    else
+        send_notifs -a "HyDE Alert" "Screenshot Error" "Failed to take screenshot"
+        return 1
+    fi
+}
+
+# OCR function (requires tesseract)
+ocr_screenshot() {
+    local mode=$1
+    shift
+    local extra_args=("$@")
+    if grimblast_screenshot "$mode" "${extra_args[@]}"; then
+        if command -v tesseract >/dev/null 2>&1; then
+            print_log -g "Performing OCR on $temp_screenshot"
+            send_notifs "OCR" "Performing OCR on screenshot..." -i "document-scan" -r 9
+            
+            # Extract text using tesseract
+            local ocr_text=$(tesseract "$temp_screenshot" stdout -l "${tesseract_languages[*]}" 2>/dev/null)
+            if [[ -n "$ocr_text" ]]; then
+                echo "$ocr_text" | wl-copy
+                send_notifs "OCR Complete" "Text extracted and copied to clipboard" -i "text-x-generic"
+            else
+                send_notifs -r 9 -a "HyDE Alert" "OCR: extraction error" -e -i "dialog-error"
+                return 1
+            fi
+        else
+            send_notifs -r 9 -a "HyDE Alert" "OCR: tesseract not installed" -e -i "dialog-error"
+            return 1
+        fi
+    else
+        send_notifs -a "HyDE Alert" "OCR: screenshot error" -e -i "dialog-error"
+        return 1
+    fi
+}
+
+# QR code function (requires zbar)
+qr_screenshot() {
+    local mode=$1
+    shift
+    local extra_args=("$@")
+    if grimblast_screenshot "$mode" "${extra_args[@]}"; then
+        if command -v zbarimg >/dev/null 2>&1; then
+            print_log -g "Performing QR scan on $temp_screenshot"
+            send_notifs "QR Scan" "Performing QR scan on screenshot..." -i "document-scan" -r 9
+            
+            # Extract QR codes using zbar
+            local qr_data=$(zbarimg -q "$temp_screenshot" 2>/dev/null | sed 's/QR-Code://')
+            if [[ -n "$qr_data" ]]; then
+                echo "$qr_data" | wl-copy
+                send_notifs "QR Code Found" "QR data copied to clipboard" -i "text-x-generic"
+            else
+                send_notifs -r 9 -a "HyDE Alert" "QR: no QR codes found" -e -i "dialog-error"
+                return 1
+            fi
+        else
+            send_notifs -r 9 -a "HyDE Alert" "QR: zbarimg not installed" -e -i "dialog-error"
+            return 1
+        fi
+    else
+        send_notifs -a "HyDE Alert" "QR: screenshot error" -e -i "dialog-error"
+        return 1
+    fi
+}
+
+pre_cmd
+
+case $1 in
+s) take_screenshot "area" ;;
+*) take_screenshot "area" ;;
+esac
+
+[ -f "$temp_screenshot" ] && rm "$temp_screenshot"
+if [ -f "$save_dir/$save_file" ]; then
+    # Ensure clipboard copy for all cases
+    if command -v wl-copy >/dev/null 2>&1; then
+        wl-copy -t image/png < "$save_dir/$save_file"
+        send_notifs -r 9 -a "HyDE Alert" -i "$save_dir/$save_file" "Screenshot copied to clipboard and saved in $save_dir"
+    else
+        send_notifs -r 9 -a "HyDE Alert" -i "$save_dir/$save_file" "saved in $save_dir"
+    fi
+fi

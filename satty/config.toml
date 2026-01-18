@@ -1,0 +1,73 @@
+[general]
+# Start Satty in fullscreen mode
+fullscreen = true
+# Exit directly after copy/save action
+early-exit = true
+# Draw corners of rectangles round if the value is greater than 0 (0 disables rounded corners)
+corner-roundness = 12
+# Select the tool on startup [possible values: pointer, crop, line, arrow, rectangle, text, marker, blur, brush]
+initial-tool = "brush"
+# Configure the command to be called on copy, for example `wl-copy`
+copy-command = "wl-copy"
+# Increase or decrease the size of the annotations
+annotation-size-factor = 2
+# Filename to use for saving action. Omit to disable saving to file
+output-filename = "/tmp/test-%Y-%m-%d_%H:%M:%S.png"
+# After copying the screenshot, save it to a file as well
+save-after-copy = false
+# Hide toolbars by default
+default-hide-toolbars = false
+# The primary highlighter to use, the other is accessible by holding CTRL at the start of a highlight [possible values: block, freehand]
+primary-highlighter = "block"
+# Disable notifications
+disable-notifications = false
+# Actions to trigger on right click (order is important)
+actions-on-right-click = []
+# Actions to trigger on Enter key (order is important)
+actions-on-enter = ["save-to-clipboard"]
+# Actions to trigger on Escape key (order is important)
+actions-on-escape = ["exit"]
+# request no window decoration
+no-window-decoration = true
+# experimental feature: adjust history size for brush input smoothing
+brush-smooth-history-size = 10
+
+# Tool selection keyboard shortcuts
+[keybinds]
+pointer = "p"
+crop = "c"
+brush = "b"
+line = "i"
+arrow = "z"
+rectangle = "r"
+text = "t"
+marker = "m"
+blur = "u"
+highlight = "g"
+
+# Font to use for text annotations
+[font]
+family = "Roboto"
+style = "Regular"
+
+# Custom colours for the colour palette
+[color-palette]
+# These will be shown in the toolbar for quick selection
+palette = [
+    "#00ffff",
+    "#a52a2a",
+    "#dc143c",
+    "#ff1493",
+    "#ffd700",
+    "#008000",
+]
+
+# These will be available in the color picker as presets
+custom = [
+    "#00ffff",
+    "#a52a2a",
+    "#dc143c",
+    "#ff1493",
+    "#ffd700",
+    "#008000",
+]

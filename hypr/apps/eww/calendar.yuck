@@ -1,0 +1,10 @@
+(defwidget calendar []
+  (box :class "calendar"
+       :orientation "v"
+       :space-evenly false
+    (label :class "calendar-header"
+           :text "${date '+%B %Y'}")
+    (calendar :class "calendar-widget"
+             :day "${EWW_TIME['%d']}"
+             :month "${EWW_TIME['%m']}"
+             :year "${EWW_TIME['%Y']}")))
