@@ -1,5 +1,13 @@
 {
-	"session": {
+	"context_servers": {
+  "mcp-server-context7": {
+   "enabled": true,
+   "settings": {
+    "context7_api_key": "ctx7sk-7a247d1c-6786-46ef-970b-252c6ac017aa"
+   }
+  }
+ },
+ "session": {
 		"trust_all_worktrees": true
 	},
 	"theme": {
