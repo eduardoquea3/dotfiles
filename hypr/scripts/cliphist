@@ -180,9 +180,7 @@ show_clipboard_menu() {
     selected_item=$(echo "$clipboard_list" | rofi -dmenu \
         -theme "$ROFI_THEME" \
         -i \
-        -p "📋 Select item to copy..." \
-        -mesg "<b>Clipboard History</b> | <i>↑↓ Navigate • Enter Select • Esc Cancel</i>" \
-        -markup-rows \
+        -p "" \
         2>/dev/null)
 
     # Exit if nothing selected
