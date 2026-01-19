@@ -1,7 +1,7 @@
 {
   "layer": "bottom",
   "position": "bottom",
-  "height": 40,
+  "height": 20,
   "spacing": 2,
   "exclusive": true,
   "gtk-layer-shell": true,
@@ -42,7 +42,11 @@
   },
   "hyprland/workspaces": {
     "on-click": "activate",
-    "format": "{id}",
+    "format": "{icon}",
+    "format-icons": {
+      "active": "󰮯",
+      "default": "󰊠"
+    },
     "all-outputs": true,
     "disable-scroll": false,
     "active-only": false
