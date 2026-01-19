@@ -1,79 +1,285 @@
 #!/usr/bin/env bash
+# =============================================================================
+# 📋 Enhanced Clipboard Manager for HyDE
+# =============================================================================
+#
+# A standalone clipboard history manager with modern ROFI interface
+# Features: Text and image clipboard history, fuzzy search, notifications
+#
+# Author: Enhanced for HyDE Project
+# License: MIT
+# Dependencies: cliphist, rofi, wl-clipboard
+# Optional: libnotify (for desktop notifications)
+#
+# Usage: ./cliphist [options]
+# =============================================================================
 
-# Script independiente equivalente a "hyde-shell cliphist -c"
-# Requiere: cliphist, rofi, wl-clipboard (wl-copy)
-# Opcional: libnotify (notify-send) para notificaciones
+set -euo pipefail  # Exit on error, undefined vars, pipe failures
 
-# Configuración
-ROFI_THEME="${ROFI_CLIPHIST_STYLE:-/home/eduardo/.config/hypr/rofi/clipboard.rasi}"
-CACHE_DIR="${HOME}/.cache/hyde"
+# =============================================================================
+# Configuration
+# =============================================================================
+readonly SCRIPT_NAME="$(basename "${BASH_SOURCE[0]}")"
+readonly SCRIPT_VERSION="2.0.0"
+readonly ROFI_THEME="${ROFI_CLIPHIST_STYLE:-${HOME}/.config/hypr/rofi/clipboard.rasi}"
+readonly CACHE_DIR="${HOME}/.cache/hyde"
+readonly MAX_HISTORY_ITEMS=50
 
-# Asegurar que exista el directorio de caché
-mkdir -p "${CACHE_DIR}"
+# Colors for output (if terminal supports it)
+readonly RED='\033[0;31m'
+readonly GREEN='\033[0;32m'
+readonly YELLOW='\033[1;33m'
+readonly BLUE='\033[0;34m'
+readonly NC='\033[0m' # No Color
 
-# Función para mostrar historial y copiar selección
-show_history_and_copy() {
-    # Obtener lista del clipboard
-    local clipboard_list
-    clipboard_list=$(cliphist list)
-    
-    if [[ -z "$clipboard_list" ]]; then
-        if command -v notify-send &> /dev/null; then
-            notify-send "Clipboard" "No items in clipboard history" -t 2000
-        fi
-        exit 0
+# =============================================================================
+# Helper Functions
+# =============================================================================
+
+# Logging functions
+log_info() {
+    echo -e "${BLUE}[INFO]${NC} $*" >&2
+}
+
+log_warn() {
+    echo -e "${YELLOW}[WARN]${NC} $*" >&2
+}
+
+log_error() {
+    echo -e "${RED}[ERROR]${NC} $*" >&2
+}
+
+log_success() {
+    echo -e "${GREEN}[SUCCESS]${NC} $*" >&2
+}
+
+# Check if command exists
+command_exists() {
+    command -v "$1" >/dev/null 2>&1
+}
+
+# Send desktop notification
+send_notification() {
+    local title="$1"
+    local message="$2"
+    local icon="${3:-dialog-information}"
+
+    if command_exists notify-send; then
+        notify-send -i "$icon" "$title" "$message" -t 3000
+    else
+        log_info "$title: $message"
     fi
-    
-    # Mostrar menú rofi para selección
-    local selected_item
+}
+
+# Display usage information
+show_usage() {
+    cat << EOF
+${BLUE}${SCRIPT_NAME} v${SCRIPT_VERSION}${NC}
+Enhanced clipboard history manager with ROFI interface
+
+${GREEN}USAGE:${NC}
+    ${SCRIPT_NAME} [OPTIONS]
+
+${GREEN}OPTIONS:${NC}
+    -h, --help          Show this help message
+    -v, --version       Show version information
+    -c, --clear         Clear clipboard history
+    -s, --stats         Show clipboard statistics
+    --check-deps        Check if all dependencies are installed
+
+${GREEN}EXAMPLES:${NC}
+    ${SCRIPT_NAME}                    # Launch clipboard manager
+    ${SCRIPT_NAME} --clear           # Clear all clipboard history
+    ${SCRIPT_NAME} --stats           # Show clipboard statistics
+
+${GREEN}DEPENDENCIES:${NC}
+    Required: cliphist, rofi, wl-copy
+    Optional: notify-send (for notifications)
+
+EOF
+}
+
+# Check dependencies
+check_dependencies() {
+    local missing_deps=()
+    local optional_deps=("notify-send")
+
+    # Required dependencies
+    for cmd in cliphist rofi wl-copy; do
+        if ! command_exists "$cmd"; then
+            missing_deps+=("$cmd")
+        fi
+    done
+
+    if [[ ${#missing_deps[@]} -gt 0 ]]; then
+        log_error "Missing required dependencies: ${missing_deps[*]}"
+        log_info "Please install them and try again."
+        return 1
+    fi
+
+    # Check optional dependencies
+    for cmd in "${optional_deps[@]}"; do
+        if ! command_exists "$cmd"; then
+            log_warn "Optional dependency '$cmd' not found (notifications disabled)"
+        fi
+    done
+
+    return 0
+}
+
+# Clear clipboard history
+clear_history() {
+    if cliphist wipe; then
+        send_notification "Clipboard" "History cleared successfully" "edit-clear"
+        log_success "Clipboard history cleared"
+    else
+        log_error "Failed to clear clipboard history"
+        return 1
+    fi
+}
+
+# Show clipboard statistics
+show_stats() {
+    local count
+    count=$(cliphist list | wc -l)
+
+    echo "📊 Clipboard Statistics"
+    echo "━━━━━━━━━━━━━━━━━━━━━━━"
+    echo "Total items: $count"
+    echo "Cache directory: $CACHE_DIR"
+    echo "Theme file: $ROFI_THEME"
+
+    if [[ -f "$ROFI_THEME" ]]; then
+        echo "Theme status: ✅ Available"
+    else
+        echo "Theme status: ❌ Missing"
+    fi
+}
+
+# =============================================================================
+# Core Functions
+# =============================================================================
+
+# Display clipboard history and handle selection
+show_clipboard_menu() {
+    local clipboard_list selected_item decoded_content
+
+    # Get clipboard history
+    clipboard_list=$(cliphist list 2>/dev/null)
+
+    if [[ -z "$clipboard_list" ]]; then
+        send_notification "Clipboard" "No items in clipboard history" "dialog-information"
+        log_info "No clipboard history found"
+        return 0
+    fi
+
+    # Limit history items for performance
+    clipboard_list=$(echo "$clipboard_list" | head -n "$MAX_HISTORY_ITEMS")
+
+    # Show ROFI menu for selection
     selected_item=$(echo "$clipboard_list" | rofi -dmenu \
         -theme "$ROFI_THEME" \
         -i \
-        -display-columns 2 \
-        -p "📜 Select to copy...")
-    
-    # Salir si no se seleccionó nada
-    [[ -z "$selected_item" ]] && exit 0
-    
-    # Decodificar y copiar al portapapeles
-    local decoded_content
-    decoded_content=$(echo -e "$selected_item\t" | cliphist decode)
-    
-    # Verificar si es datos binarios (imagen)
+        -p "📋 Select item to copy..." \
+        -mesg "<b>Clipboard History</b> | <i>↑↓ Navigate • Enter Select • Esc Cancel</i>" \
+        -markup-rows \
+        2>/dev/null)
+
+    # Exit if nothing selected
+    [[ -z "$selected_item" ]] && return 0
+
+    # Decode and copy selected item
+    decoded_content=$(echo -e "$selected_item\t" | cliphist decode 2>/dev/null)
+
     if [[ "$selected_item" == *"[[ binary data"* ]]; then
-        # Para imágenes: decodificar directamente al portapapeles
-        echo "$selected_item" | cliphist decode | wl-copy
-        if command -v notify-send &> /dev/null; then
-            notify-send "Clipboard" "Image copied to clipboard" -t 2000
+        # Handle binary data (images)
+        if echo "$selected_item" | cliphist decode | wl-copy; then
+            send_notification "Clipboard" "Image copied to clipboard" "image-x-generic"
+            log_success "Image copied to clipboard"
+        else
+            log_error "Failed to copy image to clipboard"
+            return 1
         fi
     else
-        # Para texto: copiar el contenido decodificado
-        echo -n "$decoded_content" | wl-copy
-        if command -v notify-send &> /dev/null; then
-            notify-send "Clipboard" "Text copied to clipboard" -t 2000
+        # Handle text data
+        if echo -n "$decoded_content" | wl-copy; then
+            # Show preview of copied text (truncated)
+            local preview="${decoded_content:0:50}"
+            [[ ${#decoded_content} -gt 50 ]] && preview+="..."
+
+            send_notification "Clipboard" "Text copied: $preview" "text-x-generic"
+            log_success "Text copied to clipboard"
+        else
+            log_error "Failed to copy text to clipboard"
+            return 1
         fi
     fi
-    
-    # Eliminar el item del historial (comportamiento original de hyde-shell)
-    echo -e "$selected_item\t" | cliphist delete
+
+    # Remove item from history (original hyde-shell behavior)
+    echo -e "$selected_item\t" | cliphist delete 2>/dev/null || true
 }
 
-# Función principal
+# =============================================================================
+# Main Function
+# =============================================================================
+
 main() {
-    # Verificar dependencias obligatorias
-    for cmd in cliphist rofi wl-copy; do
-        if ! command -v "$cmd" &> /dev/null; then
-            echo "Error: Required command '$cmd' not found" >&2
-            echo "Please install the missing dependencies and try again." >&2
+    local arg="${1:-}"
+
+    case "$arg" in
+        -h|--help)
+            show_usage
+            exit 0
+            ;;
+        -v|--version)
+            echo "${SCRIPT_NAME} v${SCRIPT_VERSION}"
+            exit 0
+            ;;
+        -c|--clear)
+            clear_history
+            exit $?
+            ;;
+        -s|--stats)
+            show_stats
+            exit 0
+            ;;
+        --check-deps)
+            if check_dependencies; then
+                log_success "All dependencies are available"
+                exit 0
+            else
+                exit 1
+            fi
+            ;;
+        "")
+            # No arguments - run the main clipboard manager
+            if ! check_dependencies; then
+                exit 1
+            fi
+
+            # Ensure cache directory exists
+            mkdir -p "$CACHE_DIR" 2>/dev/null || true
+
+            # Check if theme file exists
+            if [[ ! -f "$ROFI_THEME" ]]; then
+                log_warn "ROFI theme file not found: $ROFI_THEME"
+                log_warn "Using default theme"
+            fi
+
+            show_clipboard_menu
+            ;;
+        *)
+            log_error "Unknown option: $arg"
+            log_info "Use --help for usage information"
             exit 1
-        fi
-    done
-    
-    # Ejecutar la función principal
-    show_history_and_copy
+            ;;
+    esac
 }
 
-# Ejecutar si el script es llamado directamente
+# =============================================================================
+# Script Entry Point
+# =============================================================================
+
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
     main "$@"
 fi

@@ -302,5 +302,11 @@
   "bindings": {
    "space": null
   }
+ },
+ {
+  "context": "(ProjectPanel && not_editing)",
+  "bindings": {
+   "r": "project_panel::Rename"
+  }
  }
 ]
