@@ -48,7 +48,7 @@ selected=$(echo -e "$output" | rofi -dmenu -p \
     -theme-str "$font_override" \
     -theme-str "$r_override" \
     -theme-str "$icon_override" \
-    -theme "${ROFI_KEYBIND_HINT_STYLE:-$HOME/.config/hypr/rofi/style_1}" | sed 's/.*\s*//')
+    -theme "${ROFI_KEYBIND_HINT_STYLE:-$HOME/.config/hypr/rofi/keybinds_hint.rasi}" | sed 's/.*\s*//')
 if [ -z "$selected" ]; then exit 0; fi
 dispatch=$(awk -F ':::' '{print $2}' <<< "$selected" | xargs)
 arg=$(awk -F ':::' '{print $3}' <<< "$selected" | xargs)

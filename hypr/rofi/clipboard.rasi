@@ -1,181 +1,147 @@
 /**
- * Enhanced ROFI Clipboard Manager Theme - Everforest Edition
- *
- * Modern, sleek clipboard interface with Everforest color scheme
- * Features: Better spacing, hover effects, modern aesthetics
- *
- * Author: Enhanced for HyDE Project
- * License: MIT
- * Colors: Everforest Theme
+ * ROFI Clipboard Manager Theme
+ * Style matching launcher.rasi with background image header
  */
 
-// Configuration
-configuration {
-    modi:                        "drun";
-    show-icons:                  true;
-    icon-theme:                  "Papirus";
-    display-drun:                "📋 Clipboard";
-    drun-display-format:         "{name}";
-    font:                        "JetBrains Mono Nerd Font 11";
+* {
+  font: "DankMono Nerd Font";
 }
 
-// Import themes
-@theme "~/.config/hypr/rofi/theme.rasi"
+configuration {
+  show-icons: false;
+  disable-history: true;
+  hover-select: true;
+  me-select-entry: "";
+  me-accept-entry: "MousePrimary";
+}
 
-// Main Window
+@import "theme.rasi"
+
 window {
-    width:                       28em;
-    height:                      32em;
-    transparency:                "real";
-    fullscreen:                  false;
-    enabled:                     true;
-    cursor:                      "default";
-    spacing:                     0em;
-    padding:                     0em;
-    border:                      2px;
-    border-color:                @border-medium;
-    border-radius:               12px;
-    background-color:            @bg-alpha;
+  transparency: "real";
+  location: center;
+  anchor: center;
+  fullscreen: false;
+  width: 550px;
+  x-offset: 0px;
+  y-offset: 0px;
+
+  enabled: true;
+  border-radius: 6px;
+  cursor: "default";
+  background-color: @bg;
 }
 
 mainbox {
-    enabled:                     true;
-    spacing:                     0em;
-    padding:                     1em;
-    orientation:                 vertical;
-    children:                    [ "wallbox", "listbox" ];
-    background-color:            transparent;
-    border-radius:               8px;
+  enabled: true;
+  spacing: 0px;
+  background-color: transparent;
+  orientation: vertical;
+  children: [ "inputbar", "message", "listbox" ];
 }
 
-// Wallpaper Section
-wallbox {
-    spacing:                     0em;
-    padding:                     0em;
-    expand:                      false;
-    orientation:                 horizontal;
-    background-color:            transparent;
-    background-image:            url("~/.cache/hyde/wall.blur", width);
-    border-radius:               8px;
-    children:                    [ "wallframe", "inputbar" ];
+listbox {
+  spacing: 10px;
+  padding: 15px 15px;
+  background-color: transparent;
+  orientation: vertical;
+  children: [ "listview" ];
 }
 
-wallframe {
-    width:                       6em;
-    spacing:                     0em;
-    padding:                     0em;
-    expand:                      false;
-    background-color:            @bg-alt;
-    background-image:            url("~/.cache/hyde/wall.quad", width);
-    border-radius:               6px 0px 0px 6px;
-}
-
-// Input Section
 inputbar {
-    enabled:                     true;
-    padding:                     0.5em;
-    margin:                      0.5em 0em 0em 0em;
-    children:                    [ "prompt", "entry" ];
-    background-color:            @bg-hover;
-    border-radius:               0px 6px 6px 0px;
-    expand:                      true;
+  enabled: true;
+  spacing: 10px;
+  padding: 50px 100px;
+  background-color: transparent;
+  background-image: url("~/.config/hypr/img/bg-1.jpg", width);
+  text-color: @fg;
+  orientation: horizontal;
+  children: [ "textbox-prompt-colon", "entry" ];
 }
 
-prompt {
-    enabled:                     true;
-    padding:                     0.5em 0.5em 0.5em 1em;
-    text-color:                  @fg;
-    background-color:            transparent;
-    font:                        "JetBrains Mono Nerd Font Bold 12";
+textbox-prompt-colon {
+  enabled: true;
+  expand: false;
+  str: "";
+  padding: 12px 19px 0 15px;
+  border-radius: 8px;
+  background-color: @bg-alt;
+  text-color: inherit;
 }
 
 entry {
-    enabled:                     true;
-    padding:                     0.5em 1em;
-    text-color:                  @fg;
-    background-color:            transparent;
-    placeholder:                 "Search clipboard history...";
-    placeholder-color:           @fg-muted;
-    font:                        "JetBrains Mono Nerd Font 11";
-}
-
-// List Section
-listbox {
-    spacing:                     0.5em;
-    padding:                     0.5em;
-    orientation:                 vertical;
-    children:                    [ "message", "listview" ];
-    background-color:            @bg-alt;
-    border-radius:               8px;
-}
-
-listview {
-    enabled:                     true;
-    padding:                     0.5em;
-    columns:                     1;
-    lines:                       8;
-    cycle:                       true;
-    fixed-height:                true;
-    fixed-columns:               false;
-    expand:                      false;
-    cursor:                      "pointer";
-    background-color:            transparent;
-    text-color:                  @fg;
-    border-radius:               6px;
+  enabled: true;
+  expand: true;
+  padding: 12px 12px;
+  border-radius: 8px;
+  background-color: @bg-alt;
+  text-color: inherit;
+  cursor: text;
+  placeholder: "Search";
+  placeholder-color: @fg-muted;
 }
 
 message {
-    enabled:                     true;
-    padding:                     0.5em;
-    text-color:                  @fg-dim;
-    background-color:            transparent;
-    font:                        "JetBrains Mono Nerd Font 10";
+  enabled: true;
+  padding: 8px 15px;
+  background-color: transparent;
 }
 
-// Elements
+textbox {
+  enabled: true;
+  text-color: @fg-dim;
+  background-color: transparent;
+  vertical-align: 0.5;
+  horizontal-align: 0.5;
+}
+
+listview {
+  enabled: true;
+  columns: 1;
+  lines: 8;
+  cycle: true;
+  dynamic: true;
+  scrollbar: false;
+  layout: vertical;
+  reverse: false;
+  fixed-height: true;
+  fixed-columns: true;
+
+  spacing: 3px;
+  background-color: transparent;
+  text-color: @fg;
+  cursor: "default";
+}
+
 element {
-    enabled:                     true;
-    padding:                     0.8em 1em;
-    cursor:                      pointer;
-    background-color:            transparent;
-    text-color:                  @fg;
-    border-radius:               6px;
-    margin:                      0.1em 0em;
-    font:                        "JetBrains Mono Nerd Font 10";
+  enabled: true;
+  spacing: 10px;
+  padding: 10px 12px;
+  border-radius: 4px;
+  background-color: transparent;
+  text-color: @fg;
+  cursor: pointer;
 }
 
-element.normal.normal {
-    background-color:            transparent;
-    text-color:                  @fg;
+element normal.normal {
+  background-color: inherit;
+  text-color: inherit;
 }
 
-element.alternate.normal {
-    background-color:            @bg-hover;
-    text-color:                  @fg;
+element alternate.normal {
+  background-color: inherit;
+  text-color: inherit;
 }
 
-element.selected.normal {
-    background-color:            @bg-select;
-    text-color:                  @fg;
-    border:                      1px;
-    border-color:                @accent;
-}
-
-element.normal.urgent {
-    background-color:            @bg-urgent;
-    text-color:                  @urgent;
-}
-
-element.normal.active {
-    background-color:            @bg-active;
-    text-color:                  @active;
+element selected.normal {
+  background-color: @accent;
+  text-color: @bg;
 }
 
 element-text {
-    vertical-align:              0.0;
-    horizontal-align:            0.0;
-    cursor:                      inherit;
-    background-color:            transparent;
-    text-color:                  inherit;
-    font:                        "JetBrains Mono Nerd Font 10";
+  background-color: transparent;
+  text-color: inherit;
+  cursor: inherit;
+  vertical-align: 0.5;
+  horizontal-align: 0;
 }

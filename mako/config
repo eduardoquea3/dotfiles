@@ -1,0 +1,59 @@
+# Mako notification daemon config
+# Everforest theme
+
+# General
+max-history=50
+sort=-time
+
+# Appearance
+font=JetBrainsMono Nerd Font 10
+width=350
+height=150
+margin=10
+padding=15
+border-size=2
+border-radius=8
+icons=1
+icon-path=/usr/share/icons/Papirus-Dark
+max-icon-size=48
+markup=1
+actions=1
+format=<b>%s</b>\n%b
+text-alignment=left
+
+# Colors (Everforest)
+background-color=#14171df0
+text-color=#c5c9c7
+border-color=#7fb4ca
+progress-color=over #7fb4ca
+
+# Timing
+default-timeout=5000
+
+# Position
+layer=overlay
+anchor=top-right
+
+# Urgency styles
+[urgency=low]
+border-color=#8ba4b0
+default-timeout=3000
+
+[urgency=normal]
+border-color=#7fb4ca
+default-timeout=5000
+
+[urgency=critical]
+border-color=#e46876
+text-color=#e46876
+default-timeout=0
+
+# App-specific rules
+[app-name=Satty]
+default-timeout=3000
+
+[app-name=Screenshot]
+default-timeout=3000
+
+[app-name=Clipboard]
+default-timeout=2000
