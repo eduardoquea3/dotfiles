@@ -3,9 +3,9 @@
 		"trust_all_worktrees": true
 	},
 	"theme": {
-		"mode": "light",
+		"mode": "dark",
 		"light": "Ayu Dark",
-		"dark": "Ayu Dark"
+		"dark": "Ayu Darker"
 	},
 
 	"soft_wrap": "editor_width",

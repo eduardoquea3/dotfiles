@@ -1,152 +1,181 @@
 /**
- * ROFI Clipboard Theme
+ * Enhanced ROFI Clipboard Manager Theme - Everforest Edition
  *
- * Theme mejorado para el historial del portapapeles
- * Diseño moderno con soporte para transparencias
+ * Modern, sleek clipboard interface with Everforest color scheme
+ * Features: Better spacing, hover effects, modern aesthetics
+ *
+ * Author: Enhanced for HyDE Project
+ * License: MIT
+ * Colors: Everforest Theme
  */
-* {
-    font: "JetBrainsMono Nerd Font 10";
-}
 
+// Configuration
 configuration {
-    modi: "drun";
-    show-icons: false;
-    display-drun: "Apps";
-    display-window: "Windows";
-    drun-display-format: "{name}";
-    hide-scrollbar: true;
-    sidebar-mode: false;
-    sort: true;
-    sorting-method: "normal";
+    modi:                        "drun";
+    show-icons:                  true;
+    icon-theme:                  "Papirus";
+    display-drun:                "📋 Clipboard";
+    drun-display-format:         "{name}";
+    font:                        "JetBrains Mono Nerd Font 11";
 }
 
-* {
-    bg0: #1a1a1a;
-    bg1: #252525;
-    bg2: #303030;
-    fg0: #ffffff;
-    fg1: #e0e0e0;
-    ac0: #66b3ff;
-    ac1: #4d94ff;
-    se: #ff6b6b;
-    tr: #00000000;
-}
+// Import themes
+@theme "~/.config/hypr/rofi/theme.rasi"
 
+// Main Window
 window {
-    transparency: "real";
-    fullscreen: false;
-    enabled: true;
-    cursor: "default";
-    spacing: 0px;
-    padding: 20px;
-    border-radius: 15px;
-    border: 2px solid;
-    border-color: @ac0;
-    background-color: @bg0;
-    width: 35em;
-    height: 40em;
+    width:                       28em;
+    height:                      32em;
+    transparency:                "real";
+    fullscreen:                  false;
+    enabled:                     true;
+    cursor:                      "default";
+    spacing:                     0em;
+    padding:                     0em;
+    border:                      2px;
+    border-color:                @border-medium;
+    border-radius:               12px;
+    background-color:            @bg-alpha;
 }
 
 mainbox {
-    enabled: true;
-    spacing: 15px;
-    padding: 0px;
-    orientation: vertical;
-    children: [ "inputbar", "listbox" ];
-    background-color: @tr;
+    enabled:                     true;
+    spacing:                     0em;
+    padding:                     1em;
+    orientation:                 vertical;
+    children:                    [ "wallbox", "listbox" ];
+    background-color:            transparent;
+    border-radius:               8px;
 }
 
+// Wallpaper Section
+wallbox {
+    spacing:                     0em;
+    padding:                     0em;
+    expand:                      false;
+    orientation:                 horizontal;
+    background-color:            transparent;
+    background-image:            url("~/.cache/hyde/wall.blur", width);
+    border-radius:               8px;
+    children:                    [ "wallframe", "inputbar" ];
+}
+
+wallframe {
+    width:                       6em;
+    spacing:                     0em;
+    padding:                     0em;
+    expand:                      false;
+    background-color:            @bg-alt;
+    background-image:            url("~/.cache/hyde/wall.quad", width);
+    border-radius:               6px 0px 0px 6px;
+}
+
+// Input Section
 inputbar {
-    enabled: true;
-    padding: 12px;
-    border-radius: 10px;
-    background-color: @bg1;
-    text-color: @fg0;
-    children: [ "prompt", "entry" ];
-    spacing: 10px;
+    enabled:                     true;
+    padding:                     0.5em;
+    margin:                      0.5em 0em 0em 0em;
+    children:                    [ "prompt", "entry" ];
+    background-color:            @bg-hover;
+    border-radius:               0px 6px 6px 0px;
+    expand:                      true;
 }
 
 prompt {
-    enabled: true;
-    font: "FantasqueSansMono Nerd Font 14";
-    text-color: @ac0;
-    padding: 5px;
+    enabled:                     true;
+    padding:                     0.5em 0.5em 0.5em 1em;
+    text-color:                  @fg;
+    background-color:            transparent;
+    font:                        "JetBrains Mono Nerd Font Bold 12";
 }
 
 entry {
-    enabled: true;
-    font: "FantasqueSansMono Nerd Font 14";
-    text-color: @fg0;
-    padding: 5px;
-    background-color: @tr;
-    cursor: text;
+    enabled:                     true;
+    padding:                     0.5em 1em;
+    text-color:                  @fg;
+    background-color:            transparent;
+    placeholder:                 "Search clipboard history...";
+    placeholder-color:           @fg-muted;
+    font:                        "JetBrains Mono Nerd Font 11";
 }
 
+// List Section
 listbox {
-    enabled: true;
-    spacing: 8px;
-    padding: 0px;
-    orientation: vertical;
-    children: [ "listview" ];
-    background-color: @tr;
+    spacing:                     0.5em;
+    padding:                     0.5em;
+    orientation:                 vertical;
+    children:                    [ "message", "listview" ];
+    background-color:            @bg-alt;
+    border-radius:               8px;
 }
 
 listview {
-    enabled: true;
-    columns: 1;
-    lines: 12;
-    cycle: true;
-    fixed-height: true;
-    fixed-columns: false;
-    expand: false;
-    dynamic: true;
-    scrollbar: false;
-    layout: vertical;
-    reverse: false;
-    spacing: 5px;
-    background-color: @tr;
-    cursor: "pointer";
-    border-radius: 8px;
-    padding: 10px;
+    enabled:                     true;
+    padding:                     0.5em;
+    columns:                     1;
+    lines:                       8;
+    cycle:                       true;
+    fixed-height:                true;
+    fixed-columns:               false;
+    expand:                      false;
+    cursor:                      "pointer";
+    background-color:            transparent;
+    text-color:                  @fg;
+    border-radius:               6px;
 }
 
+message {
+    enabled:                     true;
+    padding:                     0.5em;
+    text-color:                  @fg-dim;
+    background-color:            transparent;
+    font:                        "JetBrains Mono Nerd Font 10";
+}
+
+// Elements
 element {
-    enabled: true;
-    padding: 12px 15px;
-    border-radius: 8px;
-    cursor: "pointer";
-    background-color: @bg1;
-    text-color: @fg1;
+    enabled:                     true;
+    padding:                     0.8em 1em;
+    cursor:                      pointer;
+    background-color:            transparent;
+    text-color:                  @fg;
+    border-radius:               6px;
+    margin:                      0.1em 0em;
+    font:                        "JetBrains Mono Nerd Font 10";
 }
 
-element selected.normal, element selected.active {
-    background-color: @ac1;
-    text-color: @fg0;
-    border-color: @ac0;
-    font: "FantasqueSansMono Nerd Font Bold 12";
+element.normal.normal {
+    background-color:            transparent;
+    text-color:                  @fg;
+}
+
+element.alternate.normal {
+    background-color:            @bg-hover;
+    text-color:                  @fg;
+}
+
+element.selected.normal {
+    background-color:            @bg-select;
+    text-color:                  @fg;
+    border:                      1px;
+    border-color:                @accent;
+}
+
+element.normal.urgent {
+    background-color:            @bg-urgent;
+    text-color:                  @urgent;
+}
+
+element.normal.active {
+    background-color:            @bg-active;
+    text-color:                  @active;
 }
 
 element-text {
-    enabled: true;
-    background-color: @tr;
-    text-color: inherit;
-    cursor: inherit;
-    vertical-align: 0.5;
-    horizontal-align: 0.0;
-}
-
-error-message {
-    padding: 20px;
-    border-radius: 10px;
-    background-color: @se;
-    text-color: @fg0;
-    font: "FantasqueSansMono Nerd Font Bold 12";
-}
-
-textbox {
-    text-color: @fg0;
-    background-color: @tr;
-    font: "FantasqueSansMono Nerd Font 14";
-    vertical-align: 0.5;
-    horizontal-align: 0.0;
+    vertical-align:              0.0;
+    horizontal-align:            0.0;
+    cursor:                      inherit;
+    background-color:            transparent;
+    text-color:                  inherit;
+    font:                        "JetBrains Mono Nerd Font 10";
 }

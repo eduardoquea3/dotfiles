@@ -1,0 +1,71 @@
+/**
+ * Everforest Color Theme for ROFI
+ *
+ * Based on the Everforest color palette
+ * A green-tinted theme with warm colors and good contrast
+ *
+ * Author: HyDE Project
+ * License: MIT
+ */
+
+// =============================================================================
+// Color Palette (Everforest)
+// =============================================================================
+
+// Base colors
+* {
+    bg:     #14171d;
+    fg:     #c5c9c7;
+    accent: #7fb4ca;
+
+    // Selection colors
+    select-bg: #3E424A;
+    select-fg: #c5c9c7;
+
+    // Border colors
+    border:     #5C6066;
+    border-alt: #8ba4b0;
+
+    // Status colors
+    urgent:     #e46876;
+    active:     #87a987;
+    warning:    #e6c384;
+    info:       #7fb4ca;
+
+    // Terminal color palette
+    color0:  #14171d;  // Black
+    color1:  #c4746e;  // Red
+    color2:  #8a9a7b;  // Green
+    color3:  #c4b28a;  // Yellow
+    color4:  #8ba4b0;  // Blue
+    color5:  #a292a3;  // Magenta
+    color6:  #8ea4a2;  // Cyan
+    color7:  #a4a7a4;  // White
+
+    color8:  #5C6066;  // Bright Black
+    color9:  #e46876;  // Bright Red
+    color10: #87a987;  // Bright Green
+    color11: #e6c384;  // Bright Yellow
+    color12: #7fb4ca;  // Bright Blue
+    color13: #938aa9;  // Bright Magenta
+    color14: #7aa89f;  // Bright Cyan
+    color15: #c5c9c7;  // Bright White
+
+    // Transparency variants
+    bg-alpha:       rgba(20, 23, 29, 0.95);
+    bg-alt:         rgba(20, 23, 29, 0.8);
+    bg-hover:       rgba(62, 66, 74, 0.3);
+    bg-select:      rgba(127, 180, 202, 0.2);
+    bg-urgent:      rgba(228, 104, 118, 0.1);
+    bg-active:      rgba(135, 169, 135, 0.1);
+
+    // Text variants
+    fg-dim:         rgba(197, 201, 199, 0.6);
+    fg-muted:       rgba(197, 201, 199, 0.4);
+    fg-accent:      #7fb4ca;
+
+    // Border variants
+    border-light:   rgba(92, 96, 102, 0.3);
+    border-medium:  rgba(139, 164, 176, 0.5);
+    border-strong:  #8ba4b0;
+}
