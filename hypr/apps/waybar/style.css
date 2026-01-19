@@ -1,8 +1,8 @@
 * {
   min-height: 0;
   min-width: 0;
-  font-family: Lexend, "JetBrainsMono NFP";
-  font-size: 12px;
+  font-family: Lexend, "JetBrainsMono Nerd Font", monospace;
+  font-size: 10px;
   font-weight: 600;
 }
 
@@ -16,24 +16,26 @@ window#waybar {
   padding: 0.3rem 0.6rem;
   margin: 0.4rem 0.25rem;
   border-radius: 6px;
-  /* background-color: #181825; */
-  background-color: #1e1e2e;
-  color: #cdd6f4;
+  background-color: #1f2125;
+  color: #c5c9c7;
+  border: 1px solid #5c6066;
 }
 
 #workspaces button:hover {
-  color: #1e1e2e;
-  background-color: #cdd6f4;
+  background-color: #5c6066;
 }
 
 #workspaces button.active {
-  background-color: #1e1e2e;
-  color: #89b4fa;
+  background-color: #1f2125;
+  color: #e6c384;
+  border: 2px solid #e6c384;
+  font-weight: 700;
 }
 
 #workspaces button.urgent {
-  background-color: #1e1e2e;
-  color: #f38ba8;
+  background-color: #1f2125;
+  color: #e46876;
+  border: 1px solid #e46876;
 }
 
 #clock,
@@ -51,21 +53,21 @@ window#waybar {
   padding: 0.3rem 0.6rem;
   margin: 0.4rem 0.25rem;
   border-radius: 6px;
-  /* background-color: #181825; */
-  background-color: #1e1e2e;
+  background-color: #1f2125;
+  border: 1px solid #5c6066;
 }
 
 #mpris.playing {
-  color: #a6e3a1;
+  color: #87a987;
 }
 
 #mpris.paused {
-  color: #9399b2;
+  color: #a4a7a4;
 }
 
 #custom-sep {
   padding: 0px;
-  color: #585b70;
+  color: #5c6066;
 }
 
 window#waybar.empty #window {
@@ -73,51 +75,51 @@ window#waybar.empty #window {
 }
 
 #battery {
-  color: #a6e3a1;
+  color: #87a987;
 }
 
 #battery.charging {
-  color: #f9e2af;
+  color: #e6c384;
 }
 
 #battery.warning {
-  color: #fab387;
+  color: #e46876;
 }
 
 #battery.critical {
-  color: #f38ba8;
+  color: #c4746e;
 }
 
 #clock {
-  color: #74c7ec;
+  color: #8ba4b0;
 }
 
 #clock.simpleclock {
-  color: #89b4fa;
+  color: #7fb4ca;
 }
 
 #window {
-  color: #cdd6f4;
+  color: #c5c9c7;
 }
 
 #pulseaudio {
-  color: #b4befe;
+  color: #7fb4ca;
 }
 
 #pulseaudio.muted {
-  color: #a6adc8;
+  color: #5c6066;
 }
 
 #backlight {
-  color: #f9e2af;
+  color: #e6c384;
 }
 
 #custom-logo {
-  color: #89b4fa;
+  color: #7fb4ca;
 }
 
 #custom-power {
-  color: #f38ba8;
+  color: #e46876;
 }
 
 #network {
@@ -129,6 +131,7 @@ window#waybar.empty #window {
 }
 
 tooltip {
-  background-color: #181825;
-  border: 2px solid #89b4fa;
+  background-color: #14171d;
+  border: 2px solid #7fb4ca;
 }
+
