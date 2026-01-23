@@ -27,3 +27,24 @@ shell-integration = zsh
 
 # Colors
 theme = Ayu
+
+# Mouse
+right-click-action = paste
+mouse-hide-while-typing = true
+focus-follows-mouse = true
+
+# Keybinds
+keybind = ctrl+o>v=new_split:right
+keybind = ctrl+o>s=new_split:down
+# keybind = ctrl+o>h=goto_split:left
+# keybind = ctrl+o>j=goto_split:down
+# keybind = ctrl+o>k=goto_split:up
+# keybind = ctrl+o>l=goto_split:right
+keybind = ctrl+o>r=reload_config
+keybind = ctrl+o>n=new_tab
+keybind = ctrl+tab=next_tab
+keybind = ctrl+shift+tab=previous_tab
+keybind = ctrl+alt+h=goto_split:left
+keybind = ctrl+alt+j=goto_split:down
+keybind = ctrl+alt+k=goto_split:up
+keybind = ctrl+alt+l=goto_split:right
