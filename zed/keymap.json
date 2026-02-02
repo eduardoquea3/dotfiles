@@ -320,5 +320,11 @@
   "bindings": {
    "d": "project_panel::Delete"
   }
+ },
+ {
+  "context": "(VimControl && !menu)",
+  "bindings": {
+   "g r": "editor::FindAllReferences"
+  }
  }
 ]

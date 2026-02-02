@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# Lock screen script using hyprlock with hyprlock.conf
+
+hyprlock --config ~/.config/hypr/hyprlock.conf
