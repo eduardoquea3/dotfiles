@@ -112,9 +112,8 @@
     "format-ethernet": "<span color='#7fb4ca'>⌛ {ifname}</span>",
     "format-disconnected": "<span color='#e46876'>! Disconnected</span>",
     "format-linked": "<span color='#e46876'>! {ifname} (No IP)</span>",
-    "tooltip-format": "{ifname}: {ipaddr}",
-    "tooltip-format-wifi": "{essid} ({signalStrength}%)",
-    "tooltip-format-ethernet": "{ifname}: {ipaddr}",
+    "tooltip-format-wifi": "{ipaddr} ({signalStrength}%)",
+    "tooltip-format-ethernet": "{ipaddr}",
     "on-click": "nm-connection-editor"
   },
   "custom/notification": {

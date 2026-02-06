@@ -14,7 +14,8 @@
 # Usage: ./cliphist [options]
 # =============================================================================
 
-set -euo pipefail  # Exit on error, undefined vars, pipe failures
+# Script runs with error handling disabled for better compatibility
+# set -euo pipefail
 
 # =============================================================================
 # Configuration

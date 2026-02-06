@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+# Test clipboard with verbose output
+exec > /tmp/cliphist_test.log 2>&1
+set -x
+
+echo "=== Clipboard Test ==="
+echo "Date: $(date)"
+echo "PWD: $PWD"
+echo "HOME: $HOME"
+echo "DISPLAY: $DISPLAY"
+echo "WAYLAND_DISPLAY: $WAYLAND_DISPLAY"
+echo ""
+
+echo "=== Checking cliphist ==="
+which cliphist
+cliphist list | wc -l
+echo ""
+
+echo "=== Checking rofi ==="
+which rofi
+echo ""
+
+echo "=== Running cliphist list | head -5 ==="
+cliphist list | head -5
+
+echo ""
+echo "=== Attempting to launch rofi ==="
+# Try without theme first
+echo "Test item 1" | rofi -dmenu -p "Clipboard Test" -l 5 &
+ROFI_PID=$!
+sleep 2
+kill $ROFI_PID 2>/dev/null
+
+echo ""
+echo "=== Done ==="

@@ -1,3 +1,5 @@
+source $HOME/.cargo/env
+
 alias ss='source ~/.zshrc'
 alias ns='nvim ~/.zshrc'
 alias nsa='nvim ~/.config/zsh/alias.sh'
@@ -17,4 +19,5 @@ alias wm='wiremix'
 
 alias pd='podman'
 alias cc='claude'
+alias op='opencode'
 alias cupd='claude update'
