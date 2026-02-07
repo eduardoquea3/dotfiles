@@ -1,0 +1,205 @@
+{
+	"soft_wrap": "editor_width",
+	"icon_theme": "Symbols Icon Theme",
+	"vim_mode": true,
+	"base_keymap": "Cursor",
+	"multi_cursor_modifier": "cmd_or_ctrl",
+	"gutter": {
+		"line_numbers": false,
+		"min_line_number_digits": 0,
+		"folds": false,
+		"runnables": false
+	},
+	"cursor_blink": false,
+	"buffer_font_family": "DankMono Nerd Font",
+	"ui_font_family": "DankMono Nerd Font",
+	"ui_font_size": 16,
+	"buffer_font_size": 14,
+	"indent_guides": {
+		"enabled": false
+	},
+	"project_panel": {
+		"indent_guides": {
+			"show": "never"
+		},
+		"default_width": 400,
+		"hide_root": true,
+		"auto_fold_dirs": false,
+		"starts_open": false,
+		"sticky_scroll": false,
+		"git_status": false,
+		"scrollbar": {
+			"show": "never"
+		}
+	},
+	"toolbar": {
+		"breadcrumbs": false,
+		"agent_review": false,
+		"code_actions": false,
+		"quick_actions": false,
+		"selections_menu": false
+	},
+	"git": {
+		"inline_blame": {
+			"show_commit_summary": true
+		}
+	},
+	"tabs": {
+		"git_status": true,
+		"show_diagnostics": "all"
+	},
+	"inlay_hints": {
+		"enabled": true,
+		"show_type_hints": false,
+		"show_other_hints": false
+	},
+	"theme": "Kanso Zen (No italics)",
+	"wsl_connections": [
+		{
+			"distro_name": "Ubuntu",
+			"user": null,
+			"projects": [
+				{
+					"paths": ["/home/eduardo/programacion/backend-backoffice"]
+				},
+				{
+					"paths": ["/home/eduardo/programacion/backend-punto-venta"]
+				},
+				{
+					"paths": ["/home/eduardo/programacion/backoffice-pos"]
+				},
+				{
+					"paths": ["/home/eduardo/programacion/cepma-web"]
+				},
+				{
+					"paths": ["/home/eduardo/programacion/pos-system/./"]
+				},
+				{
+					"paths": ["/home/eduardo/python/py_pos"]
+				}
+			]
+		}
+	],
+	"features": {
+		"edit_prediction_provider": "supermaven"
+	},
+	"lsp": {
+		"vtsls": {
+			"settings": {
+				"typescript": {
+					"updateImportsOnFileMove": {
+						"enabled": "always"
+					}
+				},
+				"javascript": {
+					"updateImportsOnFileMove": {
+						"enabled": "always"
+					}
+				}
+			},
+			"enable_lsp_tasks": true
+		},
+		"biome": {
+			"settings": {
+				"organize_imports_on_save": true,
+				"fix_on_save": true,
+				"format_on_save": true
+			}
+		},
+		"tailwindcss-language-server": {
+			"settings": {
+				"classAttributes": [
+					"groupClass",
+					"slotClass",
+					"class",
+					"className",
+					"classList",
+					"labelClass",
+					"containerClass",
+					"wrapperClass",
+					"inputClass",
+					"buttonClass",
+					"iconClass",
+					"headerClass",
+					"footerClass",
+					"bodyClass",
+					"cardClass",
+					"modalClass",
+					"overlayClass"
+				],
+				"experimental": {
+					"classRegex": [
+						["class:\\s*\"([^\"]*)\""],
+						["className:\\s*\"([^\"]*)\""],
+						["labelClass:\\s*\"([^\"]*)\""],
+						["tw`([^`]*)", "([\"'`][^\"'`]*.*?[\"'`])"],
+						["cn\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
+					]
+				}
+			}
+		}
+	},
+	"languages": {
+		"JavaScript": {
+			"language_servers": [
+				"!eslint",
+				"!typescript-language-server",
+				"biome",
+				"..."
+			],
+			"formatter": { "language_server": { "name": "biome" } },
+			"code_actions_on_format": {
+				"source.fixAll.biome": true,
+				"source.organizeImports.biome": true
+			}
+		},
+		"TypeScript": {
+			"language_servers": [
+				"!eslint",
+				"!typescript-language-server",
+				"biome",
+				"..."
+			],
+			"formatter": { "language_server": { "name": "biome" } },
+			"code_actions_on_format": {
+				"source.fixAll.biome": true,
+				"source.organizeImports.biome": true
+			}
+		},
+		"TSX": {
+			"language_servers": [
+				"!eslint",
+				"!typescript-language-server",
+				"biome",
+				"..."
+			],
+			"formatter": { "language_server": { "name": "biome" } },
+			"code_actions_on_format": {
+				"source.fixAll.biome": true,
+				"source.organizeImports.biome": true
+			}
+		},
+		"JSON": { "formatter": { "language_server": { "name": "biome" } } },
+		"JSONC": { "formatter": { "language_server": { "name": "biome" } } },
+		"Python": { "language_servers": ["ty", "ruff"] }
+	},
+	"title_bar": {
+		"show_onboarding_banner": false,
+		"show_branch_name": false,
+		"show_sign_in": false,
+		"show_user_menu": false,
+		"show_menus": false
+	},
+	"outline_panel": {
+		"default_width": 300,
+		"indent_guides": {
+			"show": "never"
+		}
+	},
+	"scrollbar": {
+		"show": "never"
+	},
+	"file_finder": {
+		"modal_max_width": "large"
+	}
+}
