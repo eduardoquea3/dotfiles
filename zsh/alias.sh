@@ -1,8 +1,12 @@
-source $HOME/.cargo/env
+# shellcheck disable=all
+
+# Load Zed secrets
+source $HOME/.secrets/zed.env 2>/dev/null
 
 alias ss='source ~/.zshrc'
 alias ns='nvim ~/.zshrc'
 alias nsa='nvim ~/.config/zsh/alias.sh'
+alias nse='nvim ~/.config/zsh/'
 alias cls='clear'
 
 alias ls='eza --icons'
