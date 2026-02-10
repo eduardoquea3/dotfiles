@@ -16,19 +16,19 @@
 	},
 	"context_servers": {
 		"postgres-context-server": {
-   "enabled": true,
+			"enabled": true,
 			"settings": {
 				"database_url": "postgresql://postgres:admin@192.168.0.103:5432/ventas"
 			}
 		},
 		"mcp-server-context7": {
-   "enabled": true,
+			"enabled": true,
 			"settings": {
 				"context7_api_key": "$CONTEXT7_API_KEY"
 			}
 		},
 		"mcp-server-github": {
-   "enabled": true,
+			"enabled": true,
 			"settings": {
 				"github_personal_access_token": "$GITHUB_TOKEN"
 			}
@@ -225,6 +225,10 @@
 	"auto_indent_on_paste": false,
 	"show_completion_documentation": false,
 	"lsp_document_colors": "background",
+	"format_on_save": "off",
+	"autosave": {
+		"after_delay": { "milliseconds": 1000 }
+	},
 	"extend_comment_on_newline": false,
 	"horizontal_scroll_margin": 1,
 	"vertical_scroll_margin": 1,
