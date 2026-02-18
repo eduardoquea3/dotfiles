@@ -2,9 +2,9 @@
 # https://github.com/imrajyavardhan12/spectre-ghostty-config
 
 # Fonts
-font-family = "JetBrainsMono Nerd Font"
-font-family-bold = "JetBrainsMono Nerd Font"
-font-family-italic = "JetBrainsMono Nerd Font"
+font-family = "Dankono Nerd Font"
+font-family-bold = "Dankono Nerd Font"
+font-family-italic = "Dankono Nerd Font"
 font-size = 9
 
 # Cursor
@@ -13,7 +13,7 @@ cursor-style-blink = true
 cursor-opacity = 0.8
 
 # Window
-window-theme = dark
+window-theme = ghostty
 window-decoration = none
 window-padding-x = 1
 window-padding-balance = true

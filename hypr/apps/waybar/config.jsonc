@@ -7,7 +7,7 @@
   "gtk-layer-shell": true,
   "passthrough": false,
   "fixed-center": true,
-  "modules-left": ["hyprland/workspaces"],
+  "modules-left": ["hyprland/workspaces", "cpu", "memory"],
   "modules-center": ["mpris"],
   "modules-right": [
     "network",
@@ -115,6 +115,18 @@
     "tooltip-format-wifi": "{ipaddr} ({signalStrength}%)",
     "tooltip-format-ethernet": "{ipaddr}",
     "on-click": "nm-connection-editor"
+  },
+"cpu": {
+    "interval": 10,
+    "format": " {usage}%",
+    "tooltip": true,
+    "tooltip-format": "CPU Usage: {usage}%"
+  },
+  "memory": {
+    "interval": 30,
+    "format": "⁯⁯ {used}GiB",
+    "tooltip": true,
+    "tooltip-format": "RAM: {used}GiB / {total}GiB ({percentage}%)"
   },
   "custom/notification": {
     "escape": true,

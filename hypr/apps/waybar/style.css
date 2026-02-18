@@ -46,6 +46,8 @@ window#waybar {
 #custom-spotify,
 #custom-notification,
 #battery,
+#memory,
+#cpu,
 #tray,
 #window,
 #mpris,
@@ -128,6 +130,14 @@ window#waybar.empty #window {
 
 #network.disconnected {
   color: #e46876;
+}
+
+#memory {
+  color: #a292a3;
+}
+
+#cpu {
+  color: #7fb4ca;
 }
 
 tooltip {
