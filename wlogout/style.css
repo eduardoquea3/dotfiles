@@ -30,45 +30,23 @@ button:hover {
   background-image: image(url("/home/eduardo/.config/wlogout/icons/lock.png"));
   background-size: 70%;
 }
-#lock:focus {
-  background-image: image(
-    url("/home/eduardo/.config/wlogout/icons/lock-hover.png")
-  );
-}
 
 #logout {
-  background-image: image(url("/home/eduardo/.config/wlogout/icons/logout.png"));
-}
-#logout:focus {
   background-image: image(
-    url("/home/eduardo/.config/wlogout/icons/logout-hover.png")
+    url("/home/eduardo/.config/wlogout/icons/logout.png")
   );
 }
 
 #suspend {
   background-image: image(url("/home/eduardo/.config/wlogout/icons/sleep.png"));
 }
-#suspend:focus {
-  background-image: image(
-    url("/home/eduardo/.config/wlogout/icons/sleep-hover.png")
-  );
-}
 
 #shutdown {
   background-image: image(url("/home/eduardo/.config/wlogout/icons/power.png"));
 }
-#shutdown:focus {
-  background-image: image(
-    url("/home/eduardo/.config/wlogout/icons/power-hover.png")
-  );
-}
 
 #reboot {
-  background-image: image(url("/home/eduardo/.config/wlogout/icons/restart.png"));
-}
-#reboot:focus {
   background-image: image(
-    url("/home/eduardo/.config/wlogout/icons/restart-hover.png")
+    url("/home/eduardo/.config/wlogout/icons/restart.png")
   );
 }
-

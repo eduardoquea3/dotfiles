@@ -2,8 +2,11 @@
 	"agent_servers": {
 		"opencode": {
 			"type": "extension",
-			"favorite_models": ["opencode/kimi-k2.5-free"],
-			"default_model": "opencode/kimi-k2.5-free",
+			"favorite_models": [
+				"opencode/kimi-k2.5-free",
+				"opencode/minimax-m2.5-free"
+			],
+			"default_model": "opencode/minimax-m2.5-free",
 			"default_config_options": {},
 			"favorite_config_option_values": {}
 		},
@@ -15,27 +18,15 @@
 		}
 	},
 	"context_servers": {
-		"postgres-context-server": {
-   "enabled": true,
-			"settings": {
-				"database_url": "postgresql://postgres:admin@192.168.0.103:5432/ventas"
-			}
-		},
 		"mcp-server-context7": {
-   "enabled": true,
+			"enabled": true,
 			"settings": {
 				"context7_api_key": "$CONTEXT7_API_KEY"
-			}
-		},
-		"mcp-server-github": {
-   "enabled": true,
-			"settings": {
-				"github_personal_access_token": "$GITHUB_TOKEN"
 			}
 		}
 	},
 	"soft_wrap": "editor_width",
-	"icon_theme": "Symbols Icon Theme",
+	"icon_theme": "Flow Dark",
 	"vim_mode": true,
 	"base_keymap": "Cursor",
 	"multi_cursor_modifier": "cmd_or_ctrl",
@@ -230,6 +221,5 @@
 	"vertical_scroll_margin": 1,
 	"when_closing_with_no_tabs": "keep_window_open",
 	"close_on_file_delete": true,
-	"restore_on_file_reopen": false,
-	"restore_on_startup": "empty_tab"
+	"restore_on_file_reopen": false
 }

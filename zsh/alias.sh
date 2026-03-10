@@ -22,6 +22,7 @@ alias bt='bluetui'
 alias wm='wiremix'
 
 alias pd='podman'
+alias pdu='podman-tui'
 alias cc='claude'
 alias op='opencode'
 alias cupd='claude update'

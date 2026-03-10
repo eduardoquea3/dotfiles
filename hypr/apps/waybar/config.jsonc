@@ -42,7 +42,7 @@
   },
   "hyprland/workspaces": {
     "on-click": "activate",
-    "format": "{icon}",
+    "format": "{icon} {id}",
     "format-icons": {
       "active": "󰮯",
       "default": "󰊠"

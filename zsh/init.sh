@@ -23,3 +23,4 @@ source $HOME/.cargo/env
 # opencode
 export PATH=/home/eduardo/.opencode/bin:$PATH
 export PATH="$HOME/.local/bin:$PATH"
+export PATH="/home/eduardo/.bun/bin:$PATH"
