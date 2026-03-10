@@ -5,7 +5,6 @@ import Quickshell.Widgets // for IconImage
 import QtQuick // for Text
 import QtQuick.Controls // for Button
 import Quickshell.Services.UPower
-import Quickshell.Networking
 
 // palette = 0=#090E13
 // palette = 1=#c4746e
@@ -118,7 +117,7 @@ PanelWindow {
         Rectangle {
             required property var modelData
             visible: modelData.id == 0
-            width: 42
+            width: ram.implicitWidth + 16
             height: 20
             radius: root.radius
             color: root.colBg
@@ -126,6 +125,7 @@ PanelWindow {
             border.color: root.colRed
 
             Text {
+                id: ram
                 anchors.centerIn: parent
                 text: "󰍛 " + memUsage + "GB"
                 color: root.colRed
@@ -146,26 +146,42 @@ PanelWindow {
         spacing: 8
 
         Rectangle {
+            id: wifiRect
             color: root.colBg
-            width: 120
+            width: wifiText.implicitWidth + 16
             height: 20
             radius: root.radius
             border.width: 1
             border.color: root.colBlue
 
+            property string ssid: " ..."
+
+            Process {
+                id: wifiProc
+                command: ["sh", "-c", "iwgetid -r"]
+                stdout: SplitParser {
+                    onRead: data => {
+                        var s = data.trim();
+                        wifiRect.ssid = s ? "󰤨 " + s : "󰤮 desconectado";
+                    }
+                }
+                Component.onCompleted: running = true
+            }
+
+            Timer {
+                interval: 1000
+                running: true
+                repeat: true
+                onTriggered: {
+                    wifiProc.running = true;
+                }
+            }
+
             Text {
+                id: wifiText
                 anchors.centerIn: parent
 
-                text: {
-                    var dev = Network.name;
-                    if (!dev)
-                        return "󰤮 no wifi";
-
-                    if (dev.activeNetwork)
-                        return "󰤨 " + dev.activeNetwork.ssid;
-
-                    return "󰤮 disconnected";
-                }
+                text: parent.ssid
 
                 color: root.colBlue
                 font {
@@ -178,7 +194,7 @@ PanelWindow {
 
         Rectangle {
             color: root.colBg
-            width: 90
+            width: date.implicitWidth + 16
             height: 20
             radius: root.radius
             border.width: 1
@@ -206,13 +222,14 @@ PanelWindow {
 
         Rectangle {
             color: root.colBg
-            width: 50
+            width: battery.implicitWidth + 16
             height: 20
             radius: root.radius
             border.width: 1
             border.color: root.colGreen
 
             Text {
+                id: battery
                 anchors.centerIn: parent
 
                 text: {
@@ -232,7 +249,7 @@ PanelWindow {
 
         Rectangle {
             color: root.colBg
-            width: 80
+            width: time.implicitWidth + 16
             height: 20
             radius: root.radius
             border.width: 1
@@ -259,14 +276,15 @@ PanelWindow {
         }
 
         Rectangle {
-            width: 24
+            width: wlogout.implicitWidth + 16
             height: 20
-            radius: 5
+            radius: root.radius
             color: root.colBg
             border.width: 1
             border.color: root.colRed
 
             Text {
+                id: wlogout
                 anchors.centerIn: parent
                 text: ""
                 color: root.colRed
