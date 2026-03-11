@@ -83,8 +83,8 @@
 		"show_other_hints": false
 	},
 	"theme": "Kanso Zen (No italics)",
-	"features": {
-		"edit_prediction_provider": "supermaven"
+	"edit_predictions": {
+		"provider": "zed"
 	},
 	"lsp": {
 		"vtsls": {
