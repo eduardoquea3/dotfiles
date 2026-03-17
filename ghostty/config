@@ -3,10 +3,10 @@
 # Theme: GitHub Dark
 
 # Fonts
-font-family = "Dankono Nerd Font"
-font-family-bold = "Dankono Nerd Font"
-font-family-italic = "Dankono Nerd Font"
-font-size = 9
+font-family = "DankMono Nerd Font"
+font-family-bold = "DankMono Nerd Font"
+font-family-italic = "DankMono Nerd Font"
+font-size = 10
 
 # Cursor
 cursor-style = bar
