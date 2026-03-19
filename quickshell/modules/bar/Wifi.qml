@@ -1,5 +1,6 @@
 import QtQuick // for Text
 import Quickshell.Io // for Process
+import Quickshell.Networking
 
 Rectangle {
     id: wifiRect
@@ -10,27 +11,28 @@ Rectangle {
     border.width: 1
     border.color: root.colYellow
 
-    property string ssid: " ..."
+    property string ssid: ""
+
+    visible: ssid !== ""
 
     Process {
         id: wifiProc
-        command: ["sh", "-c", "iwgetid -r"]
+        command: ["sh", "-c", "iwgetid -r || echo disconnected"]
         stdout: SplitParser {
             onRead: data => {
                 var s = data.trim();
-                wifiRect.ssid = s ? "󰤨 " + s : "󰤮 desconectado";
+                wifiRect.ssid = (s && s !== "disconnected")
+                    ? "󰤨 " + s
+                    : "";
             }
         }
-        Component.onCompleted: running = true
     }
 
     Timer {
         interval: 1000
         running: true
         repeat: true
-        onTriggered: {
-            wifiProc.running = true;
-        }
+        onTriggered: wifiProc.running = true
     }
 
     Text {

@@ -11,7 +11,7 @@ Rectangle {
     radius: root.radius
     color: root.colBg
     border.width: 1
-    border.color: root.colRed
+    border.color: root.colBlue
 
     Process {
         id: memProc
@@ -44,7 +44,7 @@ Rectangle {
         id: ram
         anchors.centerIn: parent
         text: "󰍛 " + memUsage + "GB"
-        color: root.colRed
+        color: root.colBlue
         font {
             family: root.fontFamily
             pixelSize: root.fontSize
