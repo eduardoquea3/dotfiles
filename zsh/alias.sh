@@ -9,9 +9,6 @@ alias nsa='nvim ~/.config/zsh/alias.sh'
 alias nse='nvim ~/.config/zsh/'
 alias cls='clear'
 
-alias ls='eza --icons'
-alias la='eza --icons -a'
-
 alias dev='just dev'
 
 alias lg='lazygit'

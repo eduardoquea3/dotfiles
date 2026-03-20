@@ -11,7 +11,11 @@ plugins=(
   archlinux
   zoxide
   starship
+  eza
 )
+
+# config plugins
+zstyle ':omz:plugins:eza' 'icons' yes
 
 source $ZSH/oh-my-zsh.sh
 source ~/.config/zsh/alias.sh
@@ -26,3 +30,4 @@ export PATH=/home/eduardo/.opencode/bin:$PATH
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="/home/eduardo/.bun/bin:$PATH"
 export EDITOR=nvim
+export DOCKER_HOST=unix:///run/user/$UID/podman/podman.sock

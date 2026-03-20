@@ -46,6 +46,8 @@ PanelWindow {
         }
         spacing: 6
 
+        Brightness {}
+
         Volume {}
 
         Wifi {}

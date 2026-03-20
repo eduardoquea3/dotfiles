@@ -18,7 +18,7 @@
 	},
 	"context_servers": {
 		"mcp-server-context7": {
-   "enabled": true,
+			"enabled": true,
 			"settings": {
 				"context7_api_key": "$CONTEXT7_API_KEY"
 			}
@@ -116,6 +116,7 @@
 					"class",
 					"className",
 					"classList",
+					"classLabel",
 					"classContainer",
 					"labelClass",
 					"containerClass",
@@ -188,9 +189,6 @@
 	},
 	"title_bar": {
 		"show_onboarding_banner": false,
-		"show_branch_name": false,
-		"show_sign_in": false,
-		"show_user_menu": false,
 		"show_menus": false
 	},
 	"outline_panel": {
