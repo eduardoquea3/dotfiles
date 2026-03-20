@@ -1,41 +1,31 @@
 {
 	"agent_servers": {
+		"claude-acp": {
+			"type": "registry",
+			"default_model": "haiku",
+			"favorite_models": ["haiku"]
+		},
 		"opencode": {
 			"type": "extension",
-			"favorite_models": ["opencode/kimi-k2.5-free"],
-			"default_model": "opencode/kimi-k2.5-free",
-			"default_config_options": {},
-			"favorite_config_option_values": {}
-		},
-		"claude": {
-			"default_model": "haiku",
-			"favorite_models": ["haiku"],
+			"favorite_models": [
+				"opencode/kimi-k2.5-free",
+				"opencode/minimax-m2.5-free"
+			],
+			"default_model": "opencode/minimax-m2.5-free",
 			"default_config_options": {},
 			"favorite_config_option_values": {}
 		}
 	},
 	"context_servers": {
-		"postgres-context-server": {
-			"enabled": true,
-			"settings": {
-				"database_url": "postgresql://postgres:admin@192.168.0.103:5432/ventas"
-			}
-		},
 		"mcp-server-context7": {
 			"enabled": true,
 			"settings": {
 				"context7_api_key": "$CONTEXT7_API_KEY"
 			}
-		},
-		"mcp-server-github": {
-			"enabled": true,
-			"settings": {
-				"github_personal_access_token": "$GITHUB_TOKEN"
-			}
 		}
 	},
 	"soft_wrap": "editor_width",
-	"icon_theme": "Symbols Icon Theme",
+	"icon_theme": "Flow Dark",
 	"vim_mode": true,
 	"base_keymap": "Cursor",
 	"multi_cursor_modifier": "cmd_or_ctrl",
@@ -65,7 +55,6 @@
 		"auto_fold_dirs": false,
 		"starts_open": false,
 		"sticky_scroll": false,
-		"git_status": false,
 		"scrollbar": {
 			"show": "never"
 		}
@@ -84,7 +73,8 @@
 	},
 	"tabs": {
 		"git_status": true,
-		"show_diagnostics": "all"
+		"show_diagnostics": "all",
+		"file_icons": true
 	},
 	"inlay_hints": {
 		"enabled": true,
@@ -92,8 +82,8 @@
 		"show_other_hints": false
 	},
 	"theme": "Kanso Zen (No italics)",
-	"features": {
-		"edit_prediction_provider": "supermaven"
+	"edit_predictions": {
+		"provider": "zed"
 	},
 	"lsp": {
 		"vtsls": {
@@ -126,6 +116,7 @@
 					"class",
 					"className",
 					"classList",
+					"classContainer",
 					"labelClass",
 					"containerClass",
 					"wrapperClass",
@@ -221,19 +212,10 @@
 	"seed_search_query_from_cursor": "never",
 	"current_line_highlight": "none",
 	"show_whitespaces": "none",
-	"auto_indent": false,
 	"auto_indent_on_paste": false,
 	"show_completion_documentation": false,
 	"lsp_document_colors": "background",
-	"format_on_save": "off",
-	"autosave": {
-		"after_delay": { "milliseconds": 1000 }
-	},
 	"extend_comment_on_newline": false,
 	"horizontal_scroll_margin": 1,
-	"vertical_scroll_margin": 1,
-	"when_closing_with_no_tabs": "keep_window_open",
-	"close_on_file_delete": true,
-	"restore_on_file_reopen": false,
-	"restore_on_startup": "empty_tab"
+	"vertical_scroll_margin": 1
 }

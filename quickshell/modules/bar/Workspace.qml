@@ -21,8 +21,12 @@ Repeater {
         Text {
             id: workspace
             anchors.centerIn: parent
-            text: (modelData.focused ? "󰮯" : "󰊠") + " " + modelData.id
-            font.pointSize: 7
+            text: (modelData.focused ? "󰮯 " : "󰊠 ") + modelData.id
+            font {
+                family: root.fontFamily
+                pixelSize: root.fontSize
+                bold: true
+            }
             color: modelData.focused ? root.colYellow : root.colFg
         }
     }

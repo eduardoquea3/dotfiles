@@ -1,5 +1,10 @@
 {
 	"agent_servers": {
+		"claude-acp": {
+			"type": "registry",
+			"default_model": "haiku",
+			"favorite_models": ["haiku"]
+		},
 		"opencode": {
 			"type": "extension",
 			"favorite_models": [
@@ -9,17 +14,11 @@
 			"default_model": "opencode/minimax-m2.5-free",
 			"default_config_options": {},
 			"favorite_config_option_values": {}
-		},
-		"claude": {
-			"default_model": "haiku",
-			"favorite_models": ["haiku"],
-			"default_config_options": {},
-			"favorite_config_option_values": {}
 		}
 	},
 	"context_servers": {
 		"mcp-server-context7": {
-			"enabled": true,
+   "enabled": true,
 			"settings": {
 				"context7_api_key": "$CONTEXT7_API_KEY"
 			}
@@ -74,7 +73,8 @@
 	},
 	"tabs": {
 		"git_status": true,
-		"show_diagnostics": "all"
+		"show_diagnostics": "all",
+		"file_icons": true
 	},
 	"inlay_hints": {
 		"enabled": true,
@@ -116,6 +116,7 @@
 					"class",
 					"className",
 					"classList",
+					"classContainer",
 					"labelClass",
 					"containerClass",
 					"wrapperClass",
@@ -216,8 +217,5 @@
 	"lsp_document_colors": "background",
 	"extend_comment_on_newline": false,
 	"horizontal_scroll_margin": 1,
-	"vertical_scroll_margin": 1,
-	"when_closing_with_no_tabs": "keep_window_open",
-	"close_on_file_delete": true,
-	"restore_on_file_reopen": false
+	"vertical_scroll_margin": 1
 }
