@@ -1,6 +1,7 @@
 import Quickshell
 import Quickshell.Io
 import Quickshell.Wayland
+import Quickshell.Hyprland
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
@@ -11,15 +12,18 @@ PanelWindow {
     visible: true
     exclusionMode: ExclusionMode.Ignore
     anchors { top: true; bottom: true; left: true }
+
+    property bool isFocusedScreen: screen !== null && screen.name === root.activeLauncherScreen
+
     margins {
         top: 2
         bottom: root.barVisible ? 28 : 2
-        left: root.launcherVisible ? 2 : -450
+        left: (root.launcherVisible && isFocusedScreen) ? 2 : -450
     }
     implicitWidth: 420
     color: "transparent"
     focusable: true
-    WlrLayershell.keyboardFocus: root.launcherVisible ? WlrKeyboardFocus.Exclusive : WlrKeyboardFocus.None
+    WlrLayershell.keyboardFocus: (root.launcherVisible && isFocusedScreen) ? WlrKeyboardFocus.Exclusive : WlrKeyboardFocus.None
     Behavior on margins.left { NumberAnimation { duration: 300; easing.type: Easing.OutCubic } }
 
     Rectangle {

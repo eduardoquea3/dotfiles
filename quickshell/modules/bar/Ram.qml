@@ -4,8 +4,6 @@ import Quickshell.Io // for Process
 Rectangle {
     property int memUsage: 0
 
-    required property var modelData
-    visible: modelData.id == 0
     width: ram.implicitWidth + 16
     height: 20
     radius: root.radius

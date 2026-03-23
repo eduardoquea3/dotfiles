@@ -6,7 +6,7 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import Qt5Compat.GraphicalEffects
 
-import "modules/bar"
+import Quickshell.Hyprland
 import "./widgets"
 
 ShellRoot {
@@ -45,6 +45,7 @@ ShellRoot {
 
     property bool barVisible: true
     property bool launcherVisible: false
+    property string activeLauncherScreen: ""
     property string searchTerm: ""
     property var appList: []
     property var appUsage: ({})
@@ -90,7 +91,11 @@ ShellRoot {
     // =========================================================
     // Functions
     // =========================================================
-    function toggleLauncher() { launcherVisible = !launcherVisible }
+    function toggleLauncher() {
+        launcherVisible = !launcherVisible
+        if (launcherVisible && Hyprland.focusedMonitor)
+            activeLauncherScreen = Hyprland.focusedMonitor.name
+    }
 
     function refreshLauncher() {
         if (!loadUsageProc.running) loadUsageProc.running = true
@@ -271,47 +276,25 @@ ShellRoot {
     }
 
     // =========================================================
-    // Bar
+    // Bar (one per screen)
     // =========================================================
-    PanelWindow {
-        visible: root.barVisible
-        color: "transparent"
-        anchors {
-            top: false
-            left: true
-            right: true
-            bottom: true
-        }
-        implicitHeight: 26
-
-        Row {
-            anchors {
-                left: parent.left
-                leftMargin: 4
-            }
-            spacing: 6
-            Workspace {}
-            Ram {}
-        }
-
-        Row {
-            anchors {
-                right: parent.right
-                rightMargin: 4
-            }
-            spacing: 6
-            Brightness {}
-            Volume {}
-            Wifi {}
-            Date {}
-            Battery {}
-            Time {}
-            Wlogout {}
+    Variants {
+        model: Quickshell.screens
+        delegate: Bar {
+            required property var modelData
+            screen: modelData
+            visible: root.barVisible
         }
     }
 
     // =========================================================
-    // Launcher panel
+    // Launcher panel (one per screen, shows on focused screen)
     // =========================================================
-    Launcher {}
+    Variants {
+        model: Quickshell.screens
+        delegate: Launcher {
+            required property var modelData
+            screen: modelData
+        }
+    }
 }
