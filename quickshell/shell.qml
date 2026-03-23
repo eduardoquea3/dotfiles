@@ -43,6 +43,7 @@ ShellRoot {
     property string wallpaperPath: homePath + "/.config/hypr/img"
     property string cachePath: homePath + "/.cache"
 
+    property bool barVisible: true
     property bool launcherVisible: false
     property string searchTerm: ""
     property var appList: []
@@ -112,7 +113,9 @@ ShellRoot {
     function applyWallpaper(wallpaper) {
         currentWallpaper = wallpaper.path
         applyWallProc.command = ["bash", "-c",
-            "swww img '" + wallpaper.path + "' --transition-type any --transition-fps 60"
+            "swww img '" + wallpaper.path + "' --transition-type any --transition-fps 60" +
+            "; mkdir -p '" + homePath + "/.config/hypr/img'" +
+            " && echo '" + wallpaper.path + "' > '" + homePath + "/.config/hypr/img/.wallpaper'"
         ]
         applyWallProc.running = true
     }
@@ -255,6 +258,11 @@ ShellRoot {
     // IPC
     // =========================================================
     IpcHandler {
+        target: "bar"
+        function toggle() { root.barVisible = !root.barVisible }
+    }
+
+    IpcHandler {
         target: "launcher"
         function toggle() {
             root.activeTab = 0
@@ -266,6 +274,7 @@ ShellRoot {
     // Bar
     // =========================================================
     PanelWindow {
+        visible: root.barVisible
         color: "transparent"
         anchors {
             top: false

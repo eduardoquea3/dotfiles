@@ -13,7 +13,7 @@ PanelWindow {
     anchors { top: true; bottom: true; left: true }
     margins {
         top: 2
-        bottom: 28
+        bottom: root.barVisible ? 28 : 2
         left: root.launcherVisible ? 2 : -450
     }
     implicitWidth: 420

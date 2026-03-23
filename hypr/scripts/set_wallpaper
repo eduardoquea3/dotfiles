@@ -9,4 +9,10 @@ if ! pgrep -x "swww-daemon" > /dev/null; then
 fi
 
 # Establecer el wallpaper en todos los monitores
-swww img ~/.config/hypr/img/bg-1.jpg --transition-type any --transition-fps 60
+SAVED=~/.config/hypr/img/.wallpaper
+if [ -f "$SAVED" ]; then
+    WALL=$(cat "$SAVED")
+else
+    WALL=~/.config/hypr/img/bg-1.jpg
+fi
+swww img "$WALL" --transition-type any --transition-fps 60
