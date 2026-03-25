@@ -10,27 +10,32 @@ ShellRoot {
     id: root
 
     // =========================================================
+    // Theme singleton — all colors live in Theme.qml
+    // =========================================================
+    Theme { id: theme }
+
+    // =========================================================
     // Theme / Bar properties (used by modules/bar/* components)
     // =========================================================
     property int radius: 5
     property int fontSize: 10
     property string fontFamily: "JetBrainsMono Nerd Font"
-    property color colBg: "#090E13"
-    property color colFg: "#ffffff"
-    property color colBorder: "#555555"
-    property color colRed: "#c4746e"
-    property color colGreen: "#87a987"
-    property color colBlue: "#7fb4ca"
-    property color colYellow: "#c4b28a"
-    property color colPurple: "#a292a3"
+    property color colBg:     theme.colBg
+    property color colFg:     theme.colFg
+    property color colBorder: theme.colBorder
+    property color colRed:    theme.colRed
+    property color colGreen:  theme.colGreen
+    property color colBlue:   theme.colBlue
+    property color colYellow: theme.colYellow
+    property color colPurple: theme.colPurple
 
     // Aliases used by Launcher
-    property color walBackground: colBg
-    property color walForeground: colFg
-    property color walColor2: colGreen
-    property color walColor5: colBlue
-    property color walColor8: colBorder
-    property color walColor13: colPurple
+    property color walBackground: theme.colBg
+    property color walForeground: theme.colFg
+    property color walColor2:     theme.colGreen
+    property color walColor5:     theme.colBlue
+    property color walColor8:     theme.colBorder
+    property color walColor13:    theme.colPurple
 
     // =========================================================
     // Bar state

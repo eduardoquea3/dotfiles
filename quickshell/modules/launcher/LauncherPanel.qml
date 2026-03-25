@@ -322,8 +322,8 @@ PanelWindow {
                                         Text {
                                             anchors.centerIn: parent
                                             visible: appIcon.status !== Image.Ready
-                                            text: "󰀻"
-                                            color: root.walColor5
+                                            text: "󰏠"
+                                            color: root.walColor8
                                             font.pixelSize: 16
                                             font.family: root.fontFamily
                                         }

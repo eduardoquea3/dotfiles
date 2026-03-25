@@ -27,7 +27,7 @@ Item {
     }
 
     function batteryColor() {
-        if (charging) return "#4CAF50"
+        if (charging) return root.colGreen
 
         if (percent >= 50) return root.colGreen
         if (percent >= 30) return root.colYellow
