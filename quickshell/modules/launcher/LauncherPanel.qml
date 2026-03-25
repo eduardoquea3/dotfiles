@@ -1,5 +1,4 @@
 import Quickshell
-import Quickshell.Io
 import Quickshell.Wayland
 import Quickshell.Hyprland
 import QtQuick
@@ -13,17 +12,17 @@ PanelWindow {
     exclusionMode: ExclusionMode.Ignore
     anchors { top: true; bottom: true; left: true }
 
-    property bool isFocusedScreen: screen !== null && screen.name === root.activeLauncherScreen
+    property bool isFocusedScreen: screen !== null && screen.name === launcherModule.activeLauncherScreen
 
     margins {
         top: 2
         bottom: root.barVisible ? 28 : 2
-        left: (root.launcherVisible && isFocusedScreen) ? 2 : -450
+        left: (launcherModule.launcherVisible && isFocusedScreen) ? 2 : -450
     }
     implicitWidth: 420
     color: "transparent"
     focusable: true
-    WlrLayershell.keyboardFocus: (root.launcherVisible && isFocusedScreen) ? WlrKeyboardFocus.Exclusive : WlrKeyboardFocus.None
+    WlrLayershell.keyboardFocus: (launcherModule.launcherVisible && isFocusedScreen) ? WlrKeyboardFocus.Exclusive : WlrKeyboardFocus.None
     Behavior on margins.left { NumberAnimation { duration: 300; easing.type: Easing.OutCubic } }
 
     Rectangle {
@@ -54,29 +53,29 @@ PanelWindow {
                         Layout.fillWidth: true
                         Layout.fillHeight: true
                         radius: 8
-                        color: root.activeTab === 0 ? Qt.rgba(root.walColor5.r, root.walColor5.g, root.walColor5.b, 0.2) : "transparent"
+                        color: launcherModule.activeTab === 0 ? Qt.rgba(root.walColor5.r, root.walColor5.g, root.walColor5.b, 0.2) : "transparent"
                         Behavior on color { ColorAnimation { duration: 150 } }
                         RowLayout {
                             anchors.centerIn: parent
                             spacing: 6
                             Text {
                                 text: "󰀻"
-                                color: root.activeTab === 0 ? root.walColor5 : root.walColor8
+                                color: launcherModule.activeTab === 0 ? root.walColor5 : root.walColor8
                                 font.pixelSize: 14
                                 font.family: root.fontFamily
                             }
                             Text {
                                 text: "Apps"
-                                color: root.activeTab === 0 ? root.walColor5 : root.walColor8
+                                color: launcherModule.activeTab === 0 ? root.walColor5 : root.walColor8
                                 font.pixelSize: 13
-                                font.bold: root.activeTab === 0
+                                font.bold: launcherModule.activeTab === 0
                                 font.family: root.fontFamily
                             }
                         }
                         MouseArea {
                             anchors.fill: parent
                             cursorShape: Qt.PointingHandCursor
-                            onClicked: { root.activeTab = 0; searchInput.forceActiveFocus() }
+                            onClicked: { launcherModule.activeTab = 0; searchInput.forceActiveFocus() }
                         }
                     }
 
@@ -85,22 +84,22 @@ PanelWindow {
                         Layout.fillWidth: true
                         Layout.fillHeight: true
                         radius: 8
-                        color: root.activeTab === 1 ? Qt.rgba(root.walColor13.r, root.walColor13.g, root.walColor13.b, 0.2) : "transparent"
+                        color: launcherModule.activeTab === 1 ? Qt.rgba(root.walColor13.r, root.walColor13.g, root.walColor13.b, 0.2) : "transparent"
                         Behavior on color { ColorAnimation { duration: 150 } }
                         RowLayout {
                             anchors.centerIn: parent
                             spacing: 6
                             Text {
                                 text: "󰸉"
-                                color: root.activeTab === 1 ? root.walColor13 : root.walColor8
+                                color: launcherModule.activeTab === 1 ? root.walColor13 : root.walColor8
                                 font.pixelSize: 14
                                 font.family: root.fontFamily
                             }
                             Text {
                                 text: "Walls"
-                                color: root.activeTab === 1 ? root.walColor13 : root.walColor8
+                                color: launcherModule.activeTab === 1 ? root.walColor13 : root.walColor8
                                 font.pixelSize: 13
-                                font.bold: root.activeTab === 1
+                                font.bold: launcherModule.activeTab === 1
                                 font.family: root.fontFamily
                             }
                         }
@@ -108,8 +107,8 @@ PanelWindow {
                             anchors.fill: parent
                             cursorShape: Qt.PointingHandCursor
                             onClicked: {
-                                root.activeTab = 1
-                                if (!root.wallsLoaded) root.loadWallpapers()
+                                launcherModule.activeTab = 1
+                                if (!launcherModule.wallsLoaded) launcherModule.loadWallpapers()
                                 wallSearchInput.forceActiveFocus()
                             }
                         }
@@ -126,8 +125,8 @@ PanelWindow {
                 ColumnLayout {
                     anchors.fill: parent
                     spacing: 15
-                    visible: root.activeTab === 0
-                    opacity: root.activeTab === 0 ? 1 : 0
+                    visible: launcherModule.activeTab === 0
+                    opacity: launcherModule.activeTab === 0 ? 1 : 0
                     Behavior on opacity { NumberAnimation { duration: 200; easing.type: Easing.OutCubic } }
 
                     // Search
@@ -169,29 +168,29 @@ PanelWindow {
                                     opacity: 0.6
                                 }
                                 onTextChanged: {
-                                    root.searchTerm = text.toLowerCase()
-                                    root.selectedIndex = 0
+                                    launcherModule.searchTerm = text.toLowerCase()
+                                    launcherModule.selectedIndex = 0
                                     appListView.contentY = 0
                                 }
                                 Keys.onPressed: function(event) {
                                     if (event.key === Qt.Key_Down) {
-                                        root.selectedIndex = Math.min(root.selectedIndex + 1, root.filteredApps.length - 1)
-                                        appListView.positionViewAtIndex(root.selectedIndex, ListView.Contain)
+                                        launcherModule.selectedIndex = Math.min(launcherModule.selectedIndex + 1, launcherModule.filteredApps.length - 1)
+                                        appListView.positionViewAtIndex(launcherModule.selectedIndex, ListView.Contain)
                                         event.accepted = true
                                     } else if (event.key === Qt.Key_Up) {
-                                        root.selectedIndex = Math.max(root.selectedIndex - 1, 0)
-                                        appListView.positionViewAtIndex(root.selectedIndex, ListView.Contain)
+                                        launcherModule.selectedIndex = Math.max(launcherModule.selectedIndex - 1, 0)
+                                        appListView.positionViewAtIndex(launcherModule.selectedIndex, ListView.Contain)
                                         event.accepted = true
                                     } else if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
-                                        if (root.filteredApps.length > 0)
-                                            root.launchApp(root.filteredApps[root.selectedIndex])
+                                        if (launcherModule.filteredApps.length > 0)
+                                            launcherModule.launchApp(launcherModule.filteredApps[launcherModule.selectedIndex])
                                         event.accepted = true
                                     } else if (event.key === Qt.Key_Escape) {
-                                        root.launcherVisible = false
+                                        launcherModule.launcherVisible = false
                                         event.accepted = true
                                     } else if (event.key === Qt.Key_Tab) {
-                                        root.activeTab = 1
-                                        if (!root.wallsLoaded) root.loadWallpapers()
+                                        launcherModule.activeTab = 1
+                                        if (!launcherModule.wallsLoaded) launcherModule.loadWallpapers()
                                         wallSearchInput.forceActiveFocus()
                                         event.accepted = true
                                     }
@@ -231,10 +230,10 @@ PanelWindow {
                             anchors.margins: 8
                             spacing: 4
                             boundsBehavior: Flickable.StopAtBounds
-                            currentIndex: root.selectedIndex
+                            currentIndex: launcherModule.selectedIndex
                             highlightFollowsCurrentItem: true
                             highlightMoveDuration: 100
-                            model: root.filteredApps
+                            model: launcherModule.filteredApps
 
                             property real targetContentY: 0
                             property bool animatingScroll: false
@@ -277,7 +276,7 @@ PanelWindow {
                                 height: 48
                                 radius: 12
                                 color: {
-                                    if (index === root.selectedIndex)
+                                    if (index === launcherModule.selectedIndex)
                                         return Qt.rgba(root.walColor5.r, root.walColor5.g, root.walColor5.b, 0.2)
                                     if (appItemMouse.containsMouse)
                                         return Qt.rgba(1, 1, 1, 0.05)
@@ -286,7 +285,7 @@ PanelWindow {
                                 Behavior on color { ColorAnimation { duration: 120 } }
 
                                 Rectangle {
-                                    visible: index === root.selectedIndex
+                                    visible: index === launcherModule.selectedIndex
                                     width: 3; height: 22; radius: 2
                                     color: root.walColor5
                                     anchors.left: parent.left
@@ -336,10 +335,10 @@ PanelWindow {
                                         Text {
                                             Layout.fillWidth: true
                                             text: modelData.name
-                                            color: index === root.selectedIndex ? root.walColor5 : root.walForeground
+                                            color: index === launcherModule.selectedIndex ? root.walColor5 : root.walForeground
                                             font.pixelSize: 13
                                             font.family: root.fontFamily
-                                            font.bold: index === root.selectedIndex
+                                            font.bold: index === launcherModule.selectedIndex
                                             elide: Text.ElideRight
                                             Behavior on color { ColorAnimation { duration: 120 } }
                                         }
@@ -355,7 +354,7 @@ PanelWindow {
                                     }
 
                                     Text {
-                                        visible: index === root.selectedIndex
+                                        visible: index === launcherModule.selectedIndex
                                         text: "↵"
                                         color: root.walColor5
                                         font.pixelSize: 14
@@ -369,8 +368,8 @@ PanelWindow {
                                     anchors.fill: parent
                                     hoverEnabled: true
                                     cursorShape: Qt.PointingHandCursor
-                                    onClicked: root.launchApp(modelData)
-                                    onContainsMouseChanged: { if (containsMouse) root.selectedIndex = index }
+                                    onClicked: launcherModule.launchApp(modelData)
+                                    onContainsMouseChanged: { if (containsMouse) launcherModule.selectedIndex = index }
                                 }
                             }
 
@@ -382,7 +381,7 @@ PanelWindow {
 
                         Text {
                             anchors.centerIn: parent
-                            visible: root.filteredApps.length === 0
+                            visible: launcherModule.filteredApps.length === 0
                             text: "No apps found"
                             color: root.walColor8
                             font.pixelSize: 14
@@ -415,8 +414,8 @@ PanelWindow {
                 ColumnLayout {
                     anchors.fill: parent
                     spacing: 15
-                    visible: root.activeTab === 1
-                    opacity: root.activeTab === 1 ? 1 : 0
+                    visible: launcherModule.activeTab === 1
+                    opacity: launcherModule.activeTab === 1 ? 1 : 0
                     Behavior on opacity { NumberAnimation { duration: 200; easing.type: Easing.OutCubic } }
 
                     // Search
@@ -458,38 +457,38 @@ PanelWindow {
                                     opacity: 0.6
                                 }
                                 onTextChanged: {
-                                    root.wallSearchTerm = text.toLowerCase()
-                                    root.wallSelectedIndex = 0
+                                    launcherModule.wallSearchTerm = text.toLowerCase()
+                                    launcherModule.wallSelectedIndex = 0
                                     wallGridView.contentY = 0
                                 }
                                 Keys.onPressed: function(event) {
                                     var cols = 3
-                                    var total = root.filteredWallpapers.length
+                                    var total = launcherModule.filteredWallpapers.length
                                     if (event.key === Qt.Key_Right) {
-                                        root.wallSelectedIndex = Math.min(root.wallSelectedIndex + 1, total - 1)
-                                        wallGridView.positionViewAtIndex(root.wallSelectedIndex, GridView.Contain)
+                                        launcherModule.wallSelectedIndex = Math.min(launcherModule.wallSelectedIndex + 1, total - 1)
+                                        wallGridView.positionViewAtIndex(launcherModule.wallSelectedIndex, GridView.Contain)
                                         event.accepted = true
                                     } else if (event.key === Qt.Key_Left) {
-                                        root.wallSelectedIndex = Math.max(root.wallSelectedIndex - 1, 0)
-                                        wallGridView.positionViewAtIndex(root.wallSelectedIndex, GridView.Contain)
+                                        launcherModule.wallSelectedIndex = Math.max(launcherModule.wallSelectedIndex - 1, 0)
+                                        wallGridView.positionViewAtIndex(launcherModule.wallSelectedIndex, GridView.Contain)
                                         event.accepted = true
                                     } else if (event.key === Qt.Key_Down) {
-                                        root.wallSelectedIndex = Math.min(root.wallSelectedIndex + cols, total - 1)
-                                        wallGridView.positionViewAtIndex(root.wallSelectedIndex, GridView.Contain)
+                                        launcherModule.wallSelectedIndex = Math.min(launcherModule.wallSelectedIndex + cols, total - 1)
+                                        wallGridView.positionViewAtIndex(launcherModule.wallSelectedIndex, GridView.Contain)
                                         event.accepted = true
                                     } else if (event.key === Qt.Key_Up) {
-                                        root.wallSelectedIndex = Math.max(root.wallSelectedIndex - cols, 0)
-                                        wallGridView.positionViewAtIndex(root.wallSelectedIndex, GridView.Contain)
+                                        launcherModule.wallSelectedIndex = Math.max(launcherModule.wallSelectedIndex - cols, 0)
+                                        wallGridView.positionViewAtIndex(launcherModule.wallSelectedIndex, GridView.Contain)
                                         event.accepted = true
                                     } else if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
                                         if (total > 0)
-                                            root.applyWallpaper(root.filteredWallpapers[root.wallSelectedIndex])
+                                            launcherModule.applyWallpaper(launcherModule.filteredWallpapers[launcherModule.wallSelectedIndex])
                                         event.accepted = true
                                     } else if (event.key === Qt.Key_Escape) {
-                                        root.launcherVisible = false
+                                        launcherModule.launcherVisible = false
                                         event.accepted = true
                                     } else if (event.key === Qt.Key_Tab) {
-                                        root.activeTab = 0
+                                        launcherModule.activeTab = 0
                                         searchInput.forceActiveFocus()
                                         event.accepted = true
                                     }
@@ -532,7 +531,7 @@ PanelWindow {
                             boundsBehavior: Flickable.StopAtBounds
                             clip: true
                             cacheBuffer: 400
-                            model: root.filteredWallpapers
+                            model: launcherModule.filteredWallpapers
 
                             property real targetContentY: 0
                             property bool animatingScroll: false
@@ -578,18 +577,18 @@ PanelWindow {
                                     anchors.margins: 4
                                     radius: 10
                                     color: {
-                                        if (index === root.wallSelectedIndex)
+                                        if (index === launcherModule.wallSelectedIndex)
                                             return Qt.rgba(root.walColor13.r, root.walColor13.g, root.walColor13.b, 0.25)
                                         if (wallItemMouse.containsMouse)
                                             return Qt.rgba(1, 1, 1, 0.08)
                                         return Qt.rgba(0, 0, 0, 0.2)
                                     }
                                     border.width: {
-                                        if (modelData.path === root.currentWallpaper) return 2
-                                        if (index === root.wallSelectedIndex) return 1
+                                        if (modelData.path === launcherModule.currentWallpaper) return 2
+                                        if (index === launcherModule.wallSelectedIndex) return 1
                                         return 0
                                     }
-                                    border.color: modelData.path === root.currentWallpaper ? root.walColor2 : root.walColor13
+                                    border.color: modelData.path === launcherModule.currentWallpaper ? root.walColor2 : root.walColor13
                                     Behavior on color { ColorAnimation { duration: 120 } }
 
                                     ColumnLayout {
@@ -611,8 +610,8 @@ PanelWindow {
                                             Image {
                                                 id: wallThumbImage
                                                 anchors.fill: parent
-                                                property string thumbHash: (root.wallpaperHashes && root.wallpaperHashes[modelData.path]) ? root.wallpaperHashes[modelData.path] : ""
-                                                source: thumbHash ? "file://" + root.cachePath + "/wallpaper-thumbs/" + thumbHash + ".jpg" : ""
+                                                property string thumbHash: (launcherModule.wallpaperHashes && launcherModule.wallpaperHashes[modelData.path]) ? launcherModule.wallpaperHashes[modelData.path] : ""
+                                                source: thumbHash ? "file://" + launcherModule.cachePath + "/wallpaper-thumbs/" + thumbHash + ".jpg" : ""
                                                 fillMode: Image.PreserveAspectCrop
                                                 smooth: false
                                                 asynchronous: true
@@ -640,7 +639,7 @@ PanelWindow {
                                             }
 
                                             Rectangle {
-                                                visible: modelData.path === root.currentWallpaper
+                                                visible: modelData.path === launcherModule.currentWallpaper
                                                 anchors.top: parent.top
                                                 anchors.right: parent.right
                                                 anchors.margins: 3
@@ -661,13 +660,13 @@ PanelWindow {
                                             Layout.preferredHeight: 22
                                             text: modelData.name
                                             color: {
-                                                if (modelData.path === root.currentWallpaper) return root.walColor2
-                                                if (index === root.wallSelectedIndex) return root.walColor13
+                                                if (modelData.path === launcherModule.currentWallpaper) return root.walColor2
+                                                if (index === launcherModule.wallSelectedIndex) return root.walColor13
                                                 return root.walForeground
                                             }
                                             font.pixelSize: 8
                                             font.family: root.fontFamily
-                                            font.bold: index === root.wallSelectedIndex || modelData.path === root.currentWallpaper
+                                            font.bold: index === launcherModule.wallSelectedIndex || modelData.path === launcherModule.currentWallpaper
                                             elide: Text.ElideMiddle
                                             horizontalAlignment: Text.AlignHCenter
                                             verticalAlignment: Text.AlignVCenter
@@ -680,8 +679,8 @@ PanelWindow {
                                         anchors.fill: parent
                                         hoverEnabled: true
                                         cursorShape: Qt.PointingHandCursor
-                                        onClicked: root.applyWallpaper(modelData)
-                                        onContainsMouseChanged: { if (containsMouse) root.wallSelectedIndex = index }
+                                        onClicked: launcherModule.applyWallpaper(modelData)
+                                        onContainsMouseChanged: { if (containsMouse) launcherModule.wallSelectedIndex = index }
                                     }
                                 }
                             }
@@ -694,7 +693,7 @@ PanelWindow {
 
                         Text {
                             anchors.centerIn: parent
-                            visible: root.wallsLoaded && root.filteredWallpapers.length === 0
+                            visible: launcherModule.wallsLoaded && launcherModule.filteredWallpapers.length === 0
                             text: "No wallpapers found"
                             color: root.walColor8
                             font.pixelSize: 14
@@ -702,7 +701,7 @@ PanelWindow {
                         }
                         Text {
                             anchors.centerIn: parent
-                            visible: !root.wallsLoaded && root.wallpaperList.length === 0
+                            visible: !launcherModule.wallsLoaded && launcherModule.wallpaperList.length === 0
                             text: "Loading..."
                             color: root.walColor8
                             font.pixelSize: 13
@@ -741,30 +740,30 @@ PanelWindow {
 
     // Reset state when launcher opens/closes
     Connections {
-        target: root
+        target: launcherModule
         function onLauncherVisibleChanged() {
-            if (root.launcherVisible) {
+            if (launcherModule.launcherVisible) {
                 searchInput.text = ""
                 wallSearchInput.text = ""
-                root.searchTerm = ""
-                root.selectedIndex = 0
-                root.wallSelectedIndex = 0
+                launcherModule.searchTerm = ""
+                launcherModule.selectedIndex = 0
+                launcherModule.wallSelectedIndex = 0
                 appListView.contentY = 0
                 wallGridView.contentY = 0
-                root.refreshLauncher()
+                launcherModule.refreshLauncher()
                 focusDelayTimer.start()
             } else {
                 searchInput.text = ""
                 wallSearchInput.text = ""
-                root.searchTerm = ""
-                root.wallSearchTerm = ""
+                launcherModule.searchTerm = ""
+                launcherModule.wallSearchTerm = ""
                 searchInput.focus = false
                 wallSearchInput.focus = false
             }
         }
         function onWallSelectedIndexChanged() {
-            if (root.activeTab === 1)
-                wallGridView.positionViewAtIndex(root.wallSelectedIndex, GridView.Contain)
+            if (launcherModule.activeTab === 1)
+                wallGridView.positionViewAtIndex(launcherModule.wallSelectedIndex, GridView.Contain)
         }
     }
 
@@ -780,10 +779,10 @@ PanelWindow {
         interval: 100
         repeat: false
         onTriggered: {
-            if (root.activeTab === 0)
+            if (launcherModule.activeTab === 0)
                 searchInput.forceActiveFocus()
             else {
-                if (!root.wallsLoaded) root.loadWallpapers()
+                if (!launcherModule.wallsLoaded) launcherModule.loadWallpapers()
                 wallSearchInput.forceActiveFocus()
             }
         }
