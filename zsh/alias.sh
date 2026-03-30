@@ -23,3 +23,6 @@ alias pdu='podman-tui'
 alias cc='claude'
 alias op='opencode'
 alias cupd='claude update'
+
+alias nv='nvim'
+alias vim='nvim'

@@ -82,7 +82,7 @@ Item {
     function applyWallpaper(wallpaper) {
         currentWallpaper = wallpaper.path
         applyWallProc.command = ["bash", "-c",
-            "swww img '" + wallpaper.path + "' --transition-type any --transition-fps 60" +
+            "awww img '" + wallpaper.path + "' --transition-type any --transition-fps 60" +
             "; mkdir -p '" + homePath + "/.config/hypr/img'" +
             " && echo '" + wallpaper.path + "' > '" + homePath + "/.config/hypr/img/.wallpaper'"
         ]
