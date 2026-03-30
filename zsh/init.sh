@@ -1,6 +1,7 @@
 # shellcheck disable=all
 
 eval "$(starship init zsh)"
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv zsh)"
 
 export ZSH="$HOME/.oh-my-zsh"
 
@@ -31,3 +32,4 @@ export PATH="$HOME/.local/bin:$PATH"
 export PATH="/home/eduardo/.bun/bin:$PATH"
 export EDITOR=nvim
 export DOCKER_HOST=unix:///run/user/$UID/podman/podman.sock
+export PATH="$PATH:$(go env GOPATH)/bin"
