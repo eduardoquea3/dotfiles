@@ -3,16 +3,17 @@
 # Script para establecer el wallpaper por defecto
 # Usando swww para establecer el wallpaper
 # Primero inicializamos swww si no está corriendo
-if ! pgrep -x "swww-daemon" > /dev/null; then
-    swww-daemon &
-    sleep 1
+if ! pgrep -x "awww-daemon" >/dev/null; then
+  awww-daemon &
+  sleep 1
 fi
 
 # Establecer el wallpaper en todos los monitores
 SAVED=~/.config/hypr/img/.wallpaper
 if [ -f "$SAVED" ]; then
-    WALL=$(cat "$SAVED")
+  WALL=$(cat "$SAVED")
 else
-    WALL=~/.config/hypr/img/bg-1.jpg
+  WALL=~/.config/hypr/img/bg-1.jpg
 fi
-swww img "$WALL" --transition-type any --transition-fps 60
+awww img "$WALL" --transition-type any --transition-fps 60
+
