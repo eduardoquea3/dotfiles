@@ -8,7 +8,7 @@ import Qt5Compat.GraphicalEffects
 
 PanelWindow {
     id: launcherPanel
-    visible: true
+    visible: shouldShow || hideTimer.running
     exclusionMode: ExclusionMode.Ignore
     anchors { top: true; bottom: true; left: true; right: true }
     color: "transparent"
@@ -17,7 +17,20 @@ PanelWindow {
     property bool isFocusedScreen: screen !== null && screen.name === launcherModule.activeLauncherScreen
     property bool shouldShow: launcherModule.launcherVisible && isFocusedScreen
 
+    onShouldShowChanged: { if (!shouldShow) hideTimer.start() }
+
+    Timer {
+        id: hideTimer
+        interval: 260
+        running: false
+    }
+
     WlrLayershell.keyboardFocus: shouldShow ? WlrKeyboardFocus.OnDemand : WlrKeyboardFocus.None
+
+    HyprlandFocusGrab {
+        windows: [launcherPanel]
+        active: launcherPanel.shouldShow
+    }
 
     // ─── Full-screen blur overlay ─────────────────────────────────────────────
     Rectangle {
@@ -25,6 +38,7 @@ PanelWindow {
         anchors.fill: parent
         color: Qt.rgba(0, 0, 0, 0.60)
         opacity: launcherPanel.shouldShow ? 1 : 0
+        enabled: launcherPanel.shouldShow
         Behavior on opacity { NumberAnimation { duration: 220; easing.type: Easing.OutCubic } }
 
         MouseArea {
