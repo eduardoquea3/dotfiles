@@ -144,11 +144,11 @@ PanelWindow {
                                 Keys.priority: Keys.BeforeItem
                                 Keys.onPressed: function(event) {
                                     var total = clipboardModule.filteredClips.length
-                                    if (event.key === Qt.Key_Down) {
+                                    if (event.key === Qt.Key_Down || (event.modifiers & Qt.ControlModifier && event.key === Qt.Key_J)) {
                                         clipboardModule.selectedIndex = Math.min(clipboardModule.selectedIndex + 1, total - 1)
                                         clipGrid.positionViewAtIndex(clipboardModule.selectedIndex, ListView.Contain)
                                         event.accepted = true
-                                    } else if (event.key === Qt.Key_Up) {
+                                    } else if (event.key === Qt.Key_Up || (event.modifiers & Qt.ControlModifier && event.key === Qt.Key_K)) {
                                         clipboardModule.selectedIndex = Math.max(clipboardModule.selectedIndex - 1, 0)
                                         clipGrid.positionViewAtIndex(clipboardModule.selectedIndex, ListView.Contain)
                                         event.accepted = true
@@ -257,7 +257,7 @@ PanelWindow {
                         color: Qt.rgba(0, 0, 0, 0.25); radius: 10
                         RowLayout {
                             anchors.fill: parent; anchors.leftMargin: 12; anchors.rightMargin: 12
-                            Text { text: "↑↓ nav";  color: root.walColor8; font.pixelSize: 10; font.family: root.fontFamily; opacity: 0.7 }
+                            Text { text: "↑↓/^k^j nav";  color: root.walColor8; font.pixelSize: 10; font.family: root.fontFamily; opacity: 0.7 }
                             Item { Layout.fillWidth: true }
                             Text { text: "↵ copy";  color: root.walColor8; font.pixelSize: 10; font.family: root.fontFamily; opacity: 0.7 }
                             Item { Layout.fillWidth: true }
