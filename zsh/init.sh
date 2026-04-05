@@ -33,3 +33,4 @@ export PATH="/home/eduardo/.bun/bin:$PATH"
 export EDITOR=nvim
 export DOCKER_HOST=unix:///run/user/$UID/podman/podman.sock
 export PATH="$PATH:$(go env GOPATH)/bin"
+export ELECTRON_OZONE_PLATFORM_HINT=x11

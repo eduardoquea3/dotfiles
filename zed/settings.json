@@ -50,7 +50,7 @@
 		"indent_guides": {
 			"show": "never"
 		},
-		"default_width": 400,
+		"default_width": 300,
 		"hide_root": true,
 		"auto_fold_dirs": false,
 		"starts_open": false,

@@ -69,7 +69,7 @@ Item {
     }
 
     function launchApp(app) {
-        launchProc.command = ["bash", "-c", app.exec + " &"]
+        launchProc.command = ["bash", "-c", app.exec + " >/dev/null 2>&1 &"]
         launchProc.running = true
         var usage = appUsage
         var updated = {}
