@@ -6,6 +6,7 @@ import Quickshell.Hyprland
 import "./widgets"
 import "./modules/launcher"
 import "./modules/clipboard"
+import "./modules/keybinds"
 
 ShellRoot {
     id: root
@@ -69,4 +70,9 @@ ShellRoot {
     // Clipboard (self-contained: state, processes, panels)
     // =========================================================
     Clipboard {}
+
+    // =========================================================
+    // Keybinds (self-contained: state, processes, panels)
+    // =========================================================
+    Keybinds {}
 }
