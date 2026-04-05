@@ -62,6 +62,8 @@ Item {
     }
 
     function refreshLauncher() {
+        appList = []
+        if (!appListProc.running) appListProc.running = true
         if (!loadUsageProc.running) loadUsageProc.running = true
         if (!currentWallProc.running) currentWallProc.running = true
     }
