@@ -145,11 +145,11 @@ PanelWindow {
                                 Keys.onPressed: function(event) {
                                     var total = clipboardModule.filteredClips.length
                                     if (event.key === Qt.Key_Down || (event.modifiers & Qt.ControlModifier && event.key === Qt.Key_J)) {
-                                        clipboardModule.selectedIndex = Math.min(clipboardModule.selectedIndex + 1, total - 1)
+                                        clipboardModule.selectedIndex = (clipboardModule.selectedIndex + 1) % total
                                         clipGrid.positionViewAtIndex(clipboardModule.selectedIndex, ListView.Contain)
                                         event.accepted = true
                                     } else if (event.key === Qt.Key_Up || (event.modifiers & Qt.ControlModifier && event.key === Qt.Key_K)) {
-                                        clipboardModule.selectedIndex = Math.max(clipboardModule.selectedIndex - 1, 0)
+                                        clipboardModule.selectedIndex = (clipboardModule.selectedIndex - 1 + total) % total
                                         clipGrid.positionViewAtIndex(clipboardModule.selectedIndex, ListView.Contain)
                                         event.accepted = true
                                     } else if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
