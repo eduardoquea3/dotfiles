@@ -5,6 +5,7 @@ import QtQuick
 import Quickshell.Hyprland
 import "./widgets"
 import "./modules/launcher"
+import "./modules/clipboard"
 
 ShellRoot {
     id: root
@@ -63,4 +64,9 @@ ShellRoot {
     // Launcher (self-contained: state, processes, panels)
     // =========================================================
     Launcher {}
+
+    // =========================================================
+    // Clipboard (self-contained: state, processes, panels)
+    // =========================================================
+    Clipboard {}
 }
