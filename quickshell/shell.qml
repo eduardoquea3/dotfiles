@@ -7,6 +7,7 @@ import "./widgets"
 import "./modules/launcher"
 import "./modules/clipboard"
 import "./modules/keybinds"
+import "./modules/logout"
 
 ShellRoot {
     id: root
@@ -75,4 +76,9 @@ ShellRoot {
     // Keybinds (self-contained: state, processes, panels)
     // =========================================================
     Keybinds {}
+
+    // =========================================================
+    // Logout (self-contained: state, processes, panels)
+    // =========================================================
+    Logout {}
 }
