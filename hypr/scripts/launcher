@@ -1,4 +1,4 @@
 #!/bin/bash
 
-# Script para lanzar rofi con el tema style_1.rasi
+# Script para lanzar rofi con el tema mejorado
 rofi -show drun -theme ~/.config/hypr/rofi/launcher.rasi

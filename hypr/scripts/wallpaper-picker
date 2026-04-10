@@ -1,0 +1,108 @@
+#!/bin/bash
+
+# Wallpaper picker with visual thumbnails using rofi drun
+WALLPAPER_DIR="$HOME/.config/hypr/img"
+CACHE_DIR="$HOME/.cache/wallpaper-thumbs"
+DESKTOP_DIR="/tmp/rofi-wallpapers"
+SAVED_WALLPAPER="$WALLPAPER_DIR/.wallpaper"
+
+# Create directories
+mkdir -p "$CACHE_DIR" "$DESKTOP_DIR"
+
+# Cleanup old files
+rm -f "$DESKTOP_DIR"/*.desktop "$DESKTOP_DIR"/*.path 2>/dev/null
+
+# Get list of wallpapers
+WALLPAPERS=$(find "$WALLPAPER_DIR" -maxdepth 1 -type f \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.webp' -o -iname '*.gif' \) ! -name '.*' 2>/dev/null | sort)
+
+if [ -z "$WALLPAPERS" ]; then
+    notify-send "No wallpapers found"
+    exit 1
+fi
+
+# Create share/applications subdirectory (required by XDG)
+mkdir -p "$DESKTOP_DIR/share/applications"
+
+# Generate thumbnails and .desktop files
+counter=0
+while IFS= read -r wallpath; do
+    [ -z "$wallpath" ] && continue
+
+    wallname=$(basename "$wallpath")
+    wallname_clean="${wallname%.*}"
+
+    # Generate hash and thumbnail
+    hash=$(echo -n "$wallpath" | md5sum | cut -d' ' -f1)
+    thumb="$CACHE_DIR/${hash}.jpg"
+
+    # Create thumbnail if needed
+    if [ ! -f "$thumb" ] || [ "$wallpath" -nt "$thumb" ]; then
+        case "$wallpath" in
+            *.gif) convert "${wallpath}[0]" -thumbnail 120x120^ -gravity center -extent 120x120 -quality 85 "$thumb" 2>/dev/null ;;
+            *) convert "$wallpath" -thumbnail 120x120^ -gravity center -extent 120x120 -quality 85 "$thumb" 2>/dev/null ;;
+        esac
+    fi
+
+    # Create unique identifier
+    identifier="${wallname_clean}_${counter}"
+    ((counter++))
+
+    # Save wallpath for later
+    echo "$wallpath" > "$DESKTOP_DIR/${identifier}.path"
+
+    # Create .desktop file in share/applications with thumbnail as Icon
+    cat > "$DESKTOP_DIR/share/applications/${identifier}.desktop" << EOF
+[Desktop Entry]
+Type=Application
+Name=$wallname_clean
+Icon=$thumb
+Exec=/bin/true
+NoDisplay=false
+Categories=Wallpaper;
+EOF
+done <<< "$WALLPAPERS"
+
+# Show rofi with ONLY our wallpaper .desktop files
+# XDG_DATA_DIRS limits rofi to only search in our temp directory
+SELECTED=$(XDG_DATA_DIRS="$DESKTOP_DIR" rofi -show drun -theme "$HOME/.config/hypr/rofi/wallpaper-picker.rasi" 2>&1 | xargs -r basename -a 2>/dev/null | head -1)
+
+# If selection is empty, exit
+if [ -z "$SELECTED" ]; then
+    rm -rf "$DESKTOP_DIR"
+    exit 0
+fi
+
+# Find the matching .desktop file and get wallpath
+FOUND_PATH=""
+for f in "$DESKTOP_DIR/share/applications"/*.desktop; do
+    if grep -q "Name=$SELECTED" "$f" 2>/dev/null; then
+        IDENTIFIER=$(basename "$f" .desktop)
+        if [ -f "$DESKTOP_DIR/${IDENTIFIER}.path" ]; then
+            FOUND_PATH=$(cat "$DESKTOP_DIR/${IDENTIFIER}.path")
+            break
+        fi
+    fi
+done
+
+if [ -z "$FOUND_PATH" ]; then
+    notify-send "Selection failed"
+    rm -rf "$DESKTOP_DIR"
+    exit 1
+fi
+
+# Apply wallpaper
+if ! pgrep -x "awww-daemon" >/dev/null; then
+    awww-daemon &
+    sleep 1
+fi
+
+awww img "$FOUND_PATH" --transition-type any --transition-fps 60
+
+# Save wallpaper
+mkdir -p "$WALLPAPER_DIR"
+echo "$FOUND_PATH" > "$SAVED_WALLPAPER"
+
+notify-send "Wallpaper changed" "$(basename "$FOUND_PATH")"
+
+# Cleanup
+rm -rf "$DESKTOP_DIR"

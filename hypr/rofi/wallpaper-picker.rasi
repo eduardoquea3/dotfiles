@@ -5,7 +5,6 @@
 configuration {
   modi: "drun";
   icon-theme: "Papirus-Dark";
-  application-fallback-icon: "Adwaita";
   show-icons: true;
   drun-display-format: "{name}";
   disable-history: true;
@@ -20,7 +19,8 @@ window {
   location: center;
   anchor: center;
   fullscreen: false;
-  width: 700px;
+  width: 800px;
+  height: 550px;
   x-offset: 0px;
   y-offset: 0px;
   enabled: true;
@@ -40,7 +40,7 @@ mainbox {
 }
 
 listbox {
-  spacing: 12px;
+  spacing: 14px;
   padding: 20px 20px;
   background-color: transparent;
   orientation: vertical;
@@ -55,14 +55,14 @@ inputbar {
   background-image: url("~/.config/hypr/img/bg-1.jpg", width);
   text-color: @fg;
   orientation: horizontal;
-  children: [ "textbox-prompt", "entry", "textbox-clear" ];
+  children: [ "textbox-prompt", "entry" ];
   border-radius: 12px 12px 0px 0px;
 }
 
 textbox-prompt {
   enabled: true;
   expand: false;
-  str: "󰀻";
+  str: "󰸉";
   padding: 10px 14px;
   border-radius: 8px;
   background-color: @bg-alt;
@@ -78,19 +78,8 @@ entry {
   background-color: @bg-alt;
   text-color: inherit;
   cursor: text;
-  placeholder: "Search applications...";
+  placeholder: "Search wallpapers...";
   placeholder-color: @fg-muted;
-  font-size: 14;
-}
-
-textbox-clear {
-  enabled: true;
-  expand: false;
-  str: "󰅖";
-  padding: 10px 12px;
-  border-radius: 8px;
-  background-color: @bg-alt;
-  text-color: @fg-muted;
   font-size: 14;
 }
 
@@ -109,8 +98,8 @@ listview {
 
 element {
   enabled: true;
-  spacing: 10px;
-  padding: 14px 12px;
+  spacing: 8px;
+  padding: 10px;
   border-radius: 8px;
   background-color: transparent;
   text-color: @fg;
@@ -133,9 +122,8 @@ element.selected.normal {
 element-icon {
   background-color: transparent;
   text-color: inherit;
-  size: 36px;
+  size: 120px;
   cursor: inherit;
-  vertical-align: 0.5;
 }
 
 element-text {
@@ -145,5 +133,5 @@ element-text {
   cursor: inherit;
   vertical-align: 0.5;
   horizontal-align: 0.5;
-  font-size: 12;
+  font-size: 11;
 }

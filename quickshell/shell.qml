@@ -4,10 +4,7 @@ import Quickshell.Wayland
 import QtQuick
 import Quickshell.Hyprland
 import "./widgets"
-import "./modules/launcher"
-import "./modules/clipboard"
-import "./modules/keybinds"
-import "./modules/logout"
+import "./modules/wallpaper"
 
 ShellRoot {
     id: root
@@ -63,22 +60,7 @@ ShellRoot {
     }
 
     // =========================================================
-    // Launcher (self-contained: state, processes, panels)
+    // Wallpaper picker (overlay with romboid design)
     // =========================================================
-    Launcher {}
-
-    // =========================================================
-    // Clipboard (self-contained: state, processes, panels)
-    // =========================================================
-    Clipboard {}
-
-    // =========================================================
-    // Keybinds (self-contained: state, processes, panels)
-    // =========================================================
-    Keybinds {}
-
-    // =========================================================
-    // Logout (self-contained: state, processes, panels)
-    // =========================================================
-    Logout {}
+    Wallpaper {}
 }
