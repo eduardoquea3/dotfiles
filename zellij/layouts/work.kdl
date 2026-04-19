@@ -1,0 +1,46 @@
+layout {
+    tab name="nvim" focus=true {
+        pane
+    }
+
+    tab name="shell" {
+        pane
+    }
+
+    default_tab_template {
+        pane size=1 borderless=true {
+            plugin location="file:~/.config/zellij/plugins/zjstatus.wasm" {
+              format_left   "{mode} #[fg=#76946A,bold]{session}{tabs}"
+              format_right  " {command_git_branch} {datetime}"
+              format_space  ""
+
+              border_enabled  "false"
+              border_char     "─"
+              border_format   "#[fg=#C0A36E]{char}"
+              border_position "top"
+
+              hide_frame_for_single_pane "true"
+
+              mode_normal         "#[bg=#DCD7BA] "
+              mode_tmux           "#[bg=#FFA066] "
+              mode_tab            "#[bg=#89B4FA] "
+              mode_rename_tab     "#[bg=#b4fa89] "
+              mode_pane           "#[bg=#fa898e] "
+
+              tab_normal   "#[fg=#6C7086,bg=#181825] {index} {name} "
+              tab_active   "#[fg=#9399B2,bg=#3c3c53,bold,italic] {index} {name} "
+
+              command_git_branch_command     "git rev-parse --abbrev-ref HEAD"
+              command_git_branch_format      "#[fg=#4973c7] {stdout} "
+              command_git_branch_interval    "10"
+              command_git_branch_rendermode  "static"
+
+              datetime        "#[fg=#d0c069,bold] {format} "
+              datetime_format "%A, %d/%m/%Y  %H:%M"
+              datetime_timezone "America/Lima"
+            }
+        }
+        children
+    }
+
+}

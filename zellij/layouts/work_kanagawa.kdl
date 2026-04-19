@@ -1,0 +1,14 @@
+layout {
+    tab-bar {
+        tab name="nvim" focus=true { }
+        tab name="shell" { }
+    }
+
+    tab name="nvim" {
+        pane
+    }
+
+    tab name="shell" {
+        pane
+    }
+}

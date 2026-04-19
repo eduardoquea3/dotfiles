@@ -26,6 +26,10 @@ source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zs
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/.config/zsh/yazi.sh
 
+if [ -z "$ZELLIJ" ]; then
+  zellij
+fi
+
 # opencode
 export PATH=/home/eduardo/.opencode/bin:$PATH
 export PATH="$HOME/.local/bin:$PATH"
