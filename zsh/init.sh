@@ -20,6 +20,7 @@ zstyle ':omz:plugins:eza' 'icons' yes
 
 source $ZSH/oh-my-zsh.sh
 source ~/.config/zsh/alias.sh
+source ~/.config/zsh/functions.sh
 source ~/.config/zsh/spf.sh
 [[ -f $HOME/.cargo/env ]] && source $HOME/.cargo/env
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
@@ -38,3 +39,4 @@ export EDITOR=nvim
 export DOCKER_HOST=unix:///run/user/$UID/podman/podman.sock
 export PATH="$PATH:$(go env GOPATH)/bin"
 export ELECTRON_OZONE_PLATFORM_HINT=x11
+. "$HOME/.cargo/env"
