@@ -30,7 +30,7 @@
 	"base_keymap": "Cursor",
 	"multi_cursor_modifier": "cmd_or_ctrl",
 	"gutter": {
-		"line_numbers": false,
+		"line_numbers": true,
 		"min_line_number_digits": 0,
 		"folds": false,
 		"runnables": false
