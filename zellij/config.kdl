@@ -190,6 +190,7 @@ keybinds clear-defaults=true {
         bind "Alt ]" { NextSwapLayout; }
         bind "Alt f" { ToggleFloatingPanes; }
         bind "Ctrl Alt h" { MoveFocusOrTab "left"; }
+        bind "Ctrl Alt f" { ToggleFocusFullscreen; SwitchToMode "locked"; }
         // bind "Alt i" { MoveTab "left"; }
         bind "Ctrl Alt j" { MoveFocus "down"; }
         bind "Ctrl Alt k" { MoveFocus "up"; }
