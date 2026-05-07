@@ -1,5 +1,5 @@
 * {
-  font: "DankMono Nerd Font";
+  font: "JetBrainsMono Nerd Font 12";
 }
 
 configuration {
