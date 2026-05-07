@@ -1,5 +1,17 @@
 {
-	"agent_servers": {
+	"cli_default_open_behavior": "existing_window",
+ "collaboration_panel": {
+  "dock": "left"
+ },
+ "agent": {
+  "dock": "right",
+  "favorite_models": [],
+  "model_parameters": []
+ },
+ "git_panel": {
+  "dock": "left"
+ },
+ "agent_servers": {
 		"claude-acp": {
 			"type": "registry",
 			"default_model": "haiku",
@@ -47,7 +59,8 @@
 		"enabled": false
 	},
 	"project_panel": {
-		"indent_guides": {
+		"dock": "left",
+  "indent_guides": {
 			"show": "never"
 		},
 		"default_width": 300,
@@ -192,7 +205,8 @@
 		"show_menus": false
 	},
 	"outline_panel": {
-		"default_width": 300,
+		"dock": "left",
+  "default_width": 300,
 		"indent_guides": {
 			"show": "never"
 		}
