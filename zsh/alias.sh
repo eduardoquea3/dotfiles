@@ -28,3 +28,4 @@ alias nv='nvim'
 alias vim='nvim'
 
 alias ze='zellij'
+alias cd='z'

@@ -17,7 +17,7 @@ Rectangle {
 
     Process {
         id: wifiProc
-        command: ["sh", "-c", "iwgetid -r || echo disconnected"]
+        command: ["sh", "-c", "nmcli -t -f active,ssid dev wifi | grep '^yes' | cut -d: -f2 || echo disconnected"]
         stdout: SplitParser {
             onRead: data => {
                 var s = data.trim();

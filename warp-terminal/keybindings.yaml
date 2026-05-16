@@ -1,3 +1,4 @@
 ---
+"pane_group:toggle_maximize_pane": ctrl-enter
 "editor_view:toggle_comment": none
 "workspace:toggle_keybindings_page": none
