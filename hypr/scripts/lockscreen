@@ -2,4 +2,10 @@
 
 # Lock screen script using hyprlock with hyprlock.conf
 
+if ! command -v hyprlock &>/dev/null; then
+    notify-send -u critical "Error" "hyprlock no está instalado. Instálalo con: yay -S hyprlock"
+    exit 1
+fi
+
 hyprlock --config ~/.config/hypr/hyprlock.conf
+
