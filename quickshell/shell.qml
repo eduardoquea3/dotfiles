@@ -5,6 +5,7 @@ import QtQuick
 import Quickshell.Hyprland
 import "./widgets"
 import "./modules/wallpaper"
+import "./modules/clipboard"
 
 ShellRoot {
     id: root
@@ -63,4 +64,11 @@ ShellRoot {
     // Wallpaper picker (overlay with romboid design)
     // =========================================================
     Wallpaper {}
+
+    // =========================================================
+    // Clipboard history overlay
+    // =========================================================
+    Clipboard {
+        id: clipboardWindow
+    }
 }
