@@ -1,17 +1,17 @@
 {
 	"cli_default_open_behavior": "existing_window",
- "collaboration_panel": {
-  "dock": "left"
- },
- "agent": {
-  "dock": "right",
-  "favorite_models": [],
-  "model_parameters": []
- },
- "git_panel": {
-  "dock": "left"
- },
- "agent_servers": {
+	"collaboration_panel": {
+		"dock": "left"
+	},
+	"agent": {
+		"dock": "right",
+		"favorite_models": [],
+		"model_parameters": []
+	},
+	"git_panel": {
+		"dock": "left"
+	},
+	"agent_servers": {
 		"claude-acp": {
 			"type": "registry",
 			"default_model": "haiku",
@@ -37,7 +37,7 @@
 		}
 	},
 	"soft_wrap": "editor_width",
-	"icon_theme": "Flow Dark",
+	"icon_theme": "Flow Deep",
 	"vim_mode": true,
 	"base_keymap": "Cursor",
 	"multi_cursor_modifier": "cmd_or_ctrl",
@@ -48,19 +48,19 @@
 		"runnables": false
 	},
 	"cursor_blink": false,
-	"buffer_font_family": "DankMono Nerd Font",
-	"ui_font_family": "DankMono Nerd Font",
+	"buffer_font_family": "JetBrainsMono Nerd Font Mono",
+	"ui_font_family": "JetBrainsMono Nerd Font Mono",
 	"ui_font_size": 16,
 	"buffer_font_size": 14,
 	"terminal": {
-		"font_family": "DankMono Nerd Font"
+		"font_family": "JetBrainsMono Nerd Font Mono"
 	},
 	"indent_guides": {
 		"enabled": false
 	},
 	"project_panel": {
 		"dock": "left",
-  "indent_guides": {
+		"indent_guides": {
 			"show": "never"
 		},
 		"default_width": 300,
@@ -94,7 +94,7 @@
 		"show_type_hints": false,
 		"show_other_hints": false
 	},
-	"theme": "Kanso Zen (No italics)",
+	"theme": "Kanso Zen",
 	"edit_predictions": {
 		"provider": "zed"
 	},
@@ -206,7 +206,7 @@
 	},
 	"outline_panel": {
 		"dock": "left",
-  "default_width": 300,
+		"default_width": 300,
 		"indent_guides": {
 			"show": "never"
 		}

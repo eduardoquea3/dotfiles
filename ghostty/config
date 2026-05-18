@@ -3,9 +3,9 @@
 # Theme: GitHub Dark
 
 # Fonts
-font-family = "DankMono Nerd Font"
-font-family-bold = "DankMono Nerd Font"
-font-family-italic = "DankMono Nerd Font"
+font-family = "JetBrainsMono Nerd Font"
+font-family-bold = "JetBrainsMono Nerd Font"
+font-family-italic = "JetBrainsMono Nerd Font"
 font-size = 10
 
 # Cursor
