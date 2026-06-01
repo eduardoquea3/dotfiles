@@ -1,0 +1,22 @@
+// Place your key bindings in this file to override the defaults
+[
+    {
+        "key": "ctrl+q",
+        "command": "-workbench.action.quit"
+    },
+    {
+        "key": "ctrl+q",
+        "command": "-glass.quitApplication",
+        "when": "glassNoModalOpen && isGlassEmptyWorkspace"
+    },
+    {
+        "key": "ctrl+q",
+        "command": "workbench.action.quickOpenNavigateNextInViewPicker",
+        "when": "inQuickOpen && inViewsPicker"
+    },
+    {
+        "key": "ctrl+q",
+        "command": "workbench.action.quickOpenView",
+        "when": "!inQuickOpen"
+    }
+]

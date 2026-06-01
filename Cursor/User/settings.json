@@ -1,0 +1,14 @@
+{
+    "window.autoDetectColorScheme": true,
+    "workbench.iconTheme": "flow-deep",
+    "workbench.preferredDarkColorTheme": "Kanso Zen",
+    "editor.fontFamily": "JetBrainsMono Nerd Font Mono",
+    "terminal.integrated.fontFamily": "JetBrainsMono Nerd Font Mono",
+    "vim.useCtrlKeys": false,
+    "vim.useSystemClipboard": true,
+    "vim.surround": true,
+    "editor.fontLigatures": true,
+    "[typescript]": {
+        "editor.defaultFormatter": "biomejs.biome"
+    }
+}
