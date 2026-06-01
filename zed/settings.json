@@ -1,4 +1,5 @@
 {
+	"ui_font_weight": 600.0,
 	"cli_default_open_behavior": "existing_window",
 	"collaboration_panel": {
 		"dock": "left"
@@ -12,7 +13,10 @@
 		"dock": "left"
 	},
 	"agent_servers": {
-		"claude-acp": {
+		"codex-acp": {
+   "type": "registry"
+  },
+  "claude-acp": {
 			"type": "registry",
 			"default_model": "haiku",
 			"favorite_models": ["haiku"]
@@ -50,9 +54,10 @@
 	"cursor_blink": false,
 	"buffer_font_family": "JetBrainsMono Nerd Font Mono",
 	"ui_font_family": "JetBrainsMono Nerd Font Mono",
-	"ui_font_size": 16,
-	"buffer_font_size": 14,
+	"ui_font_size": 14.0,
+	"buffer_font_size": 12.0,
 	"terminal": {
+		"font_size": 12.0,
 		"font_family": "JetBrainsMono Nerd Font Mono"
 	},
 	"indent_guides": {
@@ -90,7 +95,7 @@
 		"file_icons": true
 	},
 	"inlay_hints": {
-		"enabled": true,
+		"enabled": false,
 		"show_type_hints": false,
 		"show_other_hints": false
 	},
