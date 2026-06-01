@@ -137,6 +137,7 @@ show_project_explorer = true
 
 [warpify.ssh]
 enable_legacy_ssh_wrapper = true
+ssh_extension_install_mode = "always_install"
 
 [general]
 default_session_mode = "terminal"
