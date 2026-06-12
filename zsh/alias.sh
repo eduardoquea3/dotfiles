@@ -20,7 +20,8 @@ alias wm='wiremix'
 
 alias pd='podman'
 alias pdu='podman-tui'
-alias cc='claude'
+# alias cc='claude'
+alias cc='codex'
 alias op='opencode'
 alias cupd='claude update'
 

@@ -14,22 +14,23 @@
 	},
 	"agent_servers": {
 		"codex-acp": {
-   "type": "registry"
-  },
-  "claude-acp": {
+			"type": "registry"
+		},
+		"claude-acp": {
 			"type": "registry",
 			"default_model": "haiku",
 			"favorite_models": ["haiku"]
 		},
 		"opencode": {
 			"type": "extension",
-			"favorite_models": [
-				"opencode/kimi-k2.5-free",
-				"opencode/minimax-m2.5-free"
-			],
-			"default_model": "opencode/minimax-m2.5-free",
-			"default_config_options": {},
-			"favorite_config_option_values": {}
+			"default_model": "openai/gpt-5.4-mini",
+			"default_config_options": {
+				"effort": "medium",
+				"model": "openai/gpt-5.4-mini"
+			},
+			"favorite_config_option_values": {
+				"model": ["openai/gpt-5.4-mini"]
+			}
 		}
 	},
 	"context_servers": {
@@ -126,6 +127,23 @@
 				"format_on_save": true
 			}
 		},
+		"pyrefly": {
+			"binary": {
+				"path": ".venv/bin/pyrefly",
+				"arguments": ["lsp"]
+			},
+			"settings": {
+				"python": {
+					"pythonPath": ".venv/bin/python"
+				},
+				"pyrefly": {
+					"project_includes": ["src/**/*.py", "tests/**/*.py"],
+					"project_excludes": ["**/.[!/.]*", "**/*venv/**"],
+					"search_path": ["src"],
+					"ignore_errors_in_generated_code": true
+				}
+			}
+		},
 		"tailwindcss-language-server": {
 			"settings": {
 				"classAttributes": [
@@ -203,7 +221,7 @@
 		},
 		"JSON": { "formatter": { "language_server": { "name": "biome" } } },
 		"JSONC": { "formatter": { "language_server": { "name": "biome" } } },
-		"Python": { "language_servers": ["ty", "ruff"] }
+		"Python": { "language_servers": ["pyrefly", "ruff", "!pyright", "!pylsp"] }
 	},
 	"title_bar": {
 		"show_onboarding_banner": false,
