@@ -55,6 +55,9 @@ right-click-action = paste
 mouse-hide-while-typing = true
 focus-follows-mouse = true
 
+# Clipboard
+copy-on-select = clipboard
+
 # Keybinds
 keybind = clear
 # keybind = ctrl+o>v=new_split:right
