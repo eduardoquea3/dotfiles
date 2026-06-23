@@ -48,7 +48,13 @@ kwalletrc
 .wallpaper
 /Typora
 
-/Cursor/[CDTWSGILNP]*
+/Cursor/[BCDTWSGILNP]*
 /Cursor/[lmps]*
 /Cursor/User/[Hgw]*
 /**/.atl
+
+.wrangler/
+/Android Open Source Project/
+/Codex/
+/Deska/
+/tabularis/
