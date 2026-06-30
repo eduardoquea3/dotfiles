@@ -42,6 +42,25 @@ ShellRoot {
     // Bar state
     // =========================================================
     property bool barVisible: true
+    property int chassisType: 0
+    property bool isDesktop: chassisType === 3
+    property bool isNotebook: chassisType === 10
+    property bool showBatteryModule: isNotebook
+    property bool showBrightnessModule: isNotebook
+
+    Process {
+        id: chassisTypeProc
+        command: ["sh", "-c", "cat /sys/class/dmi/id/chassis_type 2>/dev/null || echo 0"]
+        running: true
+
+        stdout: SplitParser {
+            onRead: data => {
+                const value = parseInt(data.trim())
+                if (!isNaN(value))
+                    root.chassisType = value
+            }
+        }
+    }
 
     IpcHandler {
         target: "bar"

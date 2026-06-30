@@ -4,8 +4,9 @@ import Quickshell.Io
 
 Item {
     id: brightnessItem
-    width: brightnessText.implicitWidth + 16
-    height: 20
+    visible: root.showBrightnessModule
+    width: visible ? brightnessText.implicitWidth + 16 : 0
+    height: visible ? 20 : 0
 
     property int percent: 0
 
@@ -20,7 +21,7 @@ Item {
     Process {
         id: getProc
         command: ["sh", "-c", "b=$(cat /sys/class/backlight/*/brightness); m=$(cat /sys/class/backlight/*/max_brightness); echo $((b * 100 / m))"]
-        running: true
+        running: brightnessItem.visible
         stdout: SplitParser {
             onRead: data => {
                 const val = parseInt(data.trim());

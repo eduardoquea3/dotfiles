@@ -4,8 +4,9 @@ import Quickshell.Services.UPower
 
 Item {
     id: batteryRect
-    width: battery.implicitWidth + 16
-    height: 20
+    visible: root.showBatteryModule
+    width: visible ? battery.implicitWidth + 16 : 0
+    height: visible ? 20 : 0
 
     property int percent: UPower.displayDevice.percentage * 100
     property bool charging: UPower.displayDevice.state === UPowerDeviceState.Charging
