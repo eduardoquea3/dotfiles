@@ -42,7 +42,11 @@
 		}
 	},
 	"soft_wrap": "editor_width",
-	"icon_theme": "Flow Deep",
+	"icon_theme": {
+  "mode": "dark",
+  "light": "Flow Deep",
+  "dark": "Symbols Icon Theme"
+ },
 	"vim_mode": true,
 	"base_keymap": "Cursor",
 	"multi_cursor_modifier": "cmd_or_ctrl",
@@ -100,7 +104,11 @@
 		"show_type_hints": false,
 		"show_other_hints": false
 	},
-	"theme": "Kanso Zen",
+	"theme": {
+  "mode": "dark",
+  "light": "Ayu Light",
+  "dark": "Kanso Zen"
+ },
 	"edit_predictions": {
 		"provider": "zed"
 	},
