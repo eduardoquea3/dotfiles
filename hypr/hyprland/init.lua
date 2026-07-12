@@ -14,6 +14,6 @@ hl.on("hyprland.start", function()
   hl.exec_cmd "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
   hl.exec_cmd "qs -c overview"
 
-  hl.exec_cmd "[workspace 2 silent] ghostty"
+  hl.exec_cmd "[workspace 2 silent] wezterm"
   hl.exec_cmd "[workspace 4 silent] zen-browser"
 end)
