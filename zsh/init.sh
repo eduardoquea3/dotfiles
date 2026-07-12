@@ -16,10 +16,12 @@ plugins=(
   zoxide
   starship
   eza
+  fnm
 )
 
 # config plugins
 zstyle ':omz:plugins:eza' 'icons' yes
+zstyle ':omz:plugins:fnm' autostart yes
 
 source $ZSH/oh-my-zsh.sh
 source ~/.config/zsh/alias.sh
