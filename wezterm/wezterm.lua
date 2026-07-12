@@ -1,28 +1,33 @@
 local wezterm = require "wezterm"
 local act = wezterm.action
 
+-- local bash = "C:\\Users\\eduar\\scoop\\shims\\bash.exe"
+local zsh = "/bin/zsh"
+
 local config = {}
 if wezterm.config_builder then
   config = wezterm.config_builder()
 end
 
+config.default_prog = { zsh }
+
 config.force_reverse_video_cursor = true
 config.colors = {
   foreground = "#C5C9C7",
-  background = "#14171d",
+  background = "#090E13",
 
-  cursor_bg = "#14171d",
+  cursor_bg = "#090E13",
   cursor_fg = "#C5C9C7",
   cursor_border = "#C5C9C7",
 
   selection_fg = "#C5C9C7",
-  selection_bg = "#393B42",
+  selection_bg = "#22262D",
 
-  scrollbar_thumb = "#393B42",
-  split = "#393B42",
+  scrollbar_thumb = "#22262D",
+  split = "#22262D",
 
   ansi = {
-    "#14171d",
+    "#090E13",
     "#C4746E",
     "#8A9A7B",
     "#C4B28A",
@@ -42,12 +47,12 @@ config.colors = {
     "#C5C9C7",
   },
 }
-config.line_height = 1.2
+config.line_height = 1.3
 config.cell_width = 1.0
 config.font = wezterm.font_with_fallback {
-  { family = "JetBrainsMono Nerd Font", scale = 1.05 },
+  { family = "JetBrainsMono Nerd Font", scale = 1.00 },
 }
-config.font_size = 10
+config.font_size = 9
 config.window_background_opacity = 0.95
 config.window_decorations = "TITLE | RESIZE"
 config.window_close_confirmation = "NeverPrompt"
@@ -57,7 +62,6 @@ config.disable_default_key_bindings = true
 config.hide_tab_bar_if_only_one_tab = true
 config.front_end = "OpenGL"
 config.default_cursor_style = "SteadyBar"
-config.warn_about_missing_glyphs = false
 
 config.inactive_pane_hsb = {
   saturation = 0.50,

@@ -2,7 +2,7 @@
 
 [appearance.themes]
 system_theme = false
-theme = { custom = { name = "Kanso", path = "/home/eduardo/.local/share/warp-terminal/themes/kanso.yml" } }
+theme = { custom = { name = "Kanso", path = "kanso.yaml" } }
 
 [appearance.vertical_tabs]
 enabled = false

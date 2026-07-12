@@ -190,6 +190,8 @@
 	"languages": {
 		"JavaScript": {
 			"language_servers": [
+				"tsgo",
+				"!vtsls",
 				"!eslint",
 				"!typescript-language-server",
 				"biome",
@@ -203,6 +205,8 @@
 		},
 		"TypeScript": {
 			"language_servers": [
+				"tsgo",
+				"!vtsls",
 				"!eslint",
 				"!typescript-language-server",
 				"biome",
@@ -216,6 +220,8 @@
 		},
 		"TSX": {
 			"language_servers": [
+				"tsgo",
+				"!vtsls",
 				"!eslint",
 				"!typescript-language-server",
 				"biome",

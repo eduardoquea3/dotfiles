@@ -232,9 +232,7 @@
   },
   "mcp": {
     "back": {
-      "command": [
-        "postgresql-mcp"
-      ],
+      "command": ["postgresql-mcp"],
       "enabled": true,
       "environment": {
         "POSTGRES_DB": "development",
@@ -259,9 +257,7 @@
       "type": "local"
     },
     "pos": {
-      "command": [
-        "postgresql-mcp"
-      ],
+      "command": ["postgresql-mcp"],
       "enabled": true,
       "environment": {
         "POSTGRES_DB": "ventas",
@@ -300,8 +296,6 @@
       "*.env.*": "deny"
     }
   },
-  "plugin": [
-    "@warp-dot-dev/opencode-warp"
-  ],
+  "plugin": ["@warp-dot-dev/opencode-warp@0.1.5"],
   "share": "disabled"
 }
