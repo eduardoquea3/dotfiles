@@ -5,7 +5,7 @@ import Quickshell.Services.UPower
 Item {
     id: batteryRect
     visible: root.showBatteryModule
-    width: visible ? battery.implicitWidth + 16 : 0
+    width: visible ? battery.implicitWidth + 12 : 0
     height: visible ? 20 : 0
 
     property int percent: UPower.displayDevice.percentage * 100
@@ -36,25 +36,15 @@ Item {
         return root.colRed
     }
 
-    Rectangle {
+    Text {
+        id: battery
         anchors.centerIn: parent
-        width: battery.implicitWidth + 16
-        height: 20
-        radius: root.radius
-        border.width: 1
-        border.color: batteryColor()
-        color: root.colBg
-
-        Text {
-            id: battery
-            anchors.centerIn: parent
-            text: batteryIcon() + " " + Math.round(percent) + "%"
-            color: batteryColor()
-            font {
-                family: root.fontFamily
-                pixelSize: root.fontSize
-                bold: true
-            }
+        text: batteryIcon() + " " + Math.round(percent) + "%"
+        color: batteryColor()
+        font {
+            family: root.fontFamily
+            pixelSize: root.fontSize
+            bold: true
         }
     }
 }

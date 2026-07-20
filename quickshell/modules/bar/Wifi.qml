@@ -2,14 +2,10 @@ import QtQuick // for Text
 import Quickshell.Io // for Process
 import Quickshell.Networking
 
-Rectangle {
+Item {
     id: wifiRect
-    color: root.colBg
-    width: wifiText.implicitWidth + 16
+    width: visible ? wifiText.implicitWidth + 12 : 0
     height: 20
-    radius: root.radius
-    border.width: 1
-    border.color: root.colYellow
 
     property string ssid: ""
 

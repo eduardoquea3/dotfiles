@@ -1,15 +1,11 @@
 import QtQuick // for Text
 import Quickshell.Io // for Process
 
-Rectangle {
+Item {
     property int memUsage: 0
 
     width: ram.implicitWidth + 16
     height: 20
-    radius: root.radius
-    color: root.colBg
-    border.width: 1
-    border.color: root.colBlue
 
     Process {
         id: memProc

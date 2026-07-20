@@ -4,6 +4,7 @@ import Quickshell.Wayland
 import QtQuick
 import Quickshell.Hyprland
 import "./widgets"
+import "./modules/bar"
 import "./modules/wallpaper"
 import "./modules/clipboard"
 
@@ -48,6 +49,10 @@ ShellRoot {
     property bool showBatteryModule: isNotebook
     property bool showBrightnessModule: isNotebook
 
+    CodexUsage {
+        id: codexUsageModule
+    }
+
     Process {
         id: chassisTypeProc
         command: ["sh", "-c", "cat /sys/class/dmi/id/chassis_type 2>/dev/null || echo 0"]
@@ -76,6 +81,7 @@ ShellRoot {
             required property var modelData
             screen: modelData
             visible: root.barVisible
+            codexUsage: codexUsageModule
         }
     }
 

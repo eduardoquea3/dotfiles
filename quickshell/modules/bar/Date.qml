@@ -1,13 +1,9 @@
 import QtQuick // for Text
 import Quickshell
 
-Rectangle {
-    color: root.colBg
-    width: date.implicitWidth + 16
+Item {
+    width: date.implicitWidth + 12
     height: 20
-    radius: root.radius
-    border.width: 1
-    border.color: root.colGreen
 
     SystemClock {
         id: clock

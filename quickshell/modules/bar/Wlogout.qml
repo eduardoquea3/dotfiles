@@ -2,13 +2,9 @@ import QtQuick // for Text
 import Quickshell
 import Quickshell.Hyprland // for Hyprland
 
-Rectangle {
-    width: wlogout.implicitWidth + 16
+Item {
+    width: wlogout.implicitWidth + 12
     height: 20
-    radius: root.radius
-    color: root.colBg
-    border.width: 1
-    border.color: root.colRed
 
     Text {
         id: wlogout

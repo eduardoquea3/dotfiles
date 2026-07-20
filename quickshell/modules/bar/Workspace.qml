@@ -1,33 +1,52 @@
-import QtQuick // for Text
-import Quickshell.Hyprland // for Hyprland
+import QtQuick
+import Quickshell.Hyprland
 
-Repeater {
-    model: Hyprland.workspaces
-    delegate: Rectangle {
-        required property var modelData
-        visible: modelData.id > 0
-        width: workspace.implicitWidth + 16
+Item {
+    width: workspaceCapsule.width
+    height: 20
+
+    Rectangle {
+        id: workspaceCapsule
+        anchors.centerIn: parent
+        width: workspaceRow.implicitWidth + 10
         height: 20
-        radius: root.radius
-        color: root.colBg
-        border.width: modelData.focused ? 2 : 1
-        border.color: modelData.focused ? root.colYellow : root.colBorder
+        radius: 10
+        color: Qt.rgba(root.colBorder.r, root.colBorder.g, root.colBorder.b, 0.28)
 
-        MouseArea {
-            anchors.fill: parent
-            onClicked: modelData.activate()
-        }
-
-        Text {
-            id: workspace
+        Row {
+            id: workspaceRow
             anchors.centerIn: parent
-            text: (modelData.focused ? "󰮯 " : "󰊠 ") + modelData.id
-            font {
-                family: root.fontFamily
-                pixelSize: root.fontSize
-                bold: true
+            spacing: 4
+
+            Repeater {
+                model: Hyprland.workspaces
+
+                delegate: Rectangle {
+                    required property var modelData
+                    visible: modelData.id > 0
+                    width: 16
+                    height: 16
+                    radius: 8
+                    color: modelData.focused ? root.colRed : root.colYellow
+
+                    Text {
+                        anchors.centerIn: parent
+                        text: modelData.id
+                        color: root.colBg
+                        font {
+                            family: root.fontFamily
+                            pixelSize: 9
+                            bold: true
+                        }
+                    }
+
+                    MouseArea {
+                        anchors.fill: parent
+                        cursorShape: Qt.PointingHandCursor
+                        onClicked: modelData.activate()
+                    }
+                }
             }
-            color: modelData.focused ? root.colYellow : root.colFg
         }
     }
 }
