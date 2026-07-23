@@ -17,6 +17,7 @@ plugins=(
   starship
   eza
   fnm
+  vi-mode
 )
 
 # config plugins
