@@ -19,8 +19,8 @@ PanelWindow {
     implicitHeight: barRail.height + 8
 
     component SectionSeparator: Rectangle {
-        width: 1
-        height: 14
+        width: visible ? 1 : 0
+        height: visible ? 14 : 0
         color: root.colBorder
         opacity: 0.65
     }
@@ -105,8 +105,10 @@ PanelWindow {
         Brightness {}
         SectionSeparator { visible: root.showBrightnessModule }
         Volume {}
-        SectionSeparator {}
-        Wifi {}
+        SectionSeparator { visible: wifiModule.visible }
+        Wifi {
+            id: wifiModule
+        }
         SectionSeparator {}
         Date {}
         SectionSeparator {}
