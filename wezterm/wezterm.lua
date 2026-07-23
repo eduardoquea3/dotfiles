@@ -47,8 +47,8 @@ config.colors = {
     "#C5C9C7",
   },
 }
-config.line_height = 1.3
-config.cell_width = 1.0
+config.line_height = 1.2
+config.cell_width = 1.1
 config.font = wezterm.font_with_fallback {
   { family = "JetBrainsMono Nerd Font", scale = 1.00 },
 }
