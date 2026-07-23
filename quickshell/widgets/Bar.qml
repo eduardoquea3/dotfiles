@@ -1,22 +1,56 @@
 import Quickshell
+import Quickshell.Io
 import Quickshell.Wayland
 import QtQuick
 
 import "../modules/bar"
 
-PanelWindow {
-    id: barWindow
+Item {
+    id: barRoot
+    visible: barVisible
+
+    readonly property string homePath: Quickshell.env("HOME")
+    readonly property string configPath: homePath + "/.config/quickshell/bar.json"
+    property bool barVisible: true
+    property var screen: null
     property var codexUsage: null
+    property string barPosition: "bottom"
     readonly property bool detailsVisible: codexUsage && codexUsage.panelVisible
 
-    color: "transparent"
-    anchors {
-        top: false
-        left: true
-        right: true
-        bottom: true
+    function loadBarConfig(output) {
+        try {
+            var data = JSON.parse(String(output || "{}").trim() || "{}");
+            barPosition = data.position === "top" ? "top" : "bottom";
+        } catch (error) {
+            barPosition = "bottom";
+        }
     }
-    implicitHeight: barRail.height + 8
+
+    function reloadBarConfig() {
+        if (barConfigProc.running)
+            barConfigProc.running = false;
+        barConfigProc.running = true;
+    }
+
+    Process {
+        id: barConfigProc
+        command: ["bash", "-c", "cat '" + barRoot.configPath + "' 2>/dev/null || echo '{\"position\":\"bottom\"}'"]
+        running: false
+
+        stdout: SplitParser {
+            splitMarker: ""
+            onRead: data => barRoot.loadBarConfig(data)
+        }
+    }
+
+    Timer {
+        interval: 2000
+        running: true
+        repeat: true
+        onTriggered: barRoot.reloadBarConfig()
+    }
+
+    Component.onCompleted: reloadBarConfig()
 
     component SectionSeparator: Rectangle {
         width: visible ? 1 : 0
@@ -25,98 +59,126 @@ PanelWindow {
         opacity: 0.65
     }
 
-    PopupWindow {
-        id: codexUsagePopup
-        anchor.item: codexUsageIndicator
-        anchor.edges: Edges.Top | Edges.Left
-        anchor.gravity: Edges.Top | Edges.Left
-        visible: barWindow.detailsVisible
-        grabFocus: true
-        color: "transparent"
-        implicitWidth: 420
-        implicitHeight: codexUsageDetails.implicitHeight + panelConnector.height
+    component BarSurface: PanelWindow {
+        id: contentRoot
+        property bool topAnchored: false
+        screen: barRoot.screen
 
-        onVisibleChanged: {
-            if (!visible && barWindow.detailsVisible)
-                barWindow.codexUsage.closePanel()
+        color: "transparent"
+        anchors {
+            top: contentRoot.topAnchored
+            left: true
+            right: true
+            bottom: !contentRoot.topAnchored
         }
 
-        CodexUsagePanel {
-            id: codexUsageDetails
+        implicitHeight: barRail.height + 8
+
+        Rectangle {
+            id: barRail
             anchors {
                 left: parent.left
                 right: parent.right
-                top: parent.top
+            top: contentRoot.topAnchored ? parent.top : undefined
+            bottom: contentRoot.topAnchored ? undefined : parent.bottom
+                leftMargin: 4
+                rightMargin: 4
+                topMargin: 4
+                bottomMargin: 4
             }
-            usage: barWindow.codexUsage
-        }
-
-        Rectangle {
-            id: panelConnector
-            anchors {
-                left: parent.left
-                bottom: parent.bottom
-            }
-            width: Math.max(64, codexUsageIndicator.width + 12)
-            height: 6
+            height: 26
+            radius: 10
             color: root.colBg
+
+            PopupWindow {
+                id: codexUsagePopup
+                anchor.item: codexUsageIndicator
+                anchor.edges: Edges.Top | Edges.Left
+                anchor.gravity: Edges.Top | Edges.Left
+                visible: barRoot.detailsVisible
+                grabFocus: true
+                color: "transparent"
+                implicitWidth: 420
+                implicitHeight: codexUsageDetails.implicitHeight + panelConnector.height
+
+                onVisibleChanged: {
+                    if (!visible && barRoot.detailsVisible)
+                        barRoot.codexUsage.closePanel()
+                }
+
+                CodexUsagePanel {
+                    id: codexUsageDetails
+                    anchors {
+                        left: parent.left
+                        right: parent.right
+                        top: parent.top
+                    }
+                    usage: barRoot.codexUsage
+                }
+
+                Rectangle {
+                    id: panelConnector
+                    anchors {
+                        left: parent.left
+                        bottom: parent.bottom
+                    }
+                    width: Math.max(64, codexUsageIndicator.width + 12)
+                    height: 6
+                    color: root.colBg
+                }
+            }
+
+            Row {
+                id: leftSection
+                anchors {
+                    left: barRail.left
+                    leftMargin: 6
+                    verticalCenter: parent.verticalCenter
+                }
+                spacing: 6
+                CodexUsageBar {
+                    id: codexUsageIndicator
+                    usage: barRoot.codexUsage
+                }
+                SectionSeparator { visible: codexUsageIndicator.visible }
+                Workspace {}
+                SectionSeparator {}
+                Ram {}
+            }
+
+            Row {
+                anchors {
+                    right: barRail.right
+                    rightMargin: 6
+                    verticalCenter: parent.verticalCenter
+                }
+                spacing: 6
+                Brightness {}
+                SectionSeparator { visible: root.showBrightnessModule }
+                Volume {}
+                SectionSeparator { visible: wifiModule.visible }
+                Wifi {
+                    id: wifiModule
+                }
+                SectionSeparator {}
+                Date {}
+                SectionSeparator {}
+                Battery {}
+                SectionSeparator { visible: root.showBatteryModule }
+                Time {}
+                SectionSeparator {}
+                Wlogout {}
+            }
         }
     }
 
-    Rectangle {
-        id: barRail
-        anchors {
-            left: parent.left
-            right: parent.right
-            bottom: parent.bottom
-            leftMargin: 4
-            rightMargin: 4
-            bottomMargin: 4
-        }
-        height: 26
-        radius: 10
-        color: root.colBg
-
-    Row {
-        id: leftSection
-        anchors {
-            left: barRail.left
-            leftMargin: 6
-            verticalCenter: parent.verticalCenter
-        }
-        spacing: 6
-        CodexUsageBar {
-            id: codexUsageIndicator
-            usage: barWindow.codexUsage
-        }
-        SectionSeparator { visible: codexUsageIndicator.visible }
-        Workspace {}
-        SectionSeparator {}
-        Ram {}
+    BarSurface {
+        visible: barRoot.barVisible && barRoot.barPosition === "top"
+        topAnchored: true
     }
 
-    Row {
-        anchors {
-            right: barRail.right
-            rightMargin: 6
-            verticalCenter: parent.verticalCenter
-        }
-        spacing: 6
-        Brightness {}
-        SectionSeparator { visible: root.showBrightnessModule }
-        Volume {}
-        SectionSeparator { visible: wifiModule.visible }
-        Wifi {
-            id: wifiModule
-        }
-        SectionSeparator {}
-        Date {}
-        SectionSeparator {}
-        Battery {}
-        SectionSeparator { visible: root.showBatteryModule }
-        Time {}
-        SectionSeparator {}
-        Wlogout {}
-    }
+    BarSurface {
+        visible: barRoot.barVisible && barRoot.barPosition !== "top"
+        topAnchored: false
     }
 }

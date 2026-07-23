@@ -81,6 +81,7 @@ ShellRoot {
             required property var modelData
             screen: modelData
             visible: root.barVisible
+            barVisible: root.barVisible
             codexUsage: codexUsageModule
         }
     }
