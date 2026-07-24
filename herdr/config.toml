@@ -1,0 +1,15 @@
+onboarding = false
+
+[ui.toast]
+delivery = "system"
+
+[keys]
+prefix = "ctrl+o"
+
+[theme.custom]
+panel_bg = "reset"
+accent = "#a6e3a1"
+green = "#a6e3a1"
+blue = "#89b4fa"
+red = "#f38ba8"
+yellow = "#f9e2af"
