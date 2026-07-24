@@ -62,4 +62,16 @@ hl.window_rule({
   suppress_event = "fullscreen",
 })
 
+-- Image picker terminal
+hl.window_rule({
+  name = "image-picker-float",
+  match = {
+    title = "^Editar Imagen$",
+  },
+  float = true,
+  fullscreen = false,
+  size = { "90%", "90%" },
+  center = true,
+})
+
 -- Startup apps are now handled in init.conf with bracket syntax

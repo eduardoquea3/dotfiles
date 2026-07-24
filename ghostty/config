@@ -19,7 +19,7 @@ window-padding-x = 1
 window-padding-balance = true
 window-title-font-family = "Dankono Nerd Font"
 window-subtitle = working-directory
-background-opacity = 1
+background-opacity = 0.97
 background-blur-radius = 20
 
 # Shell
@@ -62,8 +62,8 @@ copy-on-select = clipboard
 keybind = clear
 # keybind = ctrl+o>v=new_split:right
 # keybind = ctrl+o>s=new_split:down
-keybind = ctrl+o>r=reload_config
-keybind = ctrl+shift+v=paste_from_clipboard
+# keybind = ctrl+o>r=reload_config
+# keybind = ctrl+shift+v=paste_from_clipboard
 # keybind = ctrl+shift+c=copy_to_clipboard:text
 # keybind = ctrl+o>n=new_tab
 # keybind = ctrl+tab=next_tab

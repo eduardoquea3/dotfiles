@@ -34,6 +34,9 @@ edit = [
   { run = "code %s", desc = "code", for = "windows", orphan = true },
   { run = "code -w %s", desc = "code (block)", for = "windows", block = true },
 ]
+satty = [
+  { run = "$HOME/.config/hypr/scripts/image-edit %s1", desc = "Edit in Satty", for = "linux", block = true },
+]
 play = [
   { run = "xdg-open %s1", desc = "Play", for = "linux", orphan = true },
   { run = "open %s", desc = "Play", for = "macos" },
@@ -76,7 +79,7 @@ rules = [
   ] },
   # Image
   { mime = "image/*", use = [
-    "open",
+    "satty",
     "reveal",
   ] },
   # Media

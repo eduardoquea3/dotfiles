@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+ghostty \
+  --title="Editar Imagen" \
+  -e yazi "$HOME" >/dev/null 2>&1 &
