@@ -72,12 +72,14 @@ Item {
                         width: 168
                         height: 28
                         radius: 8
-                        color: hoverArea.containsMouse ? Qt.lighter(root.colBg, 1.08) : "transparent"
+                        color: hoverArea.containsMouse ? Qt.rgba(root.colBlue.r, root.colBlue.g, root.colBlue.b, 0.22) : "transparent"
+                        border.color: hoverArea.containsMouse ? root.colBlue : "transparent"
+                        border.width: hoverArea.containsMouse ? 1 : 0
 
                         Text {
                             anchors.centerIn: parent
                             text: modelData.label
-                            color: root.colFg
+                            color: hoverArea.containsMouse ? root.colBlue : root.colFg
                             font {
                                 family: root.fontFamily
                                 pixelSize: root.fontSize - 1
