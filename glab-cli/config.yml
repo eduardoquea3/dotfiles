@@ -9,7 +9,7 @@ glamour_style: dark
 # Allow glab to automatically check for updates and notify you when there are new updates.
 check_update: true
 # Last update check timestamp, used for checking when the last update check was performed.
-last_update_check_timestamp: 2026-06-26T22:02:13-05:00
+last_update_check_timestamp: 2026-07-24T11:54:14-05:00
 # Whether or not to display hyperlink escape characters when listing items like issues or merge requests. Set to TRUE to display hyperlinks in TTYs only. Force hyperlinks by setting FORCE_HYPERLINKS=1 as an environment variable.
 display_hyperlinks: false
 # Default GitLab hostname to use.
@@ -62,7 +62,7 @@ hosts:
         # Only affects SSH cloning and git operations.
         ssh_host:
         # Your GitLab access token. To get one, read https://docs.gitlab.com/user/profile/personal_access_tokens/
-        token: !!null df440d3c6cbb7ee07c5b85e9d79d8aab7fd47905dc14f9598cf0e4481562190c
+        token: !!null d9a6eaadb944aab2315b8a2ed6643ede6a7cdfe822e8f319a62e3c52fb69e274
         # Custom proxy for this host. Overrides environment proxy settings when set.
         proxy:
         # The domains of associated container registries. These are used to configure the
@@ -75,8 +75,8 @@ hosts:
         #   valueFromEnv: MY_SECRET_VALUE
         custom_headers: []
         is_oauth2: "true"
-        oauth2_refresh_token: 3fb6860fda59b814012092d4fe7d5b3634c804b6c2f41c228511f872732db04f
-        oauth2_expiry_date: "2026-06-27T00:05:56-05:00"
+        oauth2_refresh_token: 516c35d673f3a790d6e0a2c1a6e42a4e3602d01ff230d479bd654aa1d449bad5
+        oauth2_expiry_date: "2026-07-24T13:54:32-05:00"
         git_protocol: ssh
         user: eduardoquea3
 last_seen_version: v1.105.0
