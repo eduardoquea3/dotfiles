@@ -21,9 +21,10 @@ progress_bar_frame_width = 0
 progress_bar_corner_radius = 3
 
 # Colors
+background = "#090E13"
 foreground = "#cdd1dc"
-frame_color = "#2d303c"
-highlight = "#2274d5, #82aad9"
+frame_color = "#5C6066"
+highlight = "#8BA4B0, #8EA4A2"
 
 # Text
 font = JetBrainsMono Nerd Font 10, Noto Color Emoji 10
@@ -51,17 +52,19 @@ mouse_middle_click = do_action, close_current
 mouse_right_click = close_all
 
 [urgency_low]
-background = "#383c4af0"
+background = "#090E13"
+frame_color = "#8EA4A2"
 timeout = 3
 
 [urgency_normal]
-background = "#383c4af0"
+background = "#090E13"
+frame_color = "#8BA4B0"
 timeout = 8
 
 [urgency_critical]
-background = "#9b4d4bf0"
-frame_color = "#ab6d6b"
-highlight = "#eb4d4b"
+background = "#C4746Ef0"
+frame_color = "#B98D7B"
+highlight = "#C4746E"
 timeout = 0
 
 # Rules
