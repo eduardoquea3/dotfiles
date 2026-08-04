@@ -21,7 +21,7 @@ Item {
                 var s = data.trim();
                 if (root.isDesktop) {
                     wifiRect.label = s.startsWith("ip:")
-                        ? "󰇚 " + s.slice(3)
+                        ? "󰤨 " + s.slice(3)
                         : "󰤭 No connection";
                     return;
                 }
