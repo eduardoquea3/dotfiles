@@ -15,7 +15,6 @@ Item {
     property var screen: null
     property var codexUsage: null
     property string barPosition: "bottom"
-    readonly property bool detailsVisible: codexUsage && codexUsage.panelVisible
 
     function loadBarConfig(output) {
         try {
@@ -52,133 +51,48 @@ Item {
 
     Component.onCompleted: reloadBarConfig()
 
-    component SectionSeparator: Rectangle {
-        width: visible ? 1 : 0
-        height: visible ? 14 : 0
-        color: root.colBorder
-        opacity: 0.65
-    }
-
-    component BarSurface: PanelWindow {
-        id: contentRoot
-        property bool topAnchored: false
+    PanelWindow {
+        id: barSurface
         screen: barRoot.screen
-
+        visible: barRoot.barVisible
         color: "transparent"
         anchors {
-            top: contentRoot.topAnchored
+            top: barRoot.barPosition === "top"
             left: true
             right: true
-            bottom: !contentRoot.topAnchored
+            bottom: barRoot.barPosition !== "top"
         }
 
-        implicitHeight: barRail.height + 8
+        implicitHeight: barCapsule.height + 8
 
         Rectangle {
-            id: barRail
+            id: barCapsule
             anchors {
-                left: parent.left
-                right: parent.right
-            top: contentRoot.topAnchored ? parent.top : undefined
-            bottom: contentRoot.topAnchored ? undefined : parent.bottom
-                leftMargin: 4
-                rightMargin: 4
+                horizontalCenter: parent.horizontalCenter
+                top: barRoot.barPosition === "top" ? parent.top : undefined
+                bottom: barRoot.barPosition === "top" ? undefined : parent.bottom
                 topMargin: 4
                 bottomMargin: 4
             }
+            implicitWidth: moduleRow.implicitWidth + 24
+            width: implicitWidth
             height: 26
-            radius: 10
+            radius: height / 2
             color: root.colBg
-
-            PopupWindow {
-                id: codexUsagePopup
-                anchor.item: codexUsageIndicator
-                anchor.edges: Edges.Top | Edges.Left
-                anchor.gravity: Edges.Top | Edges.Left
-                visible: barRoot.detailsVisible
-                grabFocus: true
-                color: "transparent"
-                implicitWidth: 420
-                implicitHeight: codexUsageDetails.implicitHeight + panelConnector.height
-
-                onVisibleChanged: {
-                    if (!visible && barRoot.detailsVisible)
-                        barRoot.codexUsage.closePanel()
-                }
-
-                CodexUsagePanel {
-                    id: codexUsageDetails
-                    anchors {
-                        left: parent.left
-                        right: parent.right
-                        top: parent.top
-                    }
-                    usage: barRoot.codexUsage
-                }
-
-                Rectangle {
-                    id: panelConnector
-                    anchors {
-                        left: parent.left
-                        bottom: parent.bottom
-                    }
-                    width: Math.max(64, codexUsageIndicator.width + 12)
-                    height: 6
-                    color: root.colBg
-                }
-            }
+            border.color: root.colBorder
 
             Row {
-                id: leftSection
-                anchors {
-                    left: barRail.left
-                    leftMargin: 6
-                    verticalCenter: parent.verticalCenter
-                }
+                id: moduleRow
+                anchors.centerIn: parent
                 spacing: 6
-                CodexUsageBar {
-                    id: codexUsageIndicator
-                    usage: barRoot.codexUsage
-                }
-                SectionSeparator { visible: codexUsageIndicator.visible }
+
+                Battery {}
+                Volume {}
                 Workspace {}
-                SectionSeparator {}
+                Wifi {}
+                Time {}
                 Ram {}
             }
-
-            Row {
-                anchors {
-                    right: barRail.right
-                    rightMargin: 6
-                    verticalCenter: parent.verticalCenter
-                }
-                spacing: 6
-                Brightness {}
-                SectionSeparator { visible: root.showBrightnessModule }
-                Volume {}
-                SectionSeparator { visible: wifiModule.visible }
-                Wifi {
-                    id: wifiModule
-                }
-                SectionSeparator {}
-                Date {}
-                SectionSeparator {}
-                Battery {}
-                SectionSeparator { visible: root.showBatteryModule }
-                Time {}
-                SectionSeparator {}
-                Wlogout {}
-            }
         }
-    }
-
-    BarSurface {
-        visible: barRoot.barVisible && barRoot.barPosition === "top"
-        topAnchored: true
-    }
-
-    BarSurface {
-        visible: barRoot.barVisible && barRoot.barPosition !== "top"
-        topAnchored: false
     }
 }
