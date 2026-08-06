@@ -149,6 +149,7 @@ bind(
 bind(mainMod .. " + P", group "Utilities" .. " screenshot", hl.dsp.exec_cmd(scripts .. "/screenshot.sh s"))
 bind(mainMod .. " + SHIFT + R", group "Utilities" .. " reload config", hl.dsp.exec_cmd "hyprctl reload")
 bind(mainMod .. " + B", group "Utilities" .. " toggle quickshell", hl.dsp.exec_cmd "qs ipc call bar toggle")
+bind(mainMod .. " + CTRL + C", group "Utilities" .. " toggle control center", hl.dsp.exec_cmd "qs ipc --path $HOME/.config/quickshell call controlCenter toggle")
 
 -- =============================================================================
 -- Hardware Controls
