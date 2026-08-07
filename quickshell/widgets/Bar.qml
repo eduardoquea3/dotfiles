@@ -87,8 +87,31 @@ Item {
                 bottomMargin: 4
             }
             height: 26
-            radius: 10
-            color: root.colBg
+            color: "transparent"
+
+            Rectangle {
+                id: leftIsland
+                anchors {
+                    left: parent.left
+                    verticalCenter: parent.verticalCenter
+                }
+                width: leftSection.implicitWidth + 12
+                height: parent.height
+                radius: 10
+                color: root.colBg
+            }
+
+            Rectangle {
+                id: rightIsland
+                anchors {
+                    right: parent.right
+                    verticalCenter: parent.verticalCenter
+                }
+                width: rightSection.implicitWidth + 12
+                height: parent.height
+                radius: 10
+                color: root.colBg
+            }
 
             PopupWindow {
                 id: codexUsagePopup
@@ -131,7 +154,8 @@ Item {
             Row {
                 id: leftSection
                 anchors {
-                    left: barRail.left
+                    left: leftIsland.left
+                    right: leftIsland.right
                     leftMargin: 6
                     verticalCenter: parent.verticalCenter
                 }
@@ -147,8 +171,10 @@ Item {
             }
 
             Row {
+                id: rightSection
                 anchors {
-                    right: barRail.right
+                    left: rightIsland.left
+                    right: rightIsland.right
                     rightMargin: 6
                     verticalCenter: parent.verticalCenter
                 }
