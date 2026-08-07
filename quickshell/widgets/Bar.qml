@@ -115,18 +115,87 @@ Item {
 
             PopupWindow {
                 id: codexUsagePopup
+                property bool panelRequested: contentRoot.visible && barRoot.detailsVisible
+                property bool keepVisible: false
+
                 anchor.item: codexUsageIndicator
-                anchor.edges: Edges.Top | Edges.Left
-                anchor.gravity: Edges.Top | Edges.Left
-                visible: barRoot.detailsVisible
+                anchor.edges: contentRoot.topAnchored
+                    ? Edges.Bottom | Edges.Left
+                    : Edges.Top | Edges.Left
+                anchor.gravity: contentRoot.topAnchored
+                    ? Edges.Bottom | Edges.Left
+                    : Edges.Top | Edges.Left
+                visible: keepVisible && contentRoot.visible
                 grabFocus: true
                 color: "transparent"
                 implicitWidth: 420
-                implicitHeight: codexUsageDetails.implicitHeight + panelConnector.height
+                implicitHeight: codexUsageDetails.implicitHeight + 8
+
+                onPanelRequestedChanged: {
+                    if (panelRequested) {
+                        keepVisible = true
+                        hideAnimation.stop()
+                        showAnimation.restart()
+                    } else if (keepVisible) {
+                        showAnimation.stop()
+                        hideAnimation.restart()
+                    }
+                }
+
+                Component.onCompleted: {
+                    if (panelRequested) {
+                        keepVisible = true
+                        showAnimation.start()
+                    }
+                }
 
                 onVisibleChanged: {
-                    if (!visible && barRoot.detailsVisible)
+                    if (!visible && contentRoot.visible && barRoot.detailsVisible)
                         barRoot.codexUsage.closePanel()
+                }
+
+                ParallelAnimation {
+                    id: showAnimation
+                    NumberAnimation {
+                        target: codexUsageDetails
+                        property: "opacity"
+                        from: 0
+                        to: 1
+                        duration: 180
+                        easing.type: Easing.OutCubic
+                    }
+                    NumberAnimation {
+                        target: codexUsageDetails
+                        property: "scale"
+                        from: 0.94
+                        to: 1
+                        duration: 180
+                        easing.type: Easing.OutCubic
+                    }
+                }
+
+                ParallelAnimation {
+                    id: hideAnimation
+                    NumberAnimation {
+                        target: codexUsageDetails
+                        property: "opacity"
+                        from: 1
+                        to: 0
+                        duration: 140
+                        easing.type: Easing.InCubic
+                    }
+                    NumberAnimation {
+                        target: codexUsageDetails
+                        property: "scale"
+                        from: 1
+                        to: 0.96
+                        duration: 140
+                        easing.type: Easing.InCubic
+                    }
+                    onFinished: {
+                        if (!codexUsagePopup.panelRequested)
+                            codexUsagePopup.keepVisible = false
+                    }
                 }
 
                 CodexUsagePanel {
@@ -134,20 +203,12 @@ Item {
                     anchors {
                         left: parent.left
                         right: parent.right
-                        top: parent.top
+                        top: contentRoot.topAnchored ? parent.top : undefined
+                        bottom: contentRoot.topAnchored ? undefined : parent.bottom
+                        topMargin: contentRoot.topAnchored ? 8 : 0
+                        bottomMargin: contentRoot.topAnchored ? 0 : 8
                     }
                     usage: barRoot.codexUsage
-                }
-
-                Rectangle {
-                    id: panelConnector
-                    anchors {
-                        left: parent.left
-                        bottom: parent.bottom
-                    }
-                    width: Math.max(64, codexUsageIndicator.width + 12)
-                    height: 6
-                    color: root.colBg
                 }
             }
 
