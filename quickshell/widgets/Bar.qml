@@ -182,9 +182,13 @@ Item {
                 Brightness {}
                 SectionSeparator { visible: root.showBrightnessModule }
                 Volume {}
-                SectionSeparator { visible: wifiModule.visible }
+                SectionSeparator { visible: wifiModule.visible || bluetoothModule.visible }
                 Wifi {
                     id: wifiModule
+                }
+                SectionSeparator { visible: wifiModule.visible && bluetoothModule.visible }
+                Bluetooth {
+                    id: bluetoothModule
                 }
                 SectionSeparator {}
                 Date {}
