@@ -9,19 +9,17 @@ Item {
     readonly property bool hasError: usage && usage.errorText !== ""
 
     visible: hasUsage || hasError
-    width: visible ? usageText.implicitWidth + 12 : 0
+    width: visible ? usageText.implicitWidth + 8 : 0
     height: 20
 
     function usageLabel() {
-        if (hasError)
-            return "ERR";
+        if (hasError || !hasUsage)
+            return "--";
 
-        var labels = [];
-        if (usage.primaryPercent >= 0)
-            labels.push("5h " + Math.round(usage.primaryPercent) + "%");
-        if (usage.secondaryPercent >= 0)
-            labels.push("W " + Math.round(usage.secondaryPercent) + "%");
-        return labels.join("  ");
+        var value = usage.primaryPercent >= 0
+            ? usage.primaryPercent
+            : usage.secondaryPercent;
+        return Math.round(value) + "%";
     }
 
     function usageColor() {
@@ -39,7 +37,7 @@ Item {
     Text {
         id: usageText
         anchors.centerIn: parent
-        text: "󰧑 " + codexUsageBar.usageLabel()
+        text: " " + codexUsageBar.usageLabel()
         color: codexUsageBar.usageColor()
         font {
             family: root.fontFamily

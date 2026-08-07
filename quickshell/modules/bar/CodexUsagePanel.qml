@@ -73,17 +73,6 @@ Item {
         radius: 12
         color: root.colBg
 
-        // Square the joining edge so this reads as an extension of the bar.
-        Rectangle {
-            anchors {
-                left: parent.left
-                right: parent.right
-                bottom: parent.bottom
-            }
-            height: 12
-            color: parent.color
-        }
-
         ColumnLayout {
             id: content
             anchors.fill: parent
@@ -95,7 +84,7 @@ Item {
                 spacing: 10
 
                 Text {
-                    text: "󰧑"
+                    text: ""
                     color: root.colBlue
                     font.family: root.fontFamily
                     font.pixelSize: 18
