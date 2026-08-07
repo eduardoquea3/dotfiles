@@ -32,6 +32,22 @@ Item {
         barConfigProc.running = true;
     }
 
+    function ensureBarConfig() {
+        if (!barConfigInitProc.running)
+            barConfigInitProc.running = true;
+    }
+
+    Process {
+        id: barConfigInitProc
+        command: [
+            "bash",
+            "-c",
+            "if [ ! -f '" + barRoot.configPath + "' ]; then printf '%s\\n' '{\"position\":\"bottom\"}' > '" + barRoot.configPath + "'; fi"
+        ]
+        running: false
+        onExited: barRoot.reloadBarConfig()
+    }
+
     Process {
         id: barConfigProc
         command: ["bash", "-c", "cat '" + barRoot.configPath + "' 2>/dev/null || echo '{\"position\":\"bottom\"}'"]
@@ -50,7 +66,7 @@ Item {
         onTriggered: barRoot.reloadBarConfig()
     }
 
-    Component.onCompleted: reloadBarConfig()
+    Component.onCompleted: ensureBarConfig()
 
     component SectionSeparator: Rectangle {
         width: visible ? 1 : 0
