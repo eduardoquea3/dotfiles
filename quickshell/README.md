@@ -14,6 +14,7 @@ Install these components for the config to work as written. Package names vary b
 | PipeWire | Audio widget | Used through `Quickshell.Services.Pipewire` in `modules/bar/Volume.qml`. |
 | UPower | Battery widget | Used through `Quickshell.Services.UPower` in `modules/bar/Battery.qml`. |
 | NetworkManager | Wi-Fi widget | `nmcli` is called from `modules/bar/Wifi.qml`. |
+| BlueZ | Bluetooth widget and connection panel | Used through `Quickshell.Bluetooth` in `modules/connectivity/ConnectionPanel.qml`. |
 | brightnessctl | Brightness widget | `modules/bar/Brightness.qml` calls `brightnessctl set ...`. |
 | cliphist | Clipboard history | Required by `modules/clipboard/Clipboard.qml` and `scripts/cliphist-visual.sh`. |
 | wl-clipboard | Clipboard copy | `wl-copy` is used when restoring a clipboard item. |
@@ -39,6 +40,7 @@ Install these components for the config to work as written. Package names vary b
 | Volume | `modules/bar/Volume.qml` | PipeWire |
 | Battery | `modules/bar/Battery.qml` | UPower |
 | Wi-Fi | `modules/bar/Wifi.qml` | NetworkManager (`nmcli`) |
+| Bluetooth | `modules/bar/Bluetooth.qml`, `modules/connectivity/ConnectionPanel.qml` | BlueZ |
 | Brightness | `modules/bar/Brightness.qml` | `brightnessctl` and backlight sysfs |
 | Logout menu | `modules/logout/*` | `systemctl`, `loginctl`, and `~/.config/hypr/scripts/lockscreen` |
 | Wallpaper picker | `modules/wallpaper/*`, `modules/launcher/*` | `awww`, `awww-daemon`, ImageMagick |
