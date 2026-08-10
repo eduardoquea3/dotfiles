@@ -4,6 +4,7 @@ import Quickshell.Wayland
 import QtQuick
 
 import "../modules/bar"
+import "../modules/connectivity"
 
 Item {
     id: barRoot
@@ -15,7 +16,16 @@ Item {
     property var screen: null
     property var codexUsage: null
     property string barPosition: "bottom"
+    property string connectionPanelType: ""
     readonly property bool detailsVisible: codexUsage && codexUsage.panelVisible
+
+    function toggleConnectionPanel(type) {
+        connectionPanelType = connectionPanelType === type ? "" : type;
+    }
+
+    function closeConnectionPanel() {
+        connectionPanelType = "";
+    }
 
     function loadBarConfig(output) {
         try {
@@ -150,18 +160,18 @@ Item {
                 onPanelRequestedChanged: {
                     if (panelRequested) {
                         keepVisible = true
-                        hideAnimation.stop()
-                        showAnimation.restart()
+                        connectionHideAnimation.stop()
+                        connectionShowAnimation.restart()
                     } else if (keepVisible) {
-                        showAnimation.stop()
-                        hideAnimation.restart()
+                        connectionShowAnimation.stop()
+                        connectionHideAnimation.restart()
                     }
                 }
 
                 Component.onCompleted: {
                     if (panelRequested) {
                         keepVisible = true
-                        showAnimation.start()
+                        connectionShowAnimation.start()
                     }
                 }
 
@@ -171,7 +181,7 @@ Item {
                 }
 
                 ParallelAnimation {
-                    id: showAnimation
+                    id: connectionShowAnimation
                     NumberAnimation {
                         target: codexUsageDetails
                         property: "opacity"
@@ -191,7 +201,7 @@ Item {
                 }
 
                 ParallelAnimation {
-                    id: hideAnimation
+                    id: connectionHideAnimation
                     NumberAnimation {
                         target: codexUsageDetails
                         property: "opacity"
@@ -225,6 +235,110 @@ Item {
                         bottomMargin: contentRoot.topAnchored ? 0 : 8
                     }
                     usage: barRoot.codexUsage
+                }
+            }
+
+            PopupWindow {
+                id: connectionPopup
+                property bool panelRequested: contentRoot.visible && barRoot.connectionPanelType !== ""
+                property bool keepVisible: false
+
+                anchor.item: barRoot.connectionPanelType === "bluetooth" ? bluetoothModule : wifiModule
+                anchor.edges: contentRoot.topAnchored
+                    ? Edges.Bottom | Edges.Right
+                    : Edges.Top | Edges.Right
+                anchor.gravity: contentRoot.topAnchored
+                    ? Edges.Bottom | Edges.Right
+                    : Edges.Top | Edges.Right
+                visible: keepVisible && contentRoot.visible
+                grabFocus: true
+                color: "transparent"
+                implicitWidth: connectionPanel.implicitWidth
+                implicitHeight: connectionPanel.implicitHeight + 8
+
+                onPanelRequestedChanged: {
+                    if (panelRequested) {
+                        keepVisible = true
+                        hideAnimation.stop()
+                        showAnimation.restart()
+                    } else if (keepVisible) {
+                        showAnimation.stop()
+                        hideAnimation.restart()
+                    }
+                }
+
+                Component.onCompleted: {
+                    if (panelRequested) {
+                        keepVisible = true
+                        showAnimation.start()
+                    }
+                }
+
+                onVisibleChanged: {
+                    if (!visible && contentRoot.visible && barRoot.connectionPanelType !== "")
+                        barRoot.closeConnectionPanel()
+                }
+
+                ParallelAnimation {
+                    id: showAnimation
+                    NumberAnimation {
+                        target: connectionPanel
+                        property: "opacity"
+                        from: 0
+                        to: 1
+                        duration: 180
+                        easing.type: Easing.OutCubic
+                    }
+                    NumberAnimation {
+                        target: connectionPanel
+                        property: "scale"
+                        from: 0.94
+                        to: 1
+                        duration: 180
+                        easing.type: Easing.OutCubic
+                    }
+                }
+
+                ParallelAnimation {
+                    id: hideAnimation
+                    NumberAnimation {
+                        target: connectionPanel
+                        property: "opacity"
+                        from: 1
+                        to: 0
+                        duration: 140
+                        easing.type: Easing.InCubic
+                    }
+                    NumberAnimation {
+                        target: connectionPanel
+                        property: "scale"
+                        from: 1
+                        to: 0.96
+                        duration: 140
+                        easing.type: Easing.InCubic
+                    }
+                    onFinished: {
+                        if (!connectionPopup.panelRequested)
+                            connectionPopup.keepVisible = false
+                    }
+                }
+
+                ConnectionPanel {
+                    id: connectionPanel
+                    anchors {
+                        left: parent.left
+                        right: parent.right
+                        top: contentRoot.topAnchored ? parent.top : undefined
+                        bottom: contentRoot.topAnchored ? undefined : parent.bottom
+                        topMargin: contentRoot.topAnchored ? 8 : 0
+                        bottomMargin: contentRoot.topAnchored ? 0 : 8
+                    }
+                    panelType: contentRoot.visible ? barRoot.connectionPanelType : ""
+                }
+
+                Connections {
+                    target: connectionPanel
+                    function onCloseRequested() { barRoot.closeConnectionPanel() }
                 }
             }
 
@@ -263,9 +377,17 @@ Item {
                 Wifi {
                     id: wifiModule
                 }
+                Connections {
+                    target: wifiModule
+                    function onClicked() { barRoot.toggleConnectionPanel("wifi") }
+                }
                 SectionSeparator { visible: wifiModule.visible && bluetoothModule.visible }
                 Bluetooth {
                     id: bluetoothModule
+                }
+                Connections {
+                    target: bluetoothModule
+                    function onClicked() { barRoot.toggleConnectionPanel("bluetooth") }
                 }
                 SectionSeparator {}
                 Date {}

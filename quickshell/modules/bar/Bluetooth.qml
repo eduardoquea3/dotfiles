@@ -7,6 +7,7 @@ Item {
     height: 20
 
     property bool connected: false
+    signal clicked()
 
     Process {
         id: bluetoothProc
@@ -35,5 +36,11 @@ Item {
             pixelSize: root.fontSize
             bold: true
         }
+    }
+
+    MouseArea {
+        anchors.fill: parent
+        cursorShape: Qt.PointingHandCursor
+        onClicked: bluetoothRect.clicked()
     }
 }
