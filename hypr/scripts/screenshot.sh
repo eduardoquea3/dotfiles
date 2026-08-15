@@ -75,16 +75,22 @@ fi
 
 SCREENSHOT_POST_COMMAND+=()
 SCREENSHOT_PRE_COMMAND+=()
+notify_screenshot() {
+    qs ipc --path "$HOME/.config/quickshell" call screenshot "$1" >/dev/null 2>&1 || true
+}
 pre_cmd() {
     for cmd in "${SCREENSHOT_PRE_COMMAND[@]}"; do
         eval "$cmd"
     done
-    trap 'post_cmd' EXIT
 }
 post_cmd() {
+    local exit_code=$?
+    trap - EXIT
+    notify_screenshot end
     for cmd in "${SCREENSHOT_POST_COMMAND[@]}"; do
         eval "$cmd"
     done
+    return "$exit_code"
 }
 
 temp_screenshot=${XDG_RUNTIME_DIR:-/tmp}/hyde_screenshot.png
@@ -167,6 +173,8 @@ qr_screenshot() {
     fi
 }
 
+trap 'post_cmd' EXIT
+notify_screenshot begin
 pre_cmd
 
 case $1 in

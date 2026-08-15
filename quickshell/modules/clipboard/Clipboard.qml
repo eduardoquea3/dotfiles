@@ -43,7 +43,21 @@ PanelWindow {
     HyprlandFocusGrab {
         id: focusGrab
         windows: [clipboardWindow]
-        onCleared: closeMenu()
+        onCleared: {
+            if (!root.screenshotActive)
+                closeMenu();
+        }
+    }
+
+    Connections {
+        target: root
+        function onScreenshotActiveChanged() {
+            if (!root.screenshotActive && clipboardWindow.visible) {
+                focusGrab.active = true;
+                searchField.forceActiveFocus();
+                Qt.callLater(() => searchField.forceActiveFocus());
+            }
+        }
     }
 
     function closeMenu() {
