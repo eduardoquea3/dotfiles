@@ -26,6 +26,11 @@ bind(
   group "Launcher" .. " application launcher",
   hl.dsp.exec_cmd("pkill -x rofi || " .. scripts .. "/launcher")
 )
+-- bind(
+--   mainMod .. " + D",
+--   group "Launcher" .. " application launcher",
+--   hl.dsp.exec_cmd "qs ipc --path $HOME/.config/quickshell call launcher toggle"
+-- )
 bind(mainMod .. " + V", group "Launcher" .. " clipboard history", hl.dsp.exec_cmd "qs ipc call clipboard toggle")
 bind(mainMod .. " + slash", group "Launcher" .. " keybindings hint", hl.dsp.exec_cmd(scripts .. "/keybinds_hint.sh"))
 bind(mainMod .. " + W", group "Launcher" .. " wallpaper picker", hl.dsp.exec_cmd "qs ipc call wallpaper toggle")
