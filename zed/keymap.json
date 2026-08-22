@@ -169,17 +169,6 @@
 		}
 	},
 	{
-		"context": "Pane",
-		"bindings": {
-			"space q": [
-				"pane::CloseActiveItem",
-				{
-					"close_pinned": false
-				}
-			]
-		}
-	},
-	{
 		"context": "vim_mode == insert",
 		"bindings": {
 			"ctrl-o": null
@@ -206,12 +195,6 @@
 	{
 		"bindings": {
 			"ctrl-o": "workspace::Open"
-		}
-	},
-	{
-		"context": "Workspace || Editor",
-		"bindings": {
-			"ctrl-w": "workspace::CloseActiveDock"
 		}
 	},
 	{
@@ -325,6 +308,11 @@
   "context": "(VimControl && !menu)",
   "bindings": {
    "g r": "editor::FindAllReferences"
+  }
+ },
+ {
+  "bindings": {
+   "ctrl-w": "workspace::CloseItemInAllPanes"
   }
  }
 ]

@@ -25,8 +25,9 @@
 			"type": "extension",
 			"default_model": "openai/gpt-5.4-mini",
 			"default_config_options": {
-				"effort": "medium",
-				"model": "openai/gpt-5.4-mini"
+				"mode": "build",
+    "effort": "medium",
+				"model": "openai/gpt-5.6-luna-fast"
 			},
 			"favorite_config_option_values": {
 				"model": ["openai/gpt-5.4-mini"]
