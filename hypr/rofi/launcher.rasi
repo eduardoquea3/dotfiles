@@ -29,17 +29,12 @@ window {
   transparency: "real";
   location: center;
   anchor: center;
-  fullscreen: false;
-  width: 360px;
-  height: 380px;
+  fullscreen: true;
   x-offset: 0px;
   y-offset: 0px;
   enabled: true;
-  border: 1px;
-  border-color: #333333;
-  border-radius: 19px;
   cursor: default;
-  background-color: @launcher-bg;
+  background-color: rgba(26, 26, 26, 0.90);
 }
 
 mainbox {
@@ -64,7 +59,6 @@ headerbar {
 textbox-header {
   enabled: true;
   expand: true;
-  str: "Applications";
   text-color: @launcher-fg;
   background-color: transparent;
   font-size: 12;
@@ -90,13 +84,14 @@ textbox-num-sep {
 inputbar {
   enabled: true;
   expand: false;
-  spacing: 10px;
-  padding: 7px 10px;
-  background-color: @launcher-surface;
+  margin: 0px 25%;
+  spacing: 8px;
+  padding: 5px 12px;
+  background-color: rgba(26, 26, 26, 0.74);
   text-color: @launcher-fg;
   orientation: horizontal;
   children: [ "textbox-search", "entry" ];
-  border-radius: 8px;
+  border-radius: 16px;
 }
 
 textbox-search {
@@ -126,7 +121,7 @@ entry {
 listbox {
   expand: true;
   spacing: 0px;
-  padding: 10px 0px 0px 0px;
+  padding: 20px 0px 0px 0px;
   background-color: transparent;
   orientation: vertical;
   children: [ "listview" ];
@@ -134,16 +129,17 @@ listbox {
 
 listview {
   enabled: true;
-  columns: 1;
-  lines: 7;
+  margin: 0px 18%;
+  columns: 6;
+  lines: 4;
   cycle: true;
   dynamic: true;
   scrollbar: false;
-  layout: vertical;
+  flow: horizontal;
   reverse: false;
   fixed-height: true;
   fixed-columns: true;
-  spacing: 3px;
+  spacing: 12px;
   background-color: transparent;
   text-color: @launcher-fg;
   cursor: default;
@@ -151,18 +147,20 @@ listview {
 
 element {
   enabled: true;
-  spacing: 8px;
-  padding: 5px 8px;
+  orientation: vertical;
+  spacing: 6px;
+  padding: 12px 8px;
   border: 0px;
-  border-radius: 9px;
-  background-color: transparent;
+  border-radius: 14px;
+  background-color: rgba(255, 255, 255, 0.035);
   text-color: @launcher-fg;
   cursor: pointer;
+  children: [ "element-icon", "element-text" ];
 }
 
 element normal.normal,
 element alternate.normal {
-  background-color: transparent;
+  background-color: rgba(255, 255, 255, 0.035);
   text-color: @launcher-fg;
   opacity: 1.0;
 }
@@ -170,9 +168,10 @@ element alternate.normal {
 element selected.normal,
 element selected.active,
 element selected.urgent {
-  background-color: @launcher-accent-soft;
-  border: 0px 0px 0px 2px;
+  background-color: rgba(196, 196, 196, 0.16);
+  border: 1px;
   border-color: @launcher-accent;
+  border-radius: 14px;
   text-color: @launcher-fg;
   opacity: 1.0;
 }
@@ -180,18 +179,21 @@ element selected.urgent {
 element-icon {
   background-color: transparent;
   text-color: inherit;
-  size: 24px;
+  size: 48px;
   cursor: inherit;
   vertical-align: 0.5;
+  horizontal-align: 0.5;
 }
 
 element-text {
   enabled: true;
-  expand: true;
+  expand: false;
   background-color: transparent;
   text-color: inherit;
   cursor: inherit;
   vertical-align: 0.5;
-  horizontal-align: 0;
-  font-size: 10;
+  horizontal-align: 0.5;
+  font-size: 9;
+  lines: 1;
+  padding: 2px 0px 0px 0px;
 }
