@@ -1,4 +1,14 @@
 #!/bin/bash
 
-# Script para lanzar rofi con el tema mejorado
-rofi -show drun -theme ~/.config/hypr/rofi/launcher.rasi
+# Use the wallpaper selected by the wallpaper picker as the launcher image.
+WALLPAPER_FILE="$HOME/.config/hypr/img/.wallpaper"
+WALLPAPER=$(<"$WALLPAPER_FILE")
+
+if [ ! -f "$WALLPAPER" ]; then
+    WALLPAPER="$HOME/.config/hypr/img/bg-1.jpg"
+fi
+
+rofi \
+    -show drun \
+    -theme "$HOME/.config/hypr/rofi/launcher.rasi" \
+    -theme-str "imagebox { background-image: url(\"$WALLPAPER\", height); }"
