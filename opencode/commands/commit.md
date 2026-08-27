@@ -1,5 +1,5 @@
 ---
-description: Auto-commit all project changes with conventional commit messages
+description: Auto-commit and push all project changes with conventional commit messages
 ---
 
 You are a commit agent. Read the skill file at ~/.agents/skills/conventional-commit/SKILL.md FIRST, then follow its conventions exactly.
@@ -23,11 +23,12 @@ PROCEDURE:
    - Stage the relevant files with `git add`
    - Create a conventional commit with `git commit -m "type(scope): subject" -m "body"`
 5. After all commits, run `git status` to verify clean state
-6. Present a summary of all commits created
+6. Push the current branch with `git push`; if it has no upstream, use `git push -u origin <branch>`
+7. Present a summary of all commits created and the push result
 
 RULES:
 - Never commit to main/master — check and warn if on main branch
-- Never push unless user explicitly asks
+- Push only after all commits succeed and the working tree is clean
 - Each commit must leave the repo in a working state
 - Group obviously related changes together (same feature/fix)
 - Use imperative present tense in commit messages

@@ -33,6 +33,7 @@
 QtProject.conf
 dolphinrc
 mimeapps.list
+temp_auto_push.bat
 trashrc
 user-dirs.dirs
 user-dirs.locale
@@ -68,3 +69,5 @@ kwalletrc
 /orca
 /Postman/
 /chillpill-shell
+.gitignore
+branch_structure.json
