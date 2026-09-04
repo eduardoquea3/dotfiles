@@ -26,6 +26,15 @@ Item {
         onTriggered: if (!bluetoothProc.running) bluetoothProc.running = true
     }
 
+    Rectangle {
+        anchors.fill: parent
+        radius: 6
+        color: bluetoothMouse.containsMouse
+            ? Qt.rgba(root.colFg.r, root.colFg.g, root.colFg.b, 0.1)
+            : "transparent"
+        Behavior on color { ColorAnimation { duration: 100 } }
+    }
+
     Text {
         id: bluetoothText
         anchors.centerIn: parent
@@ -39,7 +48,9 @@ Item {
     }
 
     MouseArea {
+        id: bluetoothMouse
         anchors.fill: parent
+        hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
         onClicked: bluetoothRect.clicked()
     }

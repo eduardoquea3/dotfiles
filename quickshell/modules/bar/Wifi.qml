@@ -40,6 +40,15 @@ Item {
         onTriggered: if (!wifiProc.running) wifiProc.running = true
     }
 
+    Rectangle {
+        anchors.fill: parent
+        radius: 6
+        color: wifiMouse.containsMouse
+            ? Qt.rgba(root.colFg.r, root.colFg.g, root.colFg.b, 0.1)
+            : "transparent"
+        Behavior on color { ColorAnimation { duration: 100 } }
+    }
+
     Text {
         id: wifiText
         anchors.centerIn: parent
@@ -54,7 +63,9 @@ Item {
     }
 
     MouseArea {
+        id: wifiMouse
         anchors.fill: parent
+        hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
         onClicked: wifiRect.clicked()
     }

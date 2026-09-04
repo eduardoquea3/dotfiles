@@ -23,6 +23,12 @@ Rectangle {
 
     signal closeRequested()
 
+    focus: open
+    Keys.onEscapePressed: {
+        closeRequested();
+        event.accepted = true;
+    }
+
     function requestScan() {
         if (!open || !radioEnabled)
             return;
@@ -223,18 +229,28 @@ Rectangle {
                 font.bold: true
             }
 
-            Text {
+            Rectangle {
+                id: closeButton
                 anchors.right: parent.right
                 anchors.verticalCenter: parent.verticalCenter
-                text: "󰅖"
-                color: closeMouse.containsMouse ? root.colFg : root.colBorder
-                font.family: root.fontFamily
-                font.pixelSize: root.fontSize + 2
+                width: 28
+                height: 28
+                radius: 8
+                color: closeMouse.containsMouse
+                    ? Qt.rgba(root.colFg.r, root.colFg.g, root.colFg.b, 0.12)
+                    : "transparent"
+
+                Text {
+                    anchors.centerIn: parent
+                    text: "󰅖"
+                    color: closeMouse.containsMouse ? root.colFg : root.colBorder
+                    font.family: root.fontFamily
+                    font.pixelSize: root.fontSize + 2
+                }
 
                 MouseArea {
                     id: closeMouse
                     anchors.fill: parent
-                    anchors.margins: -6
                     hoverEnabled: true
                     cursorShape: Qt.PointingHandCursor
                     onClicked: panel.closeRequested()
@@ -243,8 +259,7 @@ Rectangle {
 
             Item {
                 id: radioSwitch
-                anchors.right: closeMouse.parent.right
-                anchors.rightMargin: 28
+                anchors.right: closeButton.left
                 anchors.verticalCenter: parent.verticalCenter
                 width: 34
                 height: 20
@@ -290,19 +305,30 @@ Rectangle {
                 font.pixelSize: root.fontSize
             }
 
-            Text {
+            Rectangle {
+                id: rescanButton
                 anchors.right: parent.right
                 anchors.verticalCenter: parent.verticalCenter
-                text: panel.passwordMode ? "Back" : (panel.wifiMode ? "󰑐  Rescan" : "󰑐  Search")
+                width: rescanText.implicitWidth + 12
+                height: 24
                 visible: panel.passwordMode || panel.radioEnabled
-                color: rescanMouse.containsMouse ? root.colFg : root.colBorder
-                font.family: root.fontFamily
-                font.pixelSize: root.fontSize
+                radius: 7
+                color: rescanMouse.containsMouse
+                    ? Qt.rgba(root.colFg.r, root.colFg.g, root.colFg.b, 0.12)
+                    : "transparent"
+
+                Text {
+                    id: rescanText
+                    anchors.centerIn: parent
+                    text: panel.passwordMode ? "Back" : (panel.wifiMode ? "󰑐  Rescan" : "󰑐  Search")
+                    color: rescanMouse.containsMouse ? root.colFg : root.colBorder
+                    font.family: root.fontFamily
+                    font.pixelSize: root.fontSize
+                }
 
                 MouseArea {
                     id: rescanMouse
                     anchors.fill: parent
-                    anchors.margins: -5
                     hoverEnabled: true
                     cursorShape: Qt.PointingHandCursor
                     onClicked: panel.passwordMode ? panel.closePasswordForm() : panel.requestScan()
@@ -340,10 +366,16 @@ Rectangle {
                     width: wifiList.width
                     height: 58
                     radius: 10
-                    color: modelData.connected ? Qt.rgba(root.colBlue.r, root.colBlue.g, root.colBlue.b, 0.18) : Qt.rgba(root.colBorder.r, root.colBorder.g, root.colBorder.b, 0.11)
+                    color: wifiDelegateMouse.containsMouse
+                        ? Qt.rgba(root.colBlue.r, root.colBlue.g, root.colBlue.b, 0.28)
+                        : (modelData.connected
+                            ? Qt.rgba(root.colBlue.r, root.colBlue.g, root.colBlue.b, 0.18)
+                            : Qt.rgba(root.colBorder.r, root.colBorder.g, root.colBorder.b, 0.11))
 
                     MouseArea {
+                        id: wifiDelegateMouse
                         anchors.fill: parent
+                        hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
                         onClicked: panel.selectWifiNetwork(modelData)
                     }
@@ -433,10 +465,16 @@ Rectangle {
                     width: bluetoothList.width
                     height: 58
                     radius: 10
-                    color: modelData.connected ? Qt.rgba(root.colPurple.r, root.colPurple.g, root.colPurple.b, 0.2) : Qt.rgba(root.colBorder.r, root.colBorder.g, root.colBorder.b, 0.11)
+                    color: bluetoothDelegateMouse.containsMouse
+                        ? Qt.rgba(root.colPurple.r, root.colPurple.g, root.colPurple.b, 0.3)
+                        : (modelData.connected
+                            ? Qt.rgba(root.colPurple.r, root.colPurple.g, root.colPurple.b, 0.2)
+                            : Qt.rgba(root.colBorder.r, root.colBorder.g, root.colBorder.b, 0.11))
 
                     MouseArea {
+                        id: bluetoothDelegateMouse
                         anchors.fill: parent
+                        hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
                         onClicked: panel.toggleBluetoothDevice(modelData)
                     }
