@@ -28,8 +28,10 @@ resolve_cover() {
 }
 
 playerctl -p spotify metadata --follow \
-  --format '{{mpris:artUrl}}|{{artist}}|{{title}}' |
-  while IFS="|" read -r cover artist title; do
+  --format '{{status}}|{{mpris:artUrl}}|{{artist}}|{{title}}' |
+  while IFS="|" read -r status cover artist title; do
+    [[ "$status" == "Playing" && -n "$artist" && -n "$title" ]] || continue
+
     icon_args=()
     resolved_cover="$(resolve_cover "$cover")"
 
