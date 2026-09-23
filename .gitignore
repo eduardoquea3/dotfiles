@@ -47,6 +47,10 @@ kwalletrc
 /React Native DevTools
 .wallpaper
 /Typora
+/chillpill-shell/
+/herdr/session.json
+/herdr/.plugins.lock
+/nushell/history.txt
 
 /Cursor/[BCDTWSGILNP]*
 /Cursor/[lmps]*
