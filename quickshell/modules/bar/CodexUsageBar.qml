@@ -9,7 +9,7 @@ Item {
     readonly property bool hasError: usage && usage.errorText !== ""
 
     visible: hasUsage || hasError
-    width: visible ? usageText.implicitWidth + 12 : 0
+    width: visible ? usageContent.implicitWidth + 12 : 0
     height: 20
 
     function usageLabel() {
@@ -18,10 +18,10 @@ Item {
 
         var labels = [];
         if (usage.primaryPercent >= 0)
-            labels.push("5h " + Math.round(usage.primaryPercent) + "%");
+            labels.push(Math.round(usage.primaryPercent) + "% 󰥔");
         if (usage.secondaryPercent >= 0)
-            labels.push("W " + Math.round(usage.secondaryPercent) + "%");
-        return labels.join("  ");
+            labels.push(Math.round(usage.secondaryPercent) + "% 󰃭");
+        return labels.join(" / ");
     }
 
     function usageColor() {
@@ -36,15 +36,29 @@ Item {
         return root.colBlue;
     }
 
-    Text {
-        id: usageText
+    Row {
+        id: usageContent
         anchors.centerIn: parent
-        text: "󰧑 " + codexUsageBar.usageLabel()
-        color: codexUsageBar.usageColor()
-        font {
-            family: root.fontFamily
-            pixelSize: root.fontSize
-            bold: true
+        spacing: 4
+
+        Text {
+            text: ""
+            color: root.colPurple
+            font {
+                family: root.fontFamily
+                pixelSize: root.fontSize
+                bold: true
+            }
+        }
+
+        Text {
+            text: codexUsageBar.usageLabel()
+            color: codexUsageBar.usageColor()
+            font {
+                family: root.fontFamily
+                pixelSize: root.fontSize
+                bold: true
+            }
         }
     }
 
