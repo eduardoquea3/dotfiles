@@ -3,11 +3,21 @@ import Quickshell.Wayland
 import QtQuick
 
 import "../modules/bar"
+import "../modules/connectivity"
 
 PanelWindow {
     id: barWindow
     property var codexUsage: null
+    property string connectionPanelType: ""
     readonly property bool detailsVisible: codexUsage && codexUsage.panelVisible
+
+    function toggleConnectionPanel(type) {
+        connectionPanelType = connectionPanelType === type ? "" : type
+    }
+
+    function closeConnectionPanel() {
+        connectionPanelType = ""
+    }
 
     color: "transparent"
     anchors {
@@ -63,6 +73,42 @@ PanelWindow {
         }
     }
 
+    PopupWindow {
+        id: connectionPopup
+        anchor.item: connectionPanelType === "bluetooth" ? bluetoothIndicator : wifiIndicator
+        anchor.edges: Edges.Top | Edges.Right
+        anchor.gravity: Edges.Top | Edges.Right
+        visible: connectionPanelType !== ""
+        grabFocus: true
+        color: "transparent"
+        implicitWidth: connectionPanel.implicitWidth
+        implicitHeight: connectionPanel.implicitHeight + 8
+
+        onVisibleChanged: {
+            if (!visible && barWindow.connectionPanelType !== "")
+                barWindow.closeConnectionPanel()
+        }
+
+        ConnectionPanel {
+            id: connectionPanel
+            panelType: barWindow.connectionPanelType
+            anchors {
+                left: parent.left
+                right: parent.right
+                bottom: parent.bottom
+                bottomMargin: 8
+            }
+        }
+
+        Connections {
+            target: connectionPanel
+
+            function onCloseRequested() {
+                barWindow.closeConnectionPanel()
+            }
+        }
+    }
+
     Rectangle {
         id: barRail
         anchors {
@@ -106,7 +152,32 @@ PanelWindow {
         SectionSeparator { visible: root.showBrightnessModule }
         Volume {}
         SectionSeparator {}
-        Wifi {}
+        Wifi {
+            id: wifiIndicator
+        }
+
+        Connections {
+            target: wifiIndicator
+
+            function onClicked() {
+                barWindow.toggleConnectionPanel("wifi")
+            }
+        }
+
+        SectionSeparator { visible: wifiIndicator.visible || bluetoothIndicator.visible }
+
+        Bluetooth {
+            id: bluetoothIndicator
+        }
+
+        Connections {
+            target: bluetoothIndicator
+
+            function onClicked() {
+                barWindow.toggleConnectionPanel("bluetooth")
+            }
+        }
+
         SectionSeparator {}
         Date {}
         SectionSeparator {}
