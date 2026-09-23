@@ -96,7 +96,7 @@ Item {
 
     Process {
         id: usageProcess
-        command: ["codexbar", "usage", "--provider", "codex", "--source", "cli", "--format", "json"]
+        command: ["sh", "-c", "PATH=\"$HOME/.local/bin:$HOME/.opencode/bin:/home/linuxbrew/.linuxbrew/bin:/usr/local/bin:$PATH\" exec codexbar usage --provider codex --source cli --format json"]
         running: true
 
         stdout: StdioCollector {
