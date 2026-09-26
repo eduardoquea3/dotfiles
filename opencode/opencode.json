@@ -312,9 +312,7 @@
   "default_agent": "build",
   "mcp": {
     "back": {
-      "command": [
-        "postgresql-mcp"
-      ],
+      "command": ["postgresql-mcp"],
       "enabled": true,
       "environment": {
         "POSTGRES_DB": "development",
@@ -326,9 +324,12 @@
       "type": "local"
     },
     "context7": {
-      "enabled": true,
       "type": "remote",
-      "url": "https://mcp.context7.com/mcp"
+      "url": "https://mcp.context7.com/mcp",
+      "headers": {
+        "CONTEXT7_API_KEY": "{env:CONTEXT7_API_KEY}"
+      },
+      "enabled": true
     },
     "engram": {
       "command": [
@@ -339,9 +340,7 @@
       "type": "local"
     },
     "pos": {
-      "command": [
-        "postgresql-mcp"
-      ],
+      "command": ["postgresql-mcp"],
       "enabled": true,
       "environment": {
         "POSTGRES_DB": "ventas",
@@ -380,8 +379,6 @@
       "*.env.*": "deny"
     }
   },
-  "plugin": [
-    "@warp-dot-dev/opencode-warp@0.1.5"
-  ],
+  "plugin": ["@warp-dot-dev/opencode-warp@0.1.5"],
   "share": "disabled"
 }
