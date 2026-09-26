@@ -50,6 +50,8 @@ kwalletrc
 /chillpill-shell/
 /herdr/session.json
 /herdr/.plugins.lock
+/herdr/*.log
+/herdr/*.sock
 /nushell/history.txt
 
 /Cursor/[BCDTWSGILNP]*
