@@ -3,31 +3,7 @@
 # Official zoxide integration for Nushell.
 source ~/.zoxide.nu
 
-# Aliases migrated from ~/.config/zsh/alias.sh.
-def ss [] { exec nu }
-alias ns = nvim $nu.config-path
-alias nsa = nvim $nu.config-path
-alias nse = nvim $nu.default-config-dir
-alias cls = clear
-
-alias dev = just dev
-alias lg = lazygit
-alias ld = lazydocker
-
-alias i = impala
-alias bt = bluetui
-alias wm = wiremix
-
-alias pd = podman
-alias pdu = podman-tui
-alias cc = codex
-alias op = opencode
-alias cupd = claude update
-
-alias nv = nvim
-alias vim = nvim
-alias ze = zellij
-alias cd = z
+source ($nu.default-config-dir | path join "alias.nu")
 
 def zo [directory?: path] {
     let root = ($directory | default ".")
@@ -65,5 +41,6 @@ def --env --wrapped spf [...args: string] {
 }
 
 # Official Starship integration for Nushell.
-mkdir ($nu.data-dir | path join "vendor/autoload")
-starship init nu | save -f ($nu.data-dir | path join "vendor/autoload/starship.nu")
+let starship_init = ($nu.data-dir | path join "vendor/autoload" "starship.nu")
+mkdir ($starship_init | path dirname)
+starship init nu | save -f $starship_init
