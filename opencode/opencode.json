@@ -309,7 +309,7 @@
       "variant": "medium"
     }
   },
-  "default_agent": "gentle-orchestrator",
+  "default_agent": "build",
   "mcp": {
     "back": {
       "command": [
