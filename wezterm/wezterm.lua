@@ -68,98 +68,98 @@ config.inactive_pane_hsb = {
   brightness = 0.6,
 }
 
-config.leader = { key = "o", mods = "CTRL", timeout_milliseconds = 1000 }
-config.keys = {
-  { key = "a", mods = "LEADER|CTRL", action = act.SendKey { key = "a", mods = "CTRL" } },
-  { key = "c", mods = "LEADER", action = act.ActivateCopyMode },
-  -- "phys:Space" <- key "space"
-  { key = "p", mods = "CTRL|SHIFT", action = act.ActivateCommandPalette },
-
-  { key = "v", mods = "CTRL|SHIFT", action = act.PasteFrom "Clipboard" },
-  { key = "c", mods = "LEADER", action = act.CopyTo "ClipboardAndPrimarySelection" },
-
-  { key = "Tab", mods = "CTRL|SHIFT", action = act { ActivateTabRelative = -1 } },
-  { key = "Tab", mods = "CTRL", action = act { ActivateTabRelative = 1 } },
-
-  { key = "s", mods = "LEADER", action = act.SplitVertical { domain = "CurrentPaneDomain" } },
-  { key = "v", mods = "LEADER", action = act.SplitHorizontal { domain = "CurrentPaneDomain" } },
-  { key = "h", mods = "LEADER", action = act.ActivatePaneDirection "Left" },
-  { key = "j", mods = "LEADER", action = act.ActivatePaneDirection "Down" },
-  { key = "k", mods = "LEADER", action = act.ActivatePaneDirection "Up" },
-  { key = "l", mods = "LEADER", action = act.ActivatePaneDirection "Right" },
-  { key = "q", mods = "LEADER", action = act.CloseCurrentPane { confirm = true } },
-  { key = "z", mods = "LEADER", action = act.TogglePaneZoomState },
-  { key = "o", mods = "LEADER", action = act.RotatePanes "Clockwise" },
-  {
-    key = "r",
-    mods = "LEADER",
-    action = act.ActivateKeyTable { name = "resize_pane", one_shot = false },
-  },
-
-  { key = "n", mods = "LEADER", action = act.SpawnTab "CurrentPaneDomain" },
-  { key = "[", mods = "LEADER", action = act.ActivateTabRelative(-1) },
-  { key = "]", mods = "LEADER", action = act.ActivateTabRelative(1) },
-  { key = "a", mods = "LEADER", action = act.ShowTabNavigator },
-  {
-    key = "e",
-    mods = "LEADER",
-    action = act.PromptInputLine {
-      description = wezterm.format {
-        { Attribute = { Intensity = "Bold" } },
-        { Foreground = { AnsiColor = "Blue" } },
-        { Text = "Renaming Tab Title...:" },
-      },
-      action = wezterm.action_callback(function(window, _, line)
-        if line then
-          window:active_tab():set_title(line)
-        end
-      end),
-    },
-  },
-  { key = "m", mods = "LEADER", action = act.ActivateKeyTable { name = "move_tab", one_shot = false } },
-  { key = "{", mods = "LEADER|SHIFT", action = act.MoveTabRelative(-1) },
-  { key = "}", mods = "LEADER|SHIFT", action = act.MoveTabRelative(1) },
-
-  { key = "w", mods = "LEADER", action = act.ShowLauncherArgs { flags = "FUZZY|WORKSPACES" } },
-  { key = "f", mods = "LEADER", action = act.Search { CaseSensitiveString = "" } },
-}
-
-config.mouse_bindings = {
-  {
-    event = { Down = { streak = 1, button = "Right" } },
-    mods = "NONE",
-    action = act.PasteFrom "Clipboard",
-  },
-}
-
-for i = 1, 9 do
-  table.insert(config.keys, {
-    key = tostring(i),
-    mods = "LEADER",
-    action = act.ActivateTab(i - 1),
-  })
-end
-
-config.key_tables = {
-  resize_pane = {
-    { key = "h", action = act.AdjustPaneSize { "Left", 1 } },
-    { key = "j", action = act.AdjustPaneSize { "Down", 1 } },
-    { key = "k", action = act.AdjustPaneSize { "Up", 1 } },
-    { key = "l", action = act.AdjustPaneSize { "Right", 1 } },
-    { key = "Escape", action = "PopKeyTable" },
-    { key = "q", action = "PopKeyTable" },
-    { key = "Enter", action = "PopKeyTable" },
-  },
-  move_tab = {
-    { key = "h", action = act.MoveTabRelative(-1) },
-    { key = "j", action = act.MoveTabRelative(-1) },
-    { key = "k", action = act.MoveTabRelative(1) },
-    { key = "l", action = act.MoveTabRelative(1) },
-    { key = "Escape", action = "PopKeyTable" },
-    { key = "q", action = "PopKeyTable" },
-    { key = "Enter", action = "PopKeyTable" },
-  },
-}
+-- config.leader = { key = "o", mods = "CTRL", timeout_milliseconds = 1000 }
+-- config.keys = {
+--   { key = "a", mods = "LEADER|CTRL", action = act.SendKey { key = "a", mods = "CTRL" } },
+--   { key = "c", mods = "LEADER", action = act.ActivateCopyMode },
+--   -- "phys:Space" <- key "space"
+--   { key = "p", mods = "CTRL|SHIFT", action = act.ActivateCommandPalette },
+--
+--   { key = "v", mods = "CTRL|SHIFT", action = act.PasteFrom "Clipboard" },
+--   { key = "c", mods = "LEADER", action = act.CopyTo "ClipboardAndPrimarySelection" },
+--
+--   { key = "Tab", mods = "CTRL|SHIFT", action = act { ActivateTabRelative = -1 } },
+--   { key = "Tab", mods = "CTRL", action = act { ActivateTabRelative = 1 } },
+--
+--   { key = "s", mods = "LEADER", action = act.SplitVertical { domain = "CurrentPaneDomain" } },
+--   { key = "v", mods = "LEADER", action = act.SplitHorizontal { domain = "CurrentPaneDomain" } },
+--   { key = "h", mods = "LEADER", action = act.ActivatePaneDirection "Left" },
+--   { key = "j", mods = "LEADER", action = act.ActivatePaneDirection "Down" },
+--   { key = "k", mods = "LEADER", action = act.ActivatePaneDirection "Up" },
+--   { key = "l", mods = "LEADER", action = act.ActivatePaneDirection "Right" },
+--   { key = "q", mods = "LEADER", action = act.CloseCurrentPane { confirm = true } },
+--   { key = "z", mods = "LEADER", action = act.TogglePaneZoomState },
+--   { key = "o", mods = "LEADER", action = act.RotatePanes "Clockwise" },
+--   {
+--     key = "r",
+--     mods = "LEADER",
+--     action = act.ActivateKeyTable { name = "resize_pane", one_shot = false },
+--   },
+--
+--   { key = "n", mods = "LEADER", action = act.SpawnTab "CurrentPaneDomain" },
+--   { key = "[", mods = "LEADER", action = act.ActivateTabRelative(-1) },
+--   { key = "]", mods = "LEADER", action = act.ActivateTabRelative(1) },
+--   { key = "a", mods = "LEADER", action = act.ShowTabNavigator },
+--   {
+--     key = "e",
+--     mods = "LEADER",
+--     action = act.PromptInputLine {
+--       description = wezterm.format {
+--         { Attribute = { Intensity = "Bold" } },
+--         { Foreground = { AnsiColor = "Blue" } },
+--         { Text = "Renaming Tab Title...:" },
+--       },
+--       action = wezterm.action_callback(function(window, _, line)
+--         if line then
+--           window:active_tab():set_title(line)
+--         end
+--       end),
+--     },
+--   },
+--   { key = "m", mods = "LEADER", action = act.ActivateKeyTable { name = "move_tab", one_shot = false } },
+--   { key = "{", mods = "LEADER|SHIFT", action = act.MoveTabRelative(-1) },
+--   { key = "}", mods = "LEADER|SHIFT", action = act.MoveTabRelative(1) },
+--
+--   { key = "w", mods = "LEADER", action = act.ShowLauncherArgs { flags = "FUZZY|WORKSPACES" } },
+--   { key = "f", mods = "LEADER", action = act.Search { CaseSensitiveString = "" } },
+-- }
+--
+-- config.mouse_bindings = {
+--   {
+--     event = { Down = { streak = 1, button = "Right" } },
+--     mods = "NONE",
+--     action = act.PasteFrom "Clipboard",
+--   },
+-- }
+--
+-- for i = 1, 9 do
+--   table.insert(config.keys, {
+--     key = tostring(i),
+--     mods = "LEADER",
+--     action = act.ActivateTab(i - 1),
+--   })
+-- end
+--
+-- config.key_tables = {
+--   resize_pane = {
+--     { key = "h", action = act.AdjustPaneSize { "Left", 1 } },
+--     { key = "j", action = act.AdjustPaneSize { "Down", 1 } },
+--     { key = "k", action = act.AdjustPaneSize { "Up", 1 } },
+--     { key = "l", action = act.AdjustPaneSize { "Right", 1 } },
+--     { key = "Escape", action = "PopKeyTable" },
+--     { key = "q", action = "PopKeyTable" },
+--     { key = "Enter", action = "PopKeyTable" },
+--   },
+--   move_tab = {
+--     { key = "h", action = act.MoveTabRelative(-1) },
+--     { key = "j", action = act.MoveTabRelative(-1) },
+--     { key = "k", action = act.MoveTabRelative(1) },
+--     { key = "l", action = act.MoveTabRelative(1) },
+--     { key = "Escape", action = "PopKeyTable" },
+--     { key = "q", action = "PopKeyTable" },
+--     { key = "Enter", action = "PopKeyTable" },
+--   },
+-- }
 
 config.use_fancy_tab_bar = false
 config.status_update_interval = 1000

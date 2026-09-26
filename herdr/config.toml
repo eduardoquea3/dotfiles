@@ -1,0 +1,9 @@
+onboarding = false
+
+[keys]
+# Use Ctrl+O as Herdr's prefix key.
+prefix = "ctrl+o"
+
+# Switch tabs with prefix+1..9 and workspaces with direct Ctrl+1..9.
+switch_tab = "prefix+1..9"
+switch_workspace = "ctrl+1..9"
