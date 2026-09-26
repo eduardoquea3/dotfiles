@@ -1,5 +1,7 @@
 # Interactive Nushell configuration.
 
+$env.config.show_banner = false
+
 # Official zoxide integration for Nushell.
 source ~/.zoxide.nu
 
