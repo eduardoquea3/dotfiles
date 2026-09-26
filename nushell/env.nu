@@ -4,6 +4,12 @@ $env.ANDROID_HOME = ($env.HOME | path join "Android" "Sdk")
 $env.EDITOR = "nvim"
 $env.ELECTRON_OZONE_PLATFORM_HINT = "x11"
 
+# Load the Context7 key from outside the dotfiles repository when available.
+let context7_key_file = ($env.HOME | path join ".local" "share" "opencode" "context7.key")
+if ($context7_key_file | path exists) {
+    $env.CONTEXT7_API_KEY = (open $context7_key_file | str trim)
+}
+
 let uid = (^id -u | str trim)
 $env.DOCKER_HOST = $"unix:///run/user/($uid)/podman/podman.sock"
 
