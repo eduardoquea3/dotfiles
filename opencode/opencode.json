@@ -313,7 +313,7 @@
   "mcp": {
     "back": {
       "command": ["postgresql-mcp"],
-      "enabled": true,
+      "enabled": false,
       "environment": {
         "POSTGRES_DB": "development",
         "POSTGRES_HOST": "192.168.18.137",
@@ -341,7 +341,7 @@
     },
     "pos": {
       "command": ["postgresql-mcp"],
-      "enabled": true,
+      "enabled": false,
       "environment": {
         "POSTGRES_DB": "ventas",
         "POSTGRES_HOST": "localhost",
