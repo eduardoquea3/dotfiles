@@ -5,5 +5,5 @@ onboarding = false
 prefix = "ctrl+o"
 
 # Switch tabs with prefix+1..9 and workspaces with direct Ctrl+1..9.
-switch_tab = "prefix+1..9"
-switch_workspace = "ctrl+1..9"
+switch_tab = "alt+shift+1..9"
+switch_workspace = "alt+1..9"
