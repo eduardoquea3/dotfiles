@@ -29,6 +29,7 @@
 /pulse
 /session
 /spotify
+/spotifast/
 /jiratui
 QtProject.conf
 dolphinrc
