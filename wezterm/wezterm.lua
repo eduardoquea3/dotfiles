@@ -2,14 +2,14 @@ local wezterm = require "wezterm"
 local act = wezterm.action
 
 -- local bash = "C:\\Users\\eduar\\scoop\\shims\\bash.exe"
-local zsh = "/bin/zsh"
+local nu = "/bin/nu"
 
 local config = {}
 if wezterm.config_builder then
   config = wezterm.config_builder()
 end
 
-config.default_prog = { zsh }
+config.default_prog = { nu }
 
 config.force_reverse_video_cursor = true
 config.colors = {
@@ -69,60 +69,60 @@ config.inactive_pane_hsb = {
 }
 
 -- config.leader = { key = "o", mods = "CTRL", timeout_milliseconds = 1000 }
--- config.keys = {
---   { key = "a", mods = "LEADER|CTRL", action = act.SendKey { key = "a", mods = "CTRL" } },
---   { key = "c", mods = "LEADER", action = act.ActivateCopyMode },
---   -- "phys:Space" <- key "space"
---   { key = "p", mods = "CTRL|SHIFT", action = act.ActivateCommandPalette },
---
---   { key = "v", mods = "CTRL|SHIFT", action = act.PasteFrom "Clipboard" },
---   { key = "c", mods = "LEADER", action = act.CopyTo "ClipboardAndPrimarySelection" },
---
---   { key = "Tab", mods = "CTRL|SHIFT", action = act { ActivateTabRelative = -1 } },
---   { key = "Tab", mods = "CTRL", action = act { ActivateTabRelative = 1 } },
---
---   { key = "s", mods = "LEADER", action = act.SplitVertical { domain = "CurrentPaneDomain" } },
---   { key = "v", mods = "LEADER", action = act.SplitHorizontal { domain = "CurrentPaneDomain" } },
---   { key = "h", mods = "LEADER", action = act.ActivatePaneDirection "Left" },
---   { key = "j", mods = "LEADER", action = act.ActivatePaneDirection "Down" },
---   { key = "k", mods = "LEADER", action = act.ActivatePaneDirection "Up" },
---   { key = "l", mods = "LEADER", action = act.ActivatePaneDirection "Right" },
---   { key = "q", mods = "LEADER", action = act.CloseCurrentPane { confirm = true } },
---   { key = "z", mods = "LEADER", action = act.TogglePaneZoomState },
---   { key = "o", mods = "LEADER", action = act.RotatePanes "Clockwise" },
---   {
---     key = "r",
---     mods = "LEADER",
---     action = act.ActivateKeyTable { name = "resize_pane", one_shot = false },
---   },
---
---   { key = "n", mods = "LEADER", action = act.SpawnTab "CurrentPaneDomain" },
---   { key = "[", mods = "LEADER", action = act.ActivateTabRelative(-1) },
---   { key = "]", mods = "LEADER", action = act.ActivateTabRelative(1) },
---   { key = "a", mods = "LEADER", action = act.ShowTabNavigator },
---   {
---     key = "e",
---     mods = "LEADER",
---     action = act.PromptInputLine {
---       description = wezterm.format {
---         { Attribute = { Intensity = "Bold" } },
---         { Foreground = { AnsiColor = "Blue" } },
---         { Text = "Renaming Tab Title...:" },
---       },
---       action = wezterm.action_callback(function(window, _, line)
---         if line then
---           window:active_tab():set_title(line)
---         end
---       end),
---     },
---   },
---   { key = "m", mods = "LEADER", action = act.ActivateKeyTable { name = "move_tab", one_shot = false } },
---   { key = "{", mods = "LEADER|SHIFT", action = act.MoveTabRelative(-1) },
---   { key = "}", mods = "LEADER|SHIFT", action = act.MoveTabRelative(1) },
---
---   { key = "w", mods = "LEADER", action = act.ShowLauncherArgs { flags = "FUZZY|WORKSPACES" } },
---   { key = "f", mods = "LEADER", action = act.Search { CaseSensitiveString = "" } },
--- }
+config.keys = {
+  --   { key = "a", mods = "LEADER|CTRL", action = act.SendKey { key = "a", mods = "CTRL" } },
+  --   { key = "c", mods = "LEADER", action = act.ActivateCopyMode },
+  --   -- "phys:Space" <- key "space"
+  --   { key = "p", mods = "CTRL|SHIFT", action = act.ActivateCommandPalette },
+  --
+  { key = "v", mods = "CTRL|SHIFT", action = act.PasteFrom "Clipboard" },
+  --   { key = "c", mods = "LEADER", action = act.CopyTo "ClipboardAndPrimarySelection" },
+  --
+  --   { key = "Tab", mods = "CTRL|SHIFT", action = act { ActivateTabRelative = -1 } },
+  --   { key = "Tab", mods = "CTRL", action = act { ActivateTabRelative = 1 } },
+  --
+  --   { key = "s", mods = "LEADER", action = act.SplitVertical { domain = "CurrentPaneDomain" } },
+  --   { key = "v", mods = "LEADER", action = act.SplitHorizontal { domain = "CurrentPaneDomain" } },
+  --   { key = "h", mods = "LEADER", action = act.ActivatePaneDirection "Left" },
+  --   { key = "j", mods = "LEADER", action = act.ActivatePaneDirection "Down" },
+  --   { key = "k", mods = "LEADER", action = act.ActivatePaneDirection "Up" },
+  --   { key = "l", mods = "LEADER", action = act.ActivatePaneDirection "Right" },
+  --   { key = "q", mods = "LEADER", action = act.CloseCurrentPane { confirm = true } },
+  --   { key = "z", mods = "LEADER", action = act.TogglePaneZoomState },
+  --   { key = "o", mods = "LEADER", action = act.RotatePanes "Clockwise" },
+  --   {
+  --     key = "r",
+  --     mods = "LEADER",
+  --     action = act.ActivateKeyTable { name = "resize_pane", one_shot = false },
+  --   },
+  --
+  --   { key = "n", mods = "LEADER", action = act.SpawnTab "CurrentPaneDomain" },
+  --   { key = "[", mods = "LEADER", action = act.ActivateTabRelative(-1) },
+  --   { key = "]", mods = "LEADER", action = act.ActivateTabRelative(1) },
+  --   { key = "a", mods = "LEADER", action = act.ShowTabNavigator },
+  --   {
+  --     key = "e",
+  --     mods = "LEADER",
+  --     action = act.PromptInputLine {
+  --       description = wezterm.format {
+  --         { Attribute = { Intensity = "Bold" } },
+  --         { Foreground = { AnsiColor = "Blue" } },
+  --         { Text = "Renaming Tab Title...:" },
+  --       },
+  --       action = wezterm.action_callback(function(window, _, line)
+  --         if line then
+  --           window:active_tab():set_title(line)
+  --         end
+  --       end),
+  --     },
+  --   },
+  --   { key = "m", mods = "LEADER", action = act.ActivateKeyTable { name = "move_tab", one_shot = false } },
+  --   { key = "{", mods = "LEADER|SHIFT", action = act.MoveTabRelative(-1) },
+  --   { key = "}", mods = "LEADER|SHIFT", action = act.MoveTabRelative(1) },
+  --
+  --   { key = "w", mods = "LEADER", action = act.ShowLauncherArgs { flags = "FUZZY|WORKSPACES" } },
+  --   { key = "f", mods = "LEADER", action = act.Search { CaseSensitiveString = "" } },
+}
 --
 -- config.mouse_bindings = {
 --   {

@@ -151,4 +151,4 @@ vim_mode_enabled = true
 [session]
 
 [session.new_session_shell_override]
-executable = "/usr/bin/zsh"
+executable = "/bin/nu"
