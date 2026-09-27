@@ -463,7 +463,14 @@ Rectangle {
                         anchors.rightMargin: 8
                         anchors.bottom: parent.bottom
                         anchors.bottomMargin: 9
-                        text: modelData.connected ? "Connected" : (modelData.paired ? "Paired" : "Available")
+                        text: {
+                            if (!modelData.connected)
+                                return modelData.paired ? "Paired" : "Available"
+
+                            return modelData.batteryAvailable
+                                ? "Connected  ·  " + Math.round(modelData.battery * 100) + "%"
+                                : "Connected"
+                        }
                         color: root.colBorder
                         font.family: root.fontFamily
                         font.pixelSize: root.fontSize - 1
