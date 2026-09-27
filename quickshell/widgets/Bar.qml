@@ -131,14 +131,14 @@ PanelWindow {
             verticalCenter: parent.verticalCenter
         }
         spacing: 6
+        Workspace {}
+        SectionSeparator {}
+        Ram {}
+        SectionSeparator { visible: codexUsageIndicator.visible }
         CodexUsageBar {
             id: codexUsageIndicator
             usage: barWindow.codexUsage
         }
-        SectionSeparator { visible: codexUsageIndicator.visible }
-        Workspace {}
-        SectionSeparator {}
-        Ram {}
     }
 
     Row {
