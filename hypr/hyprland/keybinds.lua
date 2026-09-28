@@ -19,7 +19,7 @@ end
 -- =============================================================================
 -- Launcher
 -- =============================================================================
-bind(mainMod .. " + RETURN", group "Launcher" .. " open terminal", hl.dsp.exec_cmd "wezterm")
+bind(mainMod .. " + RETURN", group "Launcher" .. " open terminal", hl.dsp.exec_cmd "ghostty")
 bind(mainMod .. " + E", group "Launcher" .. " open file manager", hl.dsp.exec_cmd "thunar")
 bind(
   mainMod .. " + D",
