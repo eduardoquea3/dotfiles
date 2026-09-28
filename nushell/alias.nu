@@ -20,9 +20,11 @@ alias pdu = podman-tui
 
 # Arch Linux package management aliases from the Zsh archlinux plugin.
 alias pacin = sudo pacman -S
+alias pacrem = sudo pacman -Rns
 alias pacupd = sudo pacman -Sy
 alias pacupg = sudo pacman -Syu
 alias yain = yay -S
+alias yarem = yay -Rns
 alias yaupd = yay -Sy
 alias yaupg = yay -Syu
 
