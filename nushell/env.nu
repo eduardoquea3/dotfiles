@@ -1,6 +1,7 @@
 # Environment configuration for Nushell.
 
 $env.ANDROID_HOME = ($env.HOME | path join "Android" "Sdk")
+$env.PI_CODING_AGENT_DIR = ($env.HOME | path join ".config" "pi" "agent")
 $env.EDITOR = "nvim"
 $env.ELECTRON_OZONE_PLATFORM_HINT = "x11"
 
