@@ -50,10 +50,9 @@ kwalletrc
 .wallpaper
 /Typora
 /chillpill-shell/
-/herdr/session.json
-/herdr/.plugins.lock
-/herdr/*.log
-/herdr/*.sock
+/herdr/*
+!/herdr/config.toml
+/astro/
 /nushell/history.txt
 
 /Cursor/[BCDTWSGILNP]*
