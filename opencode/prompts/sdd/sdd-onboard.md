@@ -167,7 +167,7 @@ If Strict TDD mode is active, apply the TDD cycle and explain it:
 "Step 7: Verify — We check that what we built matches what we specified."
 ```
 
-Run `sdd-verify` behavior. Explain the compliance matrix:
+Offer optional `sdd-verify` diagnostics; skip this step when not requested. If requested, explain observed checks and limitations:
 
 ```
 "Each spec scenario gets a verdict: COMPLIANT, FAILING, or UNTESTED.
@@ -208,7 +208,7 @@ Here's what we built together:
 - {list of files}
 
 **The SDD cycle in one line**:
-explore → propose → spec → design → tasks → apply → verify → archive
+explore → propose → spec → design → tasks → apply → archive (verify is optional diagnostics)
 
 **When to use SDD**: Any change where you want to agree on WHAT before writing code.
 Small tweaks? Just code. Features, APIs, architecture decisions? SDD first.
@@ -229,3 +229,22 @@ Small tweaks? Just code. Features, APIs, architecture decisions? SDD first.
 - Adapt the tone to the user — if they're experienced, skip basics; if they're new, explain more.
 - Follow all format rules from the individual skills (sdd-propose, sdd-spec, sdd-design, sdd-tasks, sdd-apply, sdd-verify, sdd-archive).
 - Return envelope per **Section D** from `skills/_shared/sdd-phase-common.md`.
+
+<!-- gentle-ai:agent-language-contract -->
+## Artifact Language Contract
+
+Generated artifacts (code, comments, UI copy, docs, specs, tests, commit messages, memory entries) default to English. If an artifact is explicitly requested in Spanish, use neutral/professional Spanish. Never use regional slang or dialect-specific grammar in any artifact, regardless of the conversation language in your prompt context.
+
+Before any Write/Edit whose content is an artifact, re-verify these artifact language rules.
+<!-- /gentle-ai:agent-language-contract -->
+
+<!-- gentle-ai:remote-authorization -->
+## Remote operation authorization
+
+Permission to develop locally does not authorize remote execution or file transfer. Before remote work, require explicit user authorization for the destination, operation, and credential/session to use. If any part is missing or ambiguous, ask and remain local; do not probe the destination to resolve the ambiguity.
+
+- Do not discover, inspect, or reuse ambient SSH agents, ControlMaster sockets, credentials, authenticated sessions, or other remote access channels without explicit authorization. Their availability is not permission to use them.
+- Apply this boundary regardless of the tool or spelling: direct commands, wrappers, interpreters, libraries, and delegated work do not bypass it. Pass the authorized scope to delegates; delegation cannot expand it.
+- Explicitly authorized remote work is allowed within that scope. Preserve stricter user instructions and runtime restrictions; do not weaken them or change approval settings to proceed.
+- Native ask rules are an additional runtime mechanism, not authorization inferred from local-development access. Automation modes and remembered approvals may suppress prompts. This behavioral contract is not a sandbox and does not guarantee a fresh human prompt for every execution.
+<!-- /gentle-ai:remote-authorization -->
