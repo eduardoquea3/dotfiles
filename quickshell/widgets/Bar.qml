@@ -133,6 +133,8 @@ PanelWindow {
         spacing: 6
         Workspace {}
         SectionSeparator {}
+        KeyboardLayout {}
+        SectionSeparator {}
         Ram {}
         SectionSeparator { visible: codexUsageIndicator.visible }
         CodexUsageBar {

@@ -35,6 +35,7 @@ Install these components for the config to work as written. Package names vary b
 | Feature | File(s) | External dependency |
 | --- | --- | --- |
 | Top bar and workspaces | `widgets/Bar.qml`, `modules/bar/Workspace.qml` | Hyprland |
+| Keyboard layout indicator | `modules/bar/KeyboardLayout.qml`, `~/.config/hypr/hyprland/design.lua`, `~/.config/hypr/hyprland/keybinds.lua` | Hyprland |
 | Clock | `modules/bar/Time.qml`, `modules/bar/Date.qml` | None beyond Quickshell/Qt |
 | Volume | `modules/bar/Volume.qml` | PipeWire |
 | Battery | `modules/bar/Battery.qml` | UPower |
@@ -73,6 +74,7 @@ If that command fails, the bar shows an error state. For the widget to work, `co
 
 - Start Quickshell and confirm the bar renders.
 - Check that workspace buttons react to Hyprland workspaces.
+- Press `Super+Space` and confirm the keyboard layout alternates between US and Latin American Spanish, with the bar indicator updating.
 - Open the Codex usage popup and confirm it shows limits instead of an error.
 - Test `nmcli`, `brightnessctl`, `cliphist`, and `awww` manually if a module stays empty.
 
