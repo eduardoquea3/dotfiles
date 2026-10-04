@@ -34,13 +34,13 @@ def --env --wrapped y [...args: string] {
     }
 }
 
-def --env --wrapped spf [...args: string] {
-    let cwd = (^spf ...$args --print-last-dir | str trim)
-
-    if ($cwd | path exists) and (($cwd | path type) == "dir") {
-        cd $cwd
-    }
-}
+# def --env --wrapped spf [...args: string] {
+#     let cwd = (^spf ...$args --print-last-dir | str trim)
+#
+#     if ($cwd | path exists) and (($cwd | path type) == "dir") {
+#         cd $cwd
+#     }
+# }
 
 # Official Starship integration for Nushell.
 let starship_init = ($nu.data-dir | path join "vendor/autoload" "starship.nu")

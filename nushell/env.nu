@@ -1,5 +1,6 @@
 # Environment configuration for Nushell.
 
+$env.AWS_ENDPOINT_URL = "http://localhost:4566"
 $env.ANDROID_HOME = ($env.HOME | path join "Android" "Sdk")
 $env.PI_CODING_AGENT_DIR = ($env.HOME | path join ".config" "pi" "agent")
 $env.EDITOR = "nvim"

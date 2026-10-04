@@ -3,6 +3,7 @@
 eval "$(starship init zsh)"
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv zsh)"
 
+export AWS_ENDPOINT_URL=http://localhost:4566
 export ANDROID_HOME=$HOME/Android/Sdk
 export PI_CODING_AGENT_DIR="$HOME/.config/pi/agent"
 export PATH=$PATH:$ANDROID_HOME/emulator
