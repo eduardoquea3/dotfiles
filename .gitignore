@@ -73,3 +73,6 @@ temp_interactive_push.bat
 .gitignore
 # Local Pi runtime state
 .atl/
+/opencode/
+/orca/
+/pi/
