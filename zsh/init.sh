@@ -6,6 +6,16 @@ eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv zsh)"
 export AWS_ENDPOINT_URL=http://localhost:4566
 export ANDROID_HOME=$HOME/Android/Sdk
 export PI_CODING_AGENT_DIR="$HOME/.config/pi/agent"
+
+# Load the Context7 key from outside the dotfiles repository when available.
+context7_key_file="$HOME/.local/share/opencode/context7.key"
+if [[ -f "$context7_key_file" ]]; then
+  context7_api_key="$(<"$context7_key_file")"
+  context7_api_key="${context7_api_key##[[:space:]]#}"
+  context7_api_key="${context7_api_key%%[[:space:]]#}"
+  export CONTEXT7_API_KEY="$context7_api_key"
+fi
+
 export PATH=$PATH:$ANDROID_HOME/emulator
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 export ZSH="$HOME/.oh-my-zsh"
