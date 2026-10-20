@@ -55,6 +55,8 @@ kwalletrc
 !/herdr/config.toml
 /astro/
 /nushell/history.txt
+/gga/
+/warp-terminal/
 
 /Cursor/[BCDTWSGILNP]*
 /Cursor/[lmps]*
