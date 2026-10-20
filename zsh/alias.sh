@@ -30,3 +30,4 @@ alias vim='nvim'
 
 alias ze='zellij'
 alias cd='z'
+alias gai='gentle-ai'
