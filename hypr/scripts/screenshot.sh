@@ -75,16 +75,21 @@ fi
 
 SCREENSHOT_POST_COMMAND+=()
 SCREENSHOT_PRE_COMMAND+=()
+set_panel_screenshot_state() {
+    command -v qs >/dev/null 2>&1 && qs ipc call panels "$1" >/dev/null 2>&1 || true
+}
 pre_cmd() {
+    trap 'post_cmd' EXIT
+    set_panel_screenshot_state beginScreenshot
     for cmd in "${SCREENSHOT_PRE_COMMAND[@]}"; do
         eval "$cmd"
     done
-    trap 'post_cmd' EXIT
 }
 post_cmd() {
     for cmd in "${SCREENSHOT_POST_COMMAND[@]}"; do
         eval "$cmd"
     done
+    set_panel_screenshot_state endScreenshot
 }
 
 temp_screenshot=${XDG_RUNTIME_DIR:-/tmp}/hyde_screenshot.png

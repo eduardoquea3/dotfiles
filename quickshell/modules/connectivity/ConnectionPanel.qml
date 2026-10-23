@@ -21,8 +21,6 @@ Rectangle {
     property string connectionError: ""
     property bool scanning: false
 
-    signal closeRequested()
-
     function requestScan() {
         if (!open || !radioEnabled)
             return;
@@ -223,28 +221,10 @@ Rectangle {
                 font.bold: true
             }
 
-            Text {
-                anchors.right: parent.right
-                anchors.verticalCenter: parent.verticalCenter
-                text: "󰅖"
-                color: closeMouse.containsMouse ? root.colFg : root.colBorder
-                font.family: root.fontFamily
-                font.pixelSize: root.fontSize + 2
-
-                MouseArea {
-                    id: closeMouse
-                    anchors.fill: parent
-                    anchors.margins: -6
-                    hoverEnabled: true
-                    cursorShape: Qt.PointingHandCursor
-                    onClicked: panel.closeRequested()
-                }
-            }
-
             Item {
                 id: radioSwitch
-                anchors.right: closeMouse.parent.right
-                anchors.rightMargin: 28
+                anchors.right: parent.right
+                anchors.rightMargin: 0
                 anchors.verticalCenter: parent.verticalCenter
                 width: 34
                 height: 20

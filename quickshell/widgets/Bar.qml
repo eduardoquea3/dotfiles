@@ -7,8 +7,10 @@ import "../modules/connectivity"
 
 PanelWindow {
     id: barWindow
+    WlrLayershell.namespace: "quickshell-bar"
     property var codexUsage: null
     property string connectionPanelType: ""
+    property bool refreshingPopupFocusMode: false
     readonly property bool detailsVisible: codexUsage && codexUsage.panelVisible
 
     function toggleConnectionPanel(type) {
@@ -19,6 +21,15 @@ PanelWindow {
         connectionPanelType = ""
     }
 
+    Connections {
+        target: root
+
+        function onScreenshotActiveChanged() {
+            barWindow.refreshingPopupFocusMode = true;
+            Qt.callLater(() => barWindow.refreshingPopupFocusMode = false);
+        }
+    }
+
     color: "transparent"
     anchors {
         top: false
@@ -26,13 +37,13 @@ PanelWindow {
         right: true
         bottom: true
     }
-    implicitHeight: barRail.height + 8
+    implicitHeight: barRail.height
 
     component SectionSeparator: Rectangle {
         width: 1
         height: 14
         color: root.colBorder
-        opacity: 0.65
+        opacity: 0.20
     }
 
     PopupWindow {
@@ -40,15 +51,27 @@ PanelWindow {
         anchor.item: codexUsageIndicator
         anchor.edges: Edges.Top | Edges.Left
         anchor.gravity: Edges.Top | Edges.Left
-        visible: barWindow.detailsVisible
-        grabFocus: true
+        visible: barWindow.detailsVisible && !barWindow.refreshingPopupFocusMode
+        grabFocus: !root.screenshotActive
         color: "transparent"
         implicitWidth: 420
         implicitHeight: codexUsageDetails.implicitHeight + panelConnector.height
 
         onVisibleChanged: {
-            if (!visible && barWindow.detailsVisible)
-                barWindow.codexUsage.closePanel()
+            if (visible || barWindow.refreshingPopupFocusMode || !barWindow.detailsVisible)
+                return;
+
+            Qt.callLater(() => {
+                if (!barWindow.refreshingPopupFocusMode && barWindow.detailsVisible)
+                    barWindow.codexUsage.closePanel();
+            });
+        }
+
+        Shortcut {
+            sequence: "Escape"
+            context: Qt.WindowShortcut
+            enabled: codexUsagePopup.visible && !root.screenshotActive
+            onActivated: barWindow.codexUsage.closePanel()
         }
 
         CodexUsagePanel {
@@ -78,15 +101,28 @@ PanelWindow {
         anchor.item: connectionPanelType === "bluetooth" ? bluetoothIndicator : wifiIndicator
         anchor.edges: Edges.Top | Edges.Right
         anchor.gravity: Edges.Top | Edges.Right
-        visible: connectionPanelType !== ""
-        grabFocus: true
+        visible: barWindow.connectionPanelType !== "" && !barWindow.refreshingPopupFocusMode
+        grabFocus: !root.screenshotActive
         color: "transparent"
         implicitWidth: connectionPanel.implicitWidth
         implicitHeight: connectionPanel.implicitHeight + 8
 
         onVisibleChanged: {
-            if (!visible && barWindow.connectionPanelType !== "")
-                barWindow.closeConnectionPanel()
+            const dismissedType = barWindow.connectionPanelType;
+            if (visible || barWindow.refreshingPopupFocusMode || dismissedType === "")
+                return;
+
+            Qt.callLater(() => {
+                if (!barWindow.refreshingPopupFocusMode && barWindow.connectionPanelType === dismissedType)
+                    barWindow.closeConnectionPanel();
+            });
+        }
+
+        Shortcut {
+            sequence: "Escape"
+            context: Qt.WindowShortcut
+            enabled: connectionPopup.visible && !root.screenshotActive
+            onActivated: barWindow.closeConnectionPanel()
         }
 
         ConnectionPanel {
@@ -100,13 +136,6 @@ PanelWindow {
             }
         }
 
-        Connections {
-            target: connectionPanel
-
-            function onCloseRequested() {
-                barWindow.closeConnectionPanel()
-            }
-        }
     }
 
     Rectangle {
@@ -115,13 +144,9 @@ PanelWindow {
             left: parent.left
             right: parent.right
             bottom: parent.bottom
-            leftMargin: 4
-            rightMargin: 4
-            bottomMargin: 4
         }
         height: 26
-        radius: 10
-        color: root.colBg
+        color: Qt.rgba(root.colBg.r, root.colBg.g, root.colBg.b, 0.40)
 
     Row {
         id: leftSection

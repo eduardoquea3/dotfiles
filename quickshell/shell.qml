@@ -43,6 +43,7 @@ ShellRoot {
     // Bar state
     // =========================================================
     property bool barVisible: true
+    property bool screenshotActive: false
     property int chassisType: 0
     property bool isDesktop: chassisType === 3
     property bool isNotebook: chassisType === 10
@@ -70,6 +71,12 @@ ShellRoot {
     IpcHandler {
         target: "bar"
         function toggle() { root.barVisible = !root.barVisible }
+    }
+
+    IpcHandler {
+        target: "panels"
+        function beginScreenshot() { root.screenshotActive = true }
+        function endScreenshot() { root.screenshotActive = false }
     }
 
     // =========================================================
