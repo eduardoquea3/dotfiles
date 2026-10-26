@@ -43,6 +43,7 @@ ShellRoot {
     // Bar state
     // =========================================================
     property bool barVisible: true
+    property string barPosition: "bottom"
     property bool screenshotActive: false
     property int chassisType: 0
     property bool isDesktop: chassisType === 3
@@ -50,8 +51,41 @@ ShellRoot {
     property bool showBatteryModule: isNotebook
     property bool showBrightnessModule: isNotebook
 
+    function updateBarPosition(output) {
+        try {
+            var config = JSON.parse(String(output || "{}").trim() || "{}");
+            barPosition = config.position === "top" ? "top" : "bottom";
+        } catch (error) {
+            barPosition = "bottom";
+        }
+    }
+
+    Process {
+        id: barPositionProcess
+        command: ["sh", "-c", "config=\"$HOME/.config/quickshell/bar.json\"; if [ ! -f \"$config\" ]; then printf '%s\\n' '{\"position\":\"bottom\"}' > \"$config\"; fi; cat \"$config\""]
+        running: true
+
+        stdout: StdioCollector {
+            onStreamFinished: root.updateBarPosition(text)
+        }
+    }
+
+    Timer {
+        interval: 2000
+        running: true
+        repeat: true
+        onTriggered: {
+            if (!barPositionProcess.running)
+                barPositionProcess.running = true;
+        }
+    }
+
     CodexUsage {
         id: codexUsageModule
+    }
+
+    CodexUsagePanel {
+        usage: codexUsageModule
     }
 
     Process {

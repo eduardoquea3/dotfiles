@@ -11,7 +11,6 @@ PanelWindow {
     property var codexUsage: null
     property string connectionPanelType: ""
     property bool refreshingPopupFocusMode: false
-    readonly property bool detailsVisible: codexUsage && codexUsage.panelVisible
 
     function toggleConnectionPanel(type) {
         connectionPanelType = connectionPanelType === type ? "" : type
@@ -32,10 +31,10 @@ PanelWindow {
 
     color: "transparent"
     anchors {
-        top: false
+        top: root.barPosition === "top"
         left: true
         right: true
-        bottom: true
+        bottom: root.barPosition !== "top"
     }
     implicitHeight: barRail.height
 
@@ -44,56 +43,6 @@ PanelWindow {
         height: 14
         color: root.colBorder
         opacity: 0.20
-    }
-
-    PopupWindow {
-        id: codexUsagePopup
-        anchor.item: codexUsageIndicator
-        anchor.edges: Edges.Top | Edges.Left
-        anchor.gravity: Edges.Top | Edges.Left
-        visible: barWindow.detailsVisible && !barWindow.refreshingPopupFocusMode
-        grabFocus: !root.screenshotActive
-        color: "transparent"
-        implicitWidth: 420
-        implicitHeight: codexUsageDetails.implicitHeight + panelConnector.height
-
-        onVisibleChanged: {
-            if (visible || barWindow.refreshingPopupFocusMode || !barWindow.detailsVisible)
-                return;
-
-            Qt.callLater(() => {
-                if (!barWindow.refreshingPopupFocusMode && barWindow.detailsVisible)
-                    barWindow.codexUsage.closePanel();
-            });
-        }
-
-        Shortcut {
-            sequence: "Escape"
-            context: Qt.WindowShortcut
-            enabled: codexUsagePopup.visible && !root.screenshotActive
-            onActivated: barWindow.codexUsage.closePanel()
-        }
-
-        CodexUsagePanel {
-            id: codexUsageDetails
-            anchors {
-                left: parent.left
-                right: parent.right
-                top: parent.top
-            }
-            usage: barWindow.codexUsage
-        }
-
-        Rectangle {
-            id: panelConnector
-            anchors {
-                left: parent.left
-                bottom: parent.bottom
-            }
-            width: Math.max(64, codexUsageIndicator.width + 12)
-            height: 6
-            color: root.colBg
-        }
     }
 
     PopupWindow {
@@ -146,7 +95,7 @@ PanelWindow {
             bottom: parent.bottom
         }
         height: 26
-        color: Qt.rgba(root.colBg.r, root.colBg.g, root.colBg.b, 0.40)
+        color: Qt.rgba(root.colBg.r, root.colBg.g, root.colBg.b, 1)
 
     Row {
         id: leftSection

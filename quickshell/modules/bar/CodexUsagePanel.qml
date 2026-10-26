@@ -1,17 +1,68 @@
+import Quickshell
+import Quickshell.Hyprland
+import Quickshell.Wayland
 import QtQuick
 import QtQuick.Layouts
 
-Item {
+PanelWindow {
     id: codexUsagePanel
 
     property var usage: null
+    readonly property bool barAtTop: root.barPosition === "top"
+    readonly property int barOffset: 18
+    property bool refreshingPopupFocusMode: false
 
-    width: 420
+    visible: usage !== null && usage.panelVisible && !refreshingPopupFocusMode
+    color: "transparent"
+    width: 438
     implicitHeight: detailsCard.implicitHeight
-    height: implicitHeight
+
+    WlrLayershell.layer: WlrLayer.Overlay
+    anchors {
+        top: barAtTop
+        left: true
+        bottom: !barAtTop
+    }
+    margins {
+        top: barAtTop ? barOffset : 0
+        bottom: barAtTop ? 0 : barOffset
+        left: 12
+    }
+
+    onVisibleChanged: {
+        if (visible && !root.screenshotActive)
+            focusGrab.active = true;
+        else
+            focusGrab.active = false;
+    }
+
+    Connections {
+        target: root
+
+        function onScreenshotActiveChanged() {
+            codexUsagePanel.refreshingPopupFocusMode = true;
+            focusGrab.active = false;
+            Qt.callLater(() => {
+                codexUsagePanel.refreshingPopupFocusMode = false;
+                if (codexUsagePanel.visible && !root.screenshotActive)
+                    focusGrab.active = true;
+            });
+        }
+    }
+
+    HyprlandFocusGrab {
+        id: focusGrab
+        windows: [codexUsagePanel]
+        onCleared: {
+            if (codexUsagePanel.refreshingPopupFocusMode || root.screenshotActive)
+                return;
+            if (usage)
+                usage.closePanel();
+        }
+    }
 
     function usageColor(value) {
-        if (usage.errorText !== "")
+        if (usage && usage.errorText !== "")
             return root.colRed;
         if (value >= 85)
             return root.colRed;
@@ -66,39 +117,49 @@ Item {
             + " PET";
     }
 
+    Shortcut {
+        sequence: "Escape"
+        context: Qt.WindowShortcut
+        enabled: codexUsagePanel.visible && !root.screenshotActive
+        onActivated: {
+            if (usage)
+                usage.closePanel();
+        }
+    }
+
     Rectangle {
         id: detailsCard
         anchors.fill: parent
         implicitHeight: content.implicitHeight + 32
-        radius: 12
+        radius: 20
         color: root.colBg
-
-        // Square the joining edge so this reads as an extension of the bar.
-        Rectangle {
-            anchors {
-                left: parent.left
-                right: parent.right
-                bottom: parent.bottom
-            }
-            height: 12
-            color: parent.color
-        }
+        border.color: Qt.rgba(root.colBorder.r, root.colBorder.g, root.colBorder.b, 0.42)
+        border.width: 1
 
         ColumnLayout {
             id: content
             anchors.fill: parent
-            anchors.margins: 16
+            anchors.margins: 20
             spacing: 10
 
             RowLayout {
                 Layout.fillWidth: true
-                spacing: 10
+                spacing: 12
 
-                Text {
-                    text: "󰧑"
-                    color: root.colBlue
-                    font.family: root.fontFamily
-                    font.pixelSize: 18
+                Rectangle {
+                    Layout.preferredWidth: 38
+                    Layout.preferredHeight: 38
+                    radius: 11
+                    color: Qt.rgba(root.colBlue.r, root.colBlue.g, root.colBlue.b, 0.12)
+                    border.color: Qt.rgba(root.colBlue.r, root.colBlue.g, root.colBlue.b, 0.3)
+
+                    Text {
+                        anchors.centerIn: parent
+                        text: ""
+                        color: root.colBlue
+                        font.family: root.fontFamily
+                        font.pixelSize: 19
+                    }
                 }
 
                 ColumnLayout {
@@ -114,23 +175,31 @@ Item {
                     }
 
                     Text {
-                        text: usage.accountEmail !== "" ? usage.accountEmail : usage.sourceName
+                        text: usage && usage.accountEmail !== "" ? usage.accountEmail : (usage ? usage.sourceName : "")
                         color: root.colBorder
                         font.family: root.fontFamily
-                        font.pixelSize: 9
+                        font.pixelSize: 10
                         elide: Text.ElideRight
                         Layout.fillWidth: true
                     }
                 }
 
-                Text {
-                    text: "↻"
-                    color: root.colBlue
-                    font.pixelSize: 18
+                Rectangle {
+                    Layout.preferredWidth: 30
+                    Layout.preferredHeight: 30
+                    radius: 15
+                    color: refreshMouse.containsMouse ? Qt.rgba(root.colFg.r, root.colFg.g, root.colFg.b, 0.1) : "transparent"
+
+                    Text {
+                        anchors.centerIn: parent
+                        text: "↻"
+                        color: root.colFg
+                        font.pixelSize: 18
+                    }
 
                     MouseArea {
+                        id: refreshMouse
                         anchors.fill: parent
-                        anchors.margins: -6
                         hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
                         onClicked: usage.refresh()
@@ -139,61 +208,64 @@ Item {
             }
 
             Rectangle {
-                visible: usage.errorText !== ""
                 Layout.fillWidth: true
-                implicitHeight: errorText.implicitHeight + 14
-                radius: root.radius
-                color: Qt.rgba(root.colRed.r, root.colRed.g, root.colRed.b, 0.16)
+                height: 1
+                color: Qt.rgba(root.colBorder.r, root.colBorder.g, root.colBorder.b, 0.24)
+            }
 
-                Text {
-                    id: errorText
-                    anchors.fill: parent
-                    anchors.margins: 7
-                    text: usage.errorText
-                    color: root.colRed
-                    font.family: root.fontFamily
-                    font.pixelSize: 9
-                    wrapMode: Text.WordWrap
-                }
+            Text {
+                Layout.topMargin: 8
+                text: "USAGE LIMITS"
+                color: root.colFg
+                opacity: 0.82
+                font.family: root.fontFamily
+                font.pixelSize: 10
+                font.letterSpacing: 1.2
+                font.bold: true
             }
 
             LimitCard {
                 Layout.fillWidth: true
                 title: "5h limit"
-                percent: usage.primaryPercent
-                resetText: usage.primaryReset !== "" ? usage.primaryReset : formatDate(usage.primaryResetAt)
-                barColor: usageColor(usage.primaryPercent)
+                percent: usage ? usage.primaryPercent : -1
+                resetText: usage ? (usage.primaryReset !== "" ? usage.primaryReset : formatDate(usage.primaryResetAt)) : ""
+                barColor: usageColor(percent)
             }
 
             LimitCard {
                 Layout.fillWidth: true
                 title: "Weekly limit"
-                percent: usage.secondaryPercent
-                resetText: usage.secondaryReset !== "" ? usage.secondaryReset : formatDate(usage.secondaryResetAt)
-                barColor: usageColor(usage.secondaryPercent)
+                percent: usage ? usage.secondaryPercent : -1
+                resetText: usage ? (usage.secondaryReset !== "" ? usage.secondaryReset : formatDate(usage.secondaryResetAt)) : ""
+                barColor: usageColor(percent)
             }
 
-            GridLayout {
+            Rectangle {
+                visible: usage && usage.errorText !== ""
                 Layout.fillWidth: true
-                columns: 2
-                columnSpacing: 20
-                rowSpacing: 8
+                implicitHeight: errorText.implicitHeight + 16
+                radius: 10
+                color: Qt.rgba(root.colRed.r, root.colRed.g, root.colRed.b, 0.16)
 
-                MetaItem { label: "Login"; value: usage.loginMethod !== "" ? usage.loginMethod : "--" }
-                MetaItem { label: "Provider"; value: usage.providerId }
-                MetaItem { label: "Source"; value: usage.sourceName !== "" ? usage.sourceName : "--" }
-                MetaItem { label: "CodexBar"; value: usage.versionText !== "" ? "v" + usage.versionText : "--" }
-                MetaItem { label: "Credits"; value: usage.creditsRemaining + " remaining" }
-                MetaItem { label: "Credit events"; value: String(usage.creditEventsCount) }
+                Text {
+                    id: errorText
+                    anchors.fill: parent
+                    anchors.margins: 8
+                    text: usage ? usage.errorText : ""
+                    color: root.colRed
+                    font.family: root.fontFamily
+                    font.pixelSize: 10
+                    wrapMode: Text.WordWrap
+                }
             }
 
             Text {
                 Layout.fillWidth: true
-                text: usage.loading ? "Refreshing..." : "Updated " + formatDate(usage.updatedAt)
+                Layout.topMargin: 8
+                text: usage ? (usage.loading ? "Refreshing..." : "Updated " + formatDate(usage.updatedAt)) : ""
                 color: root.colBorder
                 font.family: root.fontFamily
-                font.pixelSize: 8
-                horizontalAlignment: Text.AlignHCenter
+                font.pixelSize: 9
             }
         }
     }
@@ -205,15 +277,17 @@ Item {
         property string resetText: ""
         property color barColor: root.colBlue
 
-        implicitHeight: cardContent.implicitHeight + 18
-        radius: 8
-        color: Qt.rgba(root.colBorder.r, root.colBorder.g, root.colBorder.b, 0.12)
+        implicitHeight: cardContent.implicitHeight + 20
+        radius: 15
+        color: Qt.rgba(root.colBorder.r, root.colBorder.g, root.colBorder.b, 0.11)
+        border.color: Qt.rgba(root.colBorder.r, root.colBorder.g, root.colBorder.b, 0.12)
+        border.width: 1
 
         ColumnLayout {
             id: cardContent
             anchors.fill: parent
-            anchors.margins: 9
-            spacing: 5
+            anchors.margins: 14
+            spacing: 9
 
             RowLayout {
                 Layout.fillWidth: true
@@ -238,7 +312,7 @@ Item {
 
             Rectangle {
                 Layout.fillWidth: true
-                height: 6
+                height: 5
                 radius: 3
                 color: Qt.rgba(root.colBorder.r, root.colBorder.g, root.colBorder.b, 0.3)
 
@@ -271,30 +345,6 @@ Item {
                     elide: Text.ElideRight
                 }
             }
-        }
-    }
-
-    component MetaItem: ColumnLayout {
-        property string label: ""
-        property string value: ""
-        Layout.fillWidth: true
-        spacing: 1
-
-        Text {
-            text: parent.label
-            color: root.colBorder
-            font.family: root.fontFamily
-            font.pixelSize: 8
-        }
-
-        Text {
-            text: parent.value
-            color: root.colFg
-            font.family: root.fontFamily
-            font.pixelSize: 10
-            font.bold: true
-            elide: Text.ElideRight
-            Layout.fillWidth: true
         }
     }
 }
