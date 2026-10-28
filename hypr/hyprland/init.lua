@@ -16,4 +16,6 @@ hl.on("hyprland.start", function()
 
   hl.exec_cmd "[workspace 2 silent] ghostty"
   hl.exec_cmd "[workspace 4 silent] zen-browser"
+
+  hl.dispatch(hl.dsp.focus({ workspace = 2 }))
 end)
