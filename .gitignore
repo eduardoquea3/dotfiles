@@ -53,6 +53,8 @@ kwalletrc
 /chillpill-shell/
 /herdr/*
 !/herdr/config.toml
+/herdr-app/*
+!/herdr-app/settings.json
 /astro/
 /nushell/history.txt
 /gga/
