@@ -21,7 +21,7 @@ Install these components for the config to work as written. Package names vary b
 | gawk | Clipboard preview helper | `scripts/cliphist-visual.sh` uses `gawk`. |
 | ImageMagick | Wallpaper thumbnails | `convert` is used in `modules/launcher/Launcher.qml`. |
 | awww / awww-daemon | Wallpaper application | `modules/wallpaper/Wallpaper.qml` and `modules/launcher/Launcher.qml` call `awww`. |
-| codexbar | Codex usage widget | `modules/bar/CodexUsage.qml` runs `codexbar usage --provider codex --source cli --format json`. |
+| quota-axi | Codex usage widget | `modules/bar/CodexUsage.qml` runs `quota-axi --json`. |
 | systemd tools | Logout actions | `loginctl` and `systemctl` are used in `modules/logout/Logout.qml`. |
 | Bash coreutils | Helper commands | `bash`, `sh`, `find`, `grep`, `sed`, `md5sum`, `mkdir`, `rm`, `head`, and `cat` are used by several modules. |
 
@@ -46,7 +46,7 @@ Install these components for the config to work as written. Package names vary b
 | Launcher | `modules/launcher/*` | `.desktop` files, `md5sum`, `find`, `awk`, ImageMagick |
 | Clipboard history | `modules/clipboard/*`, `scripts/cliphist-visual.sh` | `cliphist`, `wl-copy`, `gawk` |
 | Keybind viewer | `modules/keybinds/*` | `~/.config/hypr/scripts/hint-hyprland.py`, `jq` |
-| Codex usage panel | `modules/bar/CodexUsage*.qml` | `codexbar` |
+| Codex usage panel | `modules/bar/CodexUsage*.qml` | `quota-axi` |
 
 ## Setup
 
@@ -57,18 +57,18 @@ Install these components for the config to work as written. Package names vary b
    - `lockscreen`
    - `wlogout`
 4. Ensure `~/.config/hypr/img/` exists and contains wallpapers if you want the wallpaper picker and launcher thumbnails to show content.
-5. Install and authenticate `codexbar` so `codexbar usage ...` returns JSON.
+5. Install and authenticate `quota-axi` so `quota-axi --json` returns Codex quota data. The widget reads the `five_hour` and `weekly` windows.
 6. Launch Quickshell with `shell.qml` as the entrypoint using your normal Quickshell startup method.
 
-## CodexBar
+## Codex quota
 
 The Codex widget is not hardcoded data. It shells out to:
 
 ```bash
-codexbar usage --provider codex --source cli --format json
+quota-axi --json
 ```
 
-If that command fails, the bar shows an error state. For the widget to work, `codexbar` must be installed, on `PATH`, and logged in to the Codex account/provider it expects.
+The widget reads the `codex` provider's `five_hour` and `weekly` windows. `quota-axi` reports remaining percentages, which the widget converts to used percentages for its progress bars. If the command fails or Codex quota data is unavailable, the bar shows an error state. Install `quota-axi` and ensure it can access the Codex account credentials.
 
 ## Verification
 
@@ -83,7 +83,7 @@ If that command fails, the bar shows an error state. For the widget to work, `co
 - Empty Wi-Fi widget: confirm `nmcli` works and NetworkManager is running.
 - Empty battery widget: confirm the system exposes UPower and a display battery device.
 - Empty volume widget: confirm PipeWire is running and Quickshell can read the default sink.
-- Empty Codex widget: run the `codexbar usage ...` command manually and check JSON output.
+- Empty Codex widget: run `quota-axi --json` manually and check that the JSON contains a `codex` provider with `five_hour` and `weekly` windows.
 - Clipboard overlay missing items: confirm `cliphist` has history and `wl-copy` is installed.
 - Wallpaper picker empty: confirm images exist under `~/.config/hypr/img/`.
 

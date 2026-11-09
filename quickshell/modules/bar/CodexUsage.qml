@@ -39,40 +39,56 @@ Item {
         try {
             var text = String(output || "").trim();
             if (text === "") {
-                errorText = "empty codexbar output";
+                errorText = "empty quota-axi output";
                 return;
             }
 
             var data = JSON.parse(text);
-            var item = Array.isArray(data) ? data[0] : data;
+            var item = data && Array.isArray(data.providers)
+                ? data.providers.find(function(provider) { return provider.provider === "codex"; })
+                : null;
             if (!item) {
-                errorText = "invalid codexbar output";
-                return;
-            }
-            if (item.error) {
-                errorText = String(item.error.message || item.error);
+                errorText = "Codex quota data not found";
                 return;
             }
 
-            var usage = item.usage || {};
-            var identity = usage.identity || {};
-            var credits = item.credits || {};
+            var state = item.state || {};
+            if (state.status !== "fresh" && state.status !== "stale") {
+                errorText = String(state.error || "Codex quota unavailable (" + (state.status || "unknown") + ")");
+                return;
+            }
 
-            sourceName = item.source || "codex-cli";
-            providerName = item.provider || identity.providerID || "codex";
-            versionText = item.version || "";
-            updatedAt = usage.updatedAt || credits.updatedAt || "";
-            accountEmail = usage.accountEmail || identity.accountEmail || "";
-            loginMethod = usage.loginMethod || identity.loginMethod || "";
-            providerId = identity.providerID || item.provider || "codex";
-            primaryPercent = percent(usage.primary ? usage.primary.usedPercent : undefined);
-            secondaryPercent = percent(usage.secondary ? usage.secondary.usedPercent : undefined);
-            primaryReset = usage.primary ? usage.primary.resetDescription || "" : "";
-            secondaryReset = usage.secondary ? usage.secondary.resetDescription || "" : "";
-            primaryResetAt = usage.primary ? usage.primary.resetsAt || "" : "";
-            secondaryResetAt = usage.secondary ? usage.secondary.resetsAt || "" : "";
-            creditsRemaining = Number(credits.remaining || 0);
-            creditEventsCount = Array.isArray(credits.events) ? credits.events.length : 0;
+            var windows = item.windows || [];
+            function windowById(id) {
+                return windows.find(function(quotaWindow) { return quotaWindow.id === id; });
+            }
+            function usedPercent(quotaWindow) {
+                var remaining = quotaWindow ? percent(quotaWindow.percentRemaining) : -1;
+                return remaining < 0 ? -1 : 100 - remaining;
+            }
+            function resetDescription(quotaWindow) {
+                if (!quotaWindow || !quotaWindow.resetsAt)
+                    return "";
+                return "at " + quotaWindow.resetsAt;
+            }
+
+            var sessionWindow = windowById("five_hour");
+            var weeklyWindow = windowById("weekly");
+            sourceName = "quota-axi";
+            providerName = "Codex";
+            versionText = String(data.schemaVersion || "");
+            updatedAt = data.generatedAt || "";
+            accountEmail = "";
+            loginMethod = "";
+            providerId = "codex";
+            primaryPercent = usedPercent(sessionWindow);
+            secondaryPercent = usedPercent(weeklyWindow);
+            primaryReset = resetDescription(sessionWindow);
+            secondaryReset = resetDescription(weeklyWindow);
+            primaryResetAt = sessionWindow ? sessionWindow.resetsAt || "" : "";
+            secondaryResetAt = weeklyWindow ? weeklyWindow.resetsAt || "" : "";
+            creditsRemaining = Number(item.credits && item.credits.remaining || 0);
+            creditEventsCount = 0;
             errorText = "";
         } catch (error) {
             errorText = "parse failed";
@@ -96,7 +112,7 @@ Item {
 
     Process {
         id: usageProcess
-        command: ["sh", "-c", "PATH=\"$HOME/.local/bin:$HOME/.opencode/bin:/home/linuxbrew/.linuxbrew/bin:/usr/local/bin:$PATH\" exec codexbar usage --provider codex --source cli --format json"]
+        command: ["sh", "-c", "PATH=\"$HOME/.bun/bin:$HOME/.local/bin:$HOME/.opencode/bin:/home/linuxbrew/.linuxbrew/bin:/usr/local/bin:$PATH\" exec quota-axi --json"]
         running: true
 
         stdout: StdioCollector {
@@ -114,7 +130,7 @@ Item {
                 return;
 
             var message = String(usageStderr.text || "").trim();
-            codexUsageModule.errorText = message !== "" ? message : "codexbar exited " + exitCode;
+            codexUsageModule.errorText = message !== "" ? message : "quota-axi exited " + exitCode;
         }
     }
 
