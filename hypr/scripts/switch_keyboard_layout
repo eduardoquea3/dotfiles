@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Switch the active keyboard to its next configured layout.
+hyprctl switchxkblayout current next
+
+layout=$(hyprctl devices -j | jq -r '([.keyboards[] | select(.main == true)][0] // .keyboards[0] // {}).active_keymap // "Unknown layout"')
+notify-send --replace-id=8675309 "Keyboard layout" "$layout"

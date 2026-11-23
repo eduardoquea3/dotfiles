@@ -153,7 +153,7 @@ bind(mainMod .. " + B", group "Utilities" .. " toggle quickshell", hl.dsp.exec_c
 bind(
   mainMod .. " + SPACE",
   group "Utilities" .. " switch keyboard layout",
-  hl.dsp.exec_cmd "hyprctl switchxkblayout current next"
+  hl.dsp.exec_cmd(scripts .. "/switch_keyboard_layout")
 )
 
 -- =============================================================================
